@@ -1,0 +1,6 @@
+./data/
+./bench/scTPA/results/
+./venv/
+/venv
+/.venv
+/.vscode
