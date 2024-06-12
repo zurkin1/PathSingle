@@ -5,3 +5,5 @@
 /.venv
 /.vscode
 /bench/PASBench/dataSets
+bench/human.tar.gz
+bench/refseq_select_rna.tar.gz
