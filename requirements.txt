@@ -10,3 +10,5 @@ scanpy
 decoupler
 anndata2ri
 scikit-misc
+tqdm
+omnipath
