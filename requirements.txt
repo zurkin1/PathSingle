@@ -12,3 +12,4 @@ anndata2ri
 scikit-misc
 tqdm
 omnipath
+umap-learn
