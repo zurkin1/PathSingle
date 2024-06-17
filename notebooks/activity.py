@@ -15,8 +15,11 @@ import plotly.graph_objects as go
 import plotly.offline as py_offline
 import networkx as nx
 #import cufflinks
+import os
+from tqdm import tqdm
 
 
+chunk_num = 0
 colors_green_to_red = ['00FF00', '11FF00', '22FF00', '33FF00', '44FF00', '55FF00', '66FF00', '77FF00', '88FF00',
                        '99FF00', 'AAFF00', 'BBFF00', 'CCFF00', 'DDFF00', 'EEFF00', 'FFFF00', 'FFEE00', 'FFDD00',
                        'FFCC00', 'FFBB00', 'FFAA00', 'FF9900', 'FF8800', 'FF7700', 'FF6600', 'FF5500', 'FF4400',
@@ -33,6 +36,8 @@ def rgb_to_hex(rgb):
 
 
 class path_activity:
+    global chunk_num
+    
     def __init__(self, udp, is_rnaseq=False):
         print(time.ctime(), 'Init activity object')
         self.orig_paths = pd.read_csv(relative_path + 'pathologist.db.txt', delimiter='\t', header=None)
@@ -173,20 +178,21 @@ class path_activity:
 
     # Calculate activity and consistency of paths.
     def process_samples(self, udp_chunk):
-        # Table columns are (sampleID, path_id, activity, consistency)
+        global chunk_num
+
+        gc.collect()
+        print(chunk_num, end="")
+        chunk_num = chunk_num + 1000
+        #Table columns are (sampleID, path_id, activity, consistency).
         sample_results = np.empty((0, 6))
-        for sample in udp_chunk:
-            # Calculate UDP of the molecules in all the paths.
-            if self.kegg:
+        for sample in tqdm(udp_chunk):
+            #Calculate UDP of the molecules in all the paths.
+            if self.kegg: #New path that was added by the new procedure.
                self.calc_kegg_link_to_pr(sample)
-            else:
-                if(not self.is_rnaseq):
-                    self.calc_link_to_pr(sample)
-                else:
-                    self.calc_link_to_gene_to_pr(sample)
+            else: #Single cell is always rnaseq.
+               self.calc_link_to_gene_to_pr(sample)
             cmplx_to_pr_dict = self.calc_cmplx_to_pr(sample)
             paths = self.orig_paths.copy()
-            # gc.collect()
             #if self.kegg:
             #    paths.loc[paths.molType == 'protein', 'pr'] = paths.molLink.apply(lambda x: np.prod([self.link_to_udp(
             #       i, sample) for i in str(x).split(',')]))
@@ -226,10 +232,12 @@ class path_activity:
             paths['sampleID'] = sample
             paths_result = paths[['sampleID', 'path_name', 'path_id',
                                   'activity', 'consistency', 'molRole']].drop_duplicates()
-            sample_results = np.concatenate(
-                (sample_results, paths_result.values))  # axis=0
-        results_df = pd.DataFrame(data=sample_results, columns=[
-                                  'sampleID', 'path_name', 'pathID', 'Activity', 'Consistency', 'molRole'])
+            sample_results = np.concatenate((sample_results, paths_result.values))  # axis=0
+        results_df = pd.DataFrame(data=sample_results, columns=['sampleID', 'path_name', 'pathID', 'Activity', 'Consistency', 'molRole'])
+        results_df.drop(['molRole'], inplace=True, axis=1)
+        results_df.drop_duplicates(inplace=True)
+        results_df.to_csv(f'./data/activity/{time.ctime()}.csv')
+        sys.stdout.flush()
         return results_df, paths
 
     # Read chunks of dataframe columns.
@@ -242,25 +250,60 @@ class path_activity:
     def calc_activity_consistency_multi_process(self):
         gc.collect()
         print(time.ctime(), 'Calculate activity and consistency...')
-        df = pd.DataFrame()
-
+        #df = pd.DataFrame()
+        '''
         pool = mp.Pool()  # Use number of CPUs processes.
-        results = [pool.apply_async(self.process_samples, args=(x,))
-                   for x in self.chunker_columns(1000)]
+        results = [pool.apply_async(self.process_samples, args=(x,)) for x in self.chunker_columns(1000)]
         for p in results:
-            df = pd.concat([df, p.get()[0]]) # f.get(timeout=100)
+            p.get(timeout=100)
+            #df = pd.concat([df, p.get()[0]]) # f.get(timeout=100)
             print('.', end="")
             sys.stdout.flush()
-
+        '''
         #df = self.process_samples(self.udp)[0]
-        df.drop(['molRole'], inplace=True, axis=1)
-        df.drop_duplicates(inplace=True)
         #df['Activity'] = df.Activity #Consistency
-        df = pd.pivot(df, columns='sampleID', index='path_name', values='Activity')
-        pool.close()
-        df.to_csv('./data/output_activity.csv')
-        self.activity = df
+        #df = pd.pivot(df, columns='sampleID', index='path_name', values='Activity')
+        for x in tqdm(self.chunker_columns(1000)):
+            self.process_samples(x)
+        
+        #List all CSV files in the directory.
+        csv_files = [file for file in os.listdir('./data/activity/') if file.endswith('.csv')]
+
+        #Check if there are CSV files to process.
+        if len(csv_files) == 0:
+            print("No CSV files found in the directory.")
+            return pd.DataFrame()
+        
+        #Initialize a flag to keep track of whether we are processing the first file.
+        first_file = True
+        merged_df = None
+
+        #Iterate over each CSV file.
+        for file in csv_files:
+            file_path = os.path.join('/data/activity/', file)
+    
+            #Read the CSV file into a pandas DataFrame.
+            df = pd.read_csv(file_path)
+            #If it's the first file, initialize the merged_df.
+            if first_file:
+                merged_df = df
+                first_file = False
+            else:
+                #Concatenate subsequent files to the merged_df along the row axis (axis=0).
+                merged_df = pd.concat([merged_df, df], axis=0, ignore_index=True)
+
+        #Export the merged DataFrame to a new CSV file.
+        merged_df.to_csv('output_activity.csv', index=False)
+        #Delete all the CSV files from the directory.
+        for file in csv_files:
+            file_path = os.path.join('./data/activity/', file)
+            os.remove(file_path)
+
+        #pool.close()
+        #df.to_csv('./data/output_activity.csv')
+        self.activity = merged_df
         print(time.ctime(), "Done.")
+        return merged_df
 
     def xmlparser(self, path_id, sample_num):
         nodes = set()
@@ -561,6 +604,13 @@ class path_activity:
         # sigma_u = np.sqrt(n1*n2*(n1+n2+1)*(10/12))
         print(
             f'Stat: {stat}, P-value: {p}, n1: {n1}, n2: {n2}, m_u(expected under H0): {m_u}')
+
+
+def calc_activity_from_adata(adata):
+    df = pd.DataFrame(data=adata.X, index=adata.obs_names, columns=adata.var_names)
+    df.index = df.index.map(str.lower)
+    activity_obj = path_activity(df, True)
+    return activity_obj.calc_activity_consistency_multi_process()
 
 
 if __name__ == '__main__':
