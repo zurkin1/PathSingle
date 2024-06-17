@@ -8,7 +8,6 @@ plotly
 bs4
 scanpy
 decoupler
-anndata2ri
 scikit-misc
 tqdm
 omnipath
