@@ -236,7 +236,7 @@ class path_activity:
         results_df = pd.DataFrame(data=sample_results, columns=['sampleID', 'path_name', 'pathID', 'Activity', 'Consistency', 'molRole'])
         results_df.drop(['molRole'], inplace=True, axis=1)
         results_df.drop_duplicates(inplace=True)
-        results_df.to_csv(f'./data/activity/{time.ctime()}.csv')
+        results_df.to_csv(f'./data/activity/{chunk_num}.csv')
         sys.stdout.flush()
         return results_df, paths
 
