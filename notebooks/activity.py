@@ -110,10 +110,10 @@ class path_activity:
     # Replace link with UDP.
     def link_to_udp(self, link, sample):
         if ('LL' in link):
-            return (self.link_to_pr_dict[sample].get(int(link.replace('LL:', '')), np.NaN))
+            return (self.link_to_pr_dict[sample].get(int(link.replace('LL:', '')), np.nan))
         if ('UP' in link):
-            return (self.link_to_pr_dict[sample].get(int(self.up2ll_dict.get(link.replace('UP:', ''), 0)), np.NaN))
-        return self.link_to_pr_dict[sample].get(str.lower(link), np.NaN)
+            return (self.link_to_pr_dict[sample].get(int(self.up2ll_dict.get(link.replace('UP:', ''), 0)), np.nan))
+        return self.link_to_pr_dict[sample].get(str.lower(link), np.nan)
 
     # Remove link prefix.
     def rem_link_prefix(self, link):
@@ -121,7 +121,7 @@ class path_activity:
             return (int(link.replace('LL:', '')))
         if ('UP' in link):
             return (int(self.up2ll_dict.get(link.replace('UP:', ''), 0)))
-        return np.NaN
+        return np.nan
 
     # Filter only probes that appear in paths. We collect all links that are mentioned in either the paths or complexes database.
     def filter_probes(self):
@@ -169,7 +169,7 @@ class path_activity:
         # Handle non-basic complexes (they can be found by searching a molecule of type 'complex').
         # To handle non-basic complex we just need to mutiply the pr for their group of molecules.
         # Update complx table with the basic complexes values, only for molecules of type 'complex' (this will ignore basic-complex since their column 3 has proteins).
-        cmplx.loc[cmplx['molType'] == 'complex', 'pr'] = cmplx['molID'].apply(lambda x: basic_to_dict.get(x, np.NaN))
+        cmplx.loc[cmplx['molType'] == 'complex', 'pr'] = cmplx['molID'].apply(lambda x: basic_to_dict.get(x, np.nan))
         # Remove molecules that we couldn't calculate pr for (missing links, unknown basic complexes etc.).
         cmplx = cmplx.dropna()
         cmplx = cmplx[['complex_ID', 'pr']].groupby('complex_ID', as_index=False).prod()
@@ -199,11 +199,11 @@ class path_activity:
             #else:
             # If a molecule does not have a probability we need to remove the whole interaction from activity and consistency calculations.
             paths.loc[paths.molType == 'protein', 'pr'] = paths.molLink.apply(lambda x: max([self.link_to_udp(
-                i, sample) for i in str(x).split(',')]))  # Max returns NaN if there is at least one NaN in the list.
+                i, sample) for i in str(x).split(',')]))  # Max returns nan if there is at least one nan in the list.
             # Compounds are assumed to always be present
             paths.loc[paths.molType == 'compound', 'pr'] = 1
             paths.loc[paths.molType == 'rna', 'pr'] = 1
-            paths.loc[paths.molType == 'complex', 'pr'] = paths.molNum.apply(lambda x: cmplx_to_pr_dict.get(x, np.NaN))
+            paths.loc[paths.molType == 'complex', 'pr'] = paths.molNum.apply(lambda x: cmplx_to_pr_dict.get(x, np.nan))
 
             # Calculate activity and consistency of each interaction.
             # Activity of interactions is a multiplication of the inputs.
@@ -211,6 +211,7 @@ class path_activity:
             # max(paths['path_id'].groupby(paths['intID']).nunique()) #This shows that some interactions participate in few paths.
             # Save the pr for output molecules, since it also receieved a UDP.
             paths['pr_output'] = 1
+            paths['pr_output'] = paths['pr_output'].astype(float)
             paths.loc[paths.molRole == 'output', 'pr_output'] = paths.pr
             paths.loc[paths.molRole == 'output', 'pr'] = 1
             # Handle molecules that we could not find UDP for, we need to remove the whole interaction.
@@ -225,17 +226,16 @@ class path_activity:
 
             # Calculate activity and consistency of each path.
             # Both activity and consistency are averages of all interactions activities and consistencies.
-            paths['activity'] = paths.groupby(
-                'path_id')['interaction_activity'].transform('mean')
-            paths['consistency'] = paths.groupby(
-                'path_id')['interaction_consistency'].transform('mean')
+            paths['activity'] = paths.groupby('path_id')['interaction_activity'].transform('mean')
+            paths['consistency'] = paths.groupby('path_id')['interaction_consistency'].transform('mean')
             paths['sampleID'] = sample
-            paths_result = paths[['sampleID', 'path_name', 'path_id',
-                                  'activity', 'consistency', 'molRole']].drop_duplicates()
+            paths_result = paths[['sampleID', 'path_name', 'path_id', 'activity', 'consistency', 'molRole']].drop_duplicates()
             sample_results = np.concatenate((sample_results, paths_result.values))  # axis=0
+        
         results_df = pd.DataFrame(data=sample_results, columns=['sampleID', 'path_name', 'pathID', 'Activity', 'Consistency', 'molRole'])
         results_df.drop(['molRole'], inplace=True, axis=1)
         results_df.drop_duplicates(inplace=True)
+        results_df = pd.pivot(results_df, columns='sampleID', index='path_name', values='Activity')
         results_df.to_csv(f'./data/activity/{chunk_num}.csv')
         sys.stdout.flush()
         return results_df, paths
@@ -262,7 +262,6 @@ class path_activity:
         '''
         #df = self.process_samples(self.udp)[0]
         #df['Activity'] = df.Activity #Consistency
-        #df = pd.pivot(df, columns='sampleID', index='path_name', values='Activity')
         for x in tqdm(self.chunker_columns(1000)):
             self.process_samples(x)
         
@@ -280,7 +279,7 @@ class path_activity:
 
         #Iterate over each CSV file.
         for file in csv_files:
-            file_path = os.path.join('/data/activity/', file)
+            file_path = os.path.join('./data/activity/', file)
     
             #Read the CSV file into a pandas DataFrame.
             df = pd.read_csv(file_path)
@@ -295,9 +294,9 @@ class path_activity:
         #Export the merged DataFrame to a new CSV file.
         merged_df.to_csv('output_activity.csv', index=False)
         #Delete all the CSV files from the directory.
-        for file in csv_files:
-            file_path = os.path.join('./data/activity/', file)
-            os.remove(file_path)
+        #for file in csv_files:
+        #    file_path = os.path.join('./data/activity/', file)
+        #    os.remove(file_path)
 
         #pool.close()
         #df.to_csv('./data/output_activity.csv')
@@ -614,8 +613,6 @@ def calc_activity_from_adata(adata):
 
 
 if __name__ == '__main__':
-    # activity_obj.xmlparser(1,1)
-
     udp = pd.read_csv('./data/output_udp.csv', index_col=0)
     udp.index = udp.index.map(str.lower)
     activity_obj = path_activity(udp, True)
