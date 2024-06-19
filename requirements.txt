@@ -12,3 +12,4 @@ scikit-misc
 tqdm
 omnipath
 umap-learn
+magic-impute
