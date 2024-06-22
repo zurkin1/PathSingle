@@ -12,3 +12,4 @@ notebooks/simulated_gsea_results_matrix.npy
 /notebooks/data/activity
 /notebooks/data/activity
 *.h5ad
+notebooks/data/simulated_gsea_results_matrix.npy

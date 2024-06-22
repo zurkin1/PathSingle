@@ -5,6 +5,7 @@ from tqdm import tqdm
 class path_activity:
     def __init__(self, udp):
         #Load the necessary data.
+        self.pathway_relations_file = './data/pathway_relations.csv'
         self.output_file = './data/output_activity.csv'
 
         #Load gene expression data.
@@ -24,8 +25,15 @@ class path_activity:
         self.pathway_relations_df['source'] = self.pathway_relations_df['source'].apply(split_and_lower)
         self.pathway_relations_df['target'] = self.pathway_relations_df['target'].apply(split_and_lower)
 
-        #Prepare a dictionary for fast lookup of gene expression values.
-        self.gene_expression_dict = self.gene_expression_df.to_dict(orient='index')
+
+    #Function to get the expression value of a gene for a specific sample.
+    def get_expression_value(self, gene, sample):
+        if gene.startswith('cpd:'):
+            return 1.0  #Compounds have a value of 1.
+        try:
+            return self.gene_expression_df.at[gene, sample]
+        except KeyError:
+            return 0.0  #Assume missing genes have a value of 1.
 
 
     #Calculate activity and consistency of paths.
@@ -44,7 +52,7 @@ class path_activity:
             if gene.startswith('cpd:'):
                 activity *= 1
             else:
-                gene_value = self.gene_expression_dict.get(gene, {}).get(sample, 1)
+                gene_value = self.get_expression_value(gene, sample)
                 activity *= gene_value
 
         #Adjust activity for inhibition.
