@@ -12,6 +12,9 @@ class path_activity:
         self.gene_expression_df = udp
         self.gene_expression_df.index = self.gene_expression_df.index.map(str.lower)
 
+        #Initialize cache.
+        self.activity_cache = {}
+
 
         #Split the 'source' and 'target' columns by '*' and lowercase the gene names.
         def split_and_lower(x):
@@ -41,25 +44,32 @@ class path_activity:
     #Complexes are proteins == basic complexes (built from links to probes) or group of proteins.
     #Compounds are assumed to always be present (UDP == 1).
     #If a molecule does not have a probability we need to remove the whole interaction from activity and consistency calculations.
+    #Reference https://www.kegg.jp/kegg/xml/docs/.
     #Function to calculate activity for a single interaction and a single sample.
     def calculate_interaction_activity(self, row, sample):
         sources = row['source']
         interaction_type = row['interactiontype']
         
-        #Calculate the product of gene values in the source column.
-        activity = 1
-        for gene in sources:
-            if gene.startswith('cpd:'):
-                activity *= 1
+        #Check if the activity has already been computed.
+        if sources in self.activity_cache:
+            activity = self.activity_cache[sources]
+        else:
+            #Calculate the product of gene values in the source column.
+            activity = 1
+            for gene in sources:
+                if gene.startswith('cpd:'):
+                    activity *= 1
             else:
-                gene_value = self.get_expression_value(gene, sample)
-                activity *= gene_value
+                    gene_value = self.get_expression_value(gene, sample)
+                    activity *= gene_value
 
-        #Adjust activity for inhibition.
-        if 'inhibit' in interaction_type:
-            activity = 1 - activity
-
-        return activity
+            #Adjust activity for different relation subtypes.
+            match interaction_type:
+                case 'inhibition' | 'repression' | 'dissociation' | 'missing interaction':
+                    activity = 1 - activity
+            #Store the computed activity in the cache.
+            self.activity_cache[sources] = activity
+            return activity
 
 
     def calculate_activity(self):
