@@ -1,9 +1,7 @@
 import pandas as pd
 from tqdm import tqdm
-import numpy as np
+import gc
 
-
-tqdm.pandas()
 
 class path_activity:
     def __init__(self, udp):
@@ -14,6 +12,9 @@ class path_activity:
         #Load gene expression data.
         self.gene_expression_df = udp
         self.gene_expression_df.index = self.gene_expression_df.index.map(str.lower)
+
+        #Initialize cache.
+        self.activity_cache = {}
 
 
         #Split the 'source' and 'target' columns by '*' and lowercase the gene names.
@@ -60,8 +61,11 @@ class path_activity:
         for gene in sources:
             if gene.startswith('cpd:'):
                 gene_value = 1.0
+            elif gene in self.activity_cache:
+                gene_value = self.activity_cache[gene]
             else:
                 gene_value = self.get_expression_value(gene, sample)
+                self.activity_cache[gene] = gene_value
             
             activity *= gene_value
 
@@ -75,24 +79,19 @@ class path_activity:
     def calculate_activity(self):
         #Calculate activity for each sample and each pathway.
         sample_names = self.gene_expression_df.columns
-          
+        pathway_activities = pd.DataFrame()
 
-        def calculate_for_pathway_and_sample(pathway_data, sample):
-            return pathway_data.apply(lambda row: self.calculate_interaction_activity(row, sample), axis=1)
-
-
-        def calculate_for_pathway(pathway):
-            pathway_data = self.pathway_relations_df[self.pathway_relations_df['pathway'] == pathway]
-            activities = sample_names.to_series().apply(lambda sample: calculate_for_pathway_and_sample(pathway_data, sample)).values.tolist()
-            return [pathway] + activities
-            
-
-        pathway_activities = self.pathway_relations_df['pathway'].unique().tolist()
-        results = pd.Series(pathway_activities).progress_apply(calculate_for_pathway)
+        for sample in tqdm(sample_names):
+            self.activity_cache = {} #Clear the cache.
+            gc.collect()
+            for pathway in self.pathway_relations_df['pathway'].unique():
+                #Define dataframe for pathway.
+                pathway_data = self.pathway_relations_df[self.pathway_relations_df['pathway'] == pathway]
+                activities = pathway_data.apply(lambda row: self.calculate_interaction_activity(row, sample), axis=1)
+                pathway_activities = pd.concat([pathway_activities, activities], axis=0, ignore_index=True)
 
         #Create a DataFrame for the results and save to a CSV file.
-        columns = ['pathway'] + list(sample_names)
-        output_df = pd.DataFrame(results.tolist(), columns=columns).T
+        output_df = pd.DataFrame(pathway_activities).T
         output_df.to_csv(self.output_file, index=False)
 
         print(f"Activity calculations saved to {self.output_file}")
