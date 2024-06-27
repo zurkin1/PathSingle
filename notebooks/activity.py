@@ -156,56 +156,57 @@ reduced_pathway_tensor = torch.tensor(reduced_pathway_matrix, dtype=torch.float3
 gene_expression_tensor = torch.tensor(reduced_gene_expression_matrix, dtype=torch.float32).to(device)
 
 #Step 3: Parallelize Multiplication Using Data Loader. Define a Dataset.
-class PathwayDataset(torch.utils.data.Dataset):
-    def __init__(self, pathway_tensor):
-        self.pathway_tensor = pathway_tensor
+class GeneExpressionDataset(torch.utils.data.Dataset):
+    def __init__(self, gene_expression_tensor):
+        self.gene_expression_tensor = gene_expression_tensor
 
     def __len__(self):
-        return self.pathway_tensor.shape[1]
+        return self.gene_expression_tensor.shape[1]
 
     def __getitem__(self, idx):
-        return self.pathway_tensor[:, idx]
+        return self.gene_expression_tensor[:, idx]
 
 #Create DataLoader.
-batch_size = 10  #Number of pathways in batch.
-pathway_dataset = PathwayDataset(reduced_pathway_tensor)
-pathway_loader = DataLoader(pathway_dataset, batch_size=batch_size, shuffle=False)
+batch_size = 10
+gene_expression_dataset = GeneExpressionDataset(gene_expression_tensor)
+gene_expression_loader = DataLoader(gene_expression_dataset, batch_size=batch_size, shuffle=False)
 
 #Initialize a list to hold results and a dictionary to aggregate by pathway.
 results = []
 pathway_activities = {pathway: [] for pathway in list(pathway_index.keys())}
 
 #Process the multiplication in batches using DataLoader.
-for pathway_batch in tqdm(pathway_loader):
-    pathway_batch = pathway_batch.to(device)
+for gene_expression_batch in tqdm(gene_expression_loader):
+    #Expand pathway_tensor to match the batch dimension of gene_expression_batch.
+    expanded_pathway_tensor = reduced_pathway_tensor.unsqueeze(1).T  # shape: [num_genes, num_pathways, 1]
+    
+    #print(f'gene_expression_batch shape:', {gene_expression_batch.shape}) #{torch.Size([10, 4865])}
+    #print(f'expanded_pathway_tensor shape:', {expanded_pathway_tensor.shape}) #{torch.Size([314, 1, 4865])}
 
-    #Expand gene_expression_tensor to match the batch dimension of pathway_batch.
-    expanded_gene_expression_tensor = gene_expression_tensor.unsqueeze(0)  # shape: [1, num_genes, num_cells], torch.Size([4865, 20, 1])
-    expanded_pathway_batch = pathway_batch.unsqueeze(2)  # shape: [num_genes, batch_size, 1]
-    
     #Perform the element-wise (dot) multiplication, with broadcasting.
-    result_batch = expanded_gene_expression_tensor * expanded_pathway_batch  # shape: [num_genes, num_cells, batch_size]
-    #result_batch = gene_expression_tensor * pathway_batch #Multiplying a batch of 1000 rows from the pathway_matrix numpy array map we created, with the gene expression matrix.
-    
-    #Multiply along the gene dimension to get the interaction activity.
-    interaction_activity = result_batch.prod(dim=0)  # shape: [num_cells, batch_size]
+    result_batch = gene_expression_batch * expanded_pathway_tensor  # shape: [num_genes, num_cells, batch_size]
+    #print(f'result_batch shape: {result_batch.shape}') #result_batch shape: torch.Size([314, 10, 4865])
+
+    #Multiply along the gene dimension to get the interaction activity (in the previous example, removing the 4865 dimension).
+    result_batch = result_batch.prod(dim=2)
+    print(f'interaction activity shape: {result_batch.shape}') #torch.Size([314, 10])
     
     #Aggregate the result by pathway.
-    for i in range(interaction_activity.shape[1]):
+    for i in range(result_batch.shape[0]):
         pathway_name = list(pathway_index.keys())[i]
-        pathway_activities[pathway_name].append(interaction_activity[:, i])
+        pathway_activities[pathway_name].extend(result_batch[i, :])
 
-#Calculate the mean activity for each pathway.
+#Calculate the mean activity for each pathway (in each loop for all cells).
 mean_activity_matrix = np.zeros((len(gene_expression_df.columns), len(pathway_index)))
+print(f'mean_activity_matrix shape: {mean_activity_matrix.shape}') #(20, 314) [num_cells, num_pathways]
 for idx, (pathway_name, activities) in enumerate(pathway_activities.items()):
     if activities:
-        stacked_activities = np.stack(activities, axis=0) #Ensure stacking along the correct axis.
-        mean_activity = np.mean(stacked_activities, axis=0)  #Calculate the mean along the correct axis.
-        print(f"Pathway: {pathway_name}, Stacked Activities Shape: {stacked_activities.shape}, Mean Activity Shape: {mean_activity.shape}")
-        if mean_activity.shape[0] == mean_activity_matrix.shape[0]:  # Ensure the shape matches the target slice
-            mean_activity_matrix[:, idx] = mean_activity
-        else:
-            print(f"Shape mismatch for pathway {pathway_name}: {mean_activity.shape} vs {mean_activity_matrix[:, idx].shape}")
+        #print(f'activities shape: {activities.shape}') #torch.Size([10])
+        #stacked_activities = np.stack(activities, axis=1) #Ensure stacking along the correct axis.
+        mean_activity = np.mean(activities, axis=0)  #Calculate the mean along the correct axis.
+        #print(f"Pathway: {pathway_name}, Stacked Activities Shape: {stacked_activities.shape}, Mean Activity Shape: {mean_activity.shape}")
+        mean_activity_matrix[:, idx] = mean_activity
+        #print(f"Shape mismatch for pathway {pathway_name}: {mean_activity.shape} vs {mean_activity_matrix[:, idx].shape}")
     else:
         print(f"No activities for pathway {pathway_name}")
 # shape: [num_cells, num_pathways]
@@ -218,4 +219,6 @@ activity_df = pd.DataFrame(mean_activity_matrix, index=gene_expression_df.column
 
 #Save results to CSV.
 activity_df.to_csv('./data/output_activity.csv')
+# %%
+create_pathway_matrix()
 # %%

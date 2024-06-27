@@ -7,7 +7,6 @@ networkx
 plotly
 bs4
 scanpy
-decoupler
 scikit-misc
 tqdm
 omnipath

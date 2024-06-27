@@ -37,7 +37,7 @@ class path_activity:
         try:
             return self.gene_expression_df.at[gene, sample]
         except KeyError:
-            return 0.0  #Assume missing genes have a value of 1.
+            return 0.0  #Assume missing genes have a value of 0.
 
 
     # Function to determine if an interaction type is inhibitory
