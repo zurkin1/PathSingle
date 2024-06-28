@@ -8,6 +8,9 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 
+MAX_NUMBER_OF_INTERACTIONS = 200
+
+
 def create_pathway_matrix():
     #Load pathway relations data.
     pathway_relations_df = pd.read_csv('./data/pathway_relations.csv')
@@ -22,8 +25,9 @@ def create_pathway_matrix():
     gene_index = {gene: i for i, gene in enumerate(all_genes)}
     pathway_index = {pathway: i for i, pathway in enumerate(pathway_relations_df['pathway'].unique())}
 
-    pathway_matrix = np.zeros((len(all_genes), len(pathway_index)))
+    pathway_matrix = np.zeros((len(all_genes), len(pathway_index), MAX_NUMBER_OF_INTERACTIONS))
     inhibition_flags = np.zeros(len(pathway_index))
+    current_interaction_counter = {}
 
 
     #Function to determine if an interaction type is inhibitory.
@@ -35,9 +39,24 @@ def create_pathway_matrix():
     for _, row in pathway_relations_df.iterrows():
         pathway = row['pathway']
         interaction_type = row['interactiontype']
+        
+        #Initialize current_interaction_counter dictionary.
+        interaction_counter = current_interaction_counter.get(pathway, 0)
+        if interaction_counter == 0:
+            current_interaction_counter[pathway] = 0
+        
+        #If row['source'] have more than one gene we will use a new pathway_matrix, otherwise we will use the one in index 0 to save memory.
+        len_row = len(row['source'])
         for gene in row['source']:
             if gene in gene_index:
-                pathway_matrix[gene_index[gene], pathway_index[pathway]] = 1
+                if len_row == 1:
+                    pathway_matrix[gene_index[gene], pathway_index[pathway], 0] = 1
+                else:
+                    pathway_matrix[gene_index[gene], pathway_index[pathway], current_interaction_counter[pathway]] = 1
+        
+        if len_row > 1:
+            current_interaction_counter[pathway] += 1
+        
         if is_inhibitory(interaction_type):
             inhibition_flags[pathway_index[pathway]] = 1
 
@@ -126,8 +145,10 @@ import json
 import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm
+import gc
 
 
+epsilon = 1e-10
 #Load pathway matrix and indices.
 pathway_matrix = np.load('./data/pathway_matrix.npy')
 with open('./data/gene_index.json', 'r') as f:
@@ -147,7 +168,7 @@ intersecting_genes = list(set(gene_expression_df.index) & set(gene_index.keys())
 intersecting_indices = [gene_index[gene] for gene in intersecting_genes] #These are the indices in the pathway matrix.
 
 #Create a reduced pathway matrix and a reduced gene expression matrix.
-reduced_pathway_matrix = pathway_matrix[intersecting_indices, :] # genes x pathways
+reduced_pathway_matrix = pathway_matrix[intersecting_indices, :, :] # genes x pathways x interactions
 reduced_gene_expression_matrix = gene_expression_df.loc[intersecting_genes].values # genes x cells
 
 #Convert to PyTorch tensors.
@@ -167,7 +188,7 @@ class GeneExpressionDataset(torch.utils.data.Dataset):
         return self.gene_expression_tensor[:, idx]
 
 #Create DataLoader.
-batch_size = 10
+batch_size = 5
 gene_expression_dataset = GeneExpressionDataset(gene_expression_tensor)
 gene_expression_loader = DataLoader(gene_expression_dataset, batch_size=batch_size, shuffle=False)
 
@@ -175,23 +196,39 @@ gene_expression_loader = DataLoader(gene_expression_dataset, batch_size=batch_si
 results = []
 pathway_activities = {pathway: [] for pathway in list(pathway_index.keys())}
 
+#Expand pathway_tensor to match the batch dimension of gene_expression_batch.
+expanded_pathway_tensor = reduced_pathway_tensor.unsqueeze(1).T  # shape: [num_genes, num_pathways, max_interactions, 1]
+print(f'expanded_pathway_tensor shape:', {expanded_pathway_tensor.shape}) #[200, 314, 1, 4865] interactions, pathways, batch, genes.
+
 #Process the multiplication in batches using DataLoader.
 for gene_expression_batch in tqdm(gene_expression_loader):
-    #Expand pathway_tensor to match the batch dimension of gene_expression_batch.
-    expanded_pathway_tensor = reduced_pathway_tensor.unsqueeze(1).T  # shape: [num_genes, num_pathways, 1]
-    
-    #print(f'gene_expression_batch shape:', {gene_expression_batch.shape}) #{torch.Size([10, 4865])}
-    #print(f'expanded_pathway_tensor shape:', {expanded_pathway_tensor.shape}) #{torch.Size([314, 1, 4865])}
+    gene_expression_batch = gene_expression_batch.unsqueeze(0) 
+    #print(f'gene_expression_batch shape:', {gene_expression_batch.shape}) #[1, 10, 4865]
 
-    #Perform the element-wise (dot) multiplication, with broadcasting.
-    result_batch = gene_expression_batch * expanded_pathway_tensor  # shape: [num_genes, num_cells, batch_size]
-    #print(f'result_batch shape: {result_batch.shape}') #result_batch shape: torch.Size([314, 10, 4865])
+    #Perform the element-wise (dot) multiplication, with broadcasting. Gene_expression_batch has to be unsqueezed to match the pathway tensor.
+    gene_expression_batch = gene_expression_batch * expanded_pathway_tensor  # shape: [interactions, pathways, batch_size, num_genes]
+    print(f'gene_expression_batch shape: {gene_expression_batch.shape}') #[200, 314, 4, 4865]
 
-    #Multiply along the gene dimension to get the interaction activity (in the previous example, removing the 4865 dimension).
-    result_batch = result_batch.prod(dim=2)
-    print(f'interaction activity shape: {result_batch.shape}') #torch.Size([314, 10])
+    #Replace zeros with ones in place in order to neutralize zero value genes in the product.
+
+
+    #Multiply along the gene dimension to get the interaction activity for each pathway 
+    # (in the previous example, removing the 4865 dimension which represents genes that participates in interactions in pathways).
+    #First replace zeros with ones.
+    #Convert to log space, replacing zeros with epsilon.
+    gc.collect()
+    result_batch = torch.where(result_batch == 0, torch.tensor(epsilon, dtype=result_batch.dtype, device=result_batch.device), result_batch).log()
+
+    #Sum in log space along the desired dimension (dim=3).
+    result_batch = result_batch.sum(dim=3)
+
+    #Convert back from log space to get the product.
+    result_batch = result_batch.exp()
+
+    result_batch = result_batch.prod(dim=3)
+    print(f'interaction activity shape: {result_batch.shape}') #[200, 314, 4865]
     
-    #Aggregate the result by pathway.
+    #Aggregate the result by pathway, since we have multiple lines with the same pathway name, representing different interactions.
     for i in range(result_batch.shape[0]):
         pathway_name = list(pathway_index.keys())[i]
         pathway_activities[pathway_name].extend(result_batch[i, :])
@@ -199,23 +236,16 @@ for gene_expression_batch in tqdm(gene_expression_loader):
 #Calculate the mean activity for each pathway (in each loop for all cells).
 mean_activity_matrix = np.zeros((len(gene_expression_df.columns), len(pathway_index)))
 print(f'mean_activity_matrix shape: {mean_activity_matrix.shape}') #(20, 314) [num_cells, num_pathways]
+
 for idx, (pathway_name, activities) in enumerate(pathway_activities.items()):
-    if activities:
-        #print(f'activities shape: {activities.shape}') #torch.Size([10])
-        #stacked_activities = np.stack(activities, axis=1) #Ensure stacking along the correct axis.
-        mean_activity = np.mean(activities, axis=0)  #Calculate the mean along the correct axis.
-        #print(f"Pathway: {pathway_name}, Stacked Activities Shape: {stacked_activities.shape}, Mean Activity Shape: {mean_activity.shape}")
+    if activities: #len(activities) == 20
+        mean_activity = np.mean(activities, axis=0) #Calculate the mean along the correct axis.
         mean_activity_matrix[:, idx] = mean_activity
-        #print(f"Shape mismatch for pathway {pathway_name}: {mean_activity.shape} vs {mean_activity_matrix[:, idx].shape}")
     else:
         print(f"No activities for pathway {pathway_name}")
-# shape: [num_cells, num_pathways]
-
-#Confirm the shape of the mean activity matrix.
-print("mean_activity_matrix shape:", mean_activity_matrix.shape)  # Expected shape: [num_cells, num_pathways]
 
 #Create the DataFrame for the activity matrix.
-activity_df = pd.DataFrame(mean_activity_matrix, index=gene_expression_df.columns, columns=list(pathway_index.keys()))
+activity_df = pd.DataFrame(mean_activity_matrix, index=gene_expression_df.columns, columns=list(pathway_index.keys())).T
 
 #Save results to CSV.
 activity_df.to_csv('./data/output_activity.csv')
