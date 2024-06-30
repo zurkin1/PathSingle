@@ -8,6 +8,8 @@ import numpy as np
 import multiprocessing as mp
 import scanpy as sc
 import scanpy.external as sce
+from line_profiler import profile
+import os
 
 
 class path_activity:
@@ -47,6 +49,8 @@ class path_activity:
     #Reference https://www.kegg.jp/kegg/xml/docs/.
     #Function to calculate activity for a single interaction and a single sample.
     #Calculate the product of gene values in the source column.
+    #https://kernprof.readthedocs.io/en/latest/
+    @profile
     def calculate_interaction_activity(self, sources, interaction_type, sample):
         activity = 1.0
         for gene in sources:
@@ -59,41 +63,58 @@ class path_activity:
 
         return activity
 
-
+    @profile
     def process_sample(self, sample):
-        gc.collect()
-        sample_activities = []
-        for pathway in self.pathway_relations_df['pathway'].unique():
-            #Define dataframe for pathway.
-            pathway_data = self.pathway_relations_df[self.pathway_relations_df['pathway'] == pathway]
-            #activities = pathway_data.apply(lambda row: self.calculate_interaction_activity(row['source'], row['interactiontype'], sample), axis=1)
-            activities = [
-                            self.calculate_interaction_activity(row['source'], row['interactiontype'], sample)
-                            for _, row in pathway_data.iterrows()
-                        ]
-            pathway_activity = np.mean(activities, axis=0)
-            sample_activities.append([pathway, sample, pathway_activity])
-        return sample_activities
+        try:
+            sample_activities = []
+            for pathway in self.pathway_relations_df['pathway'].unique():
+                #Define dataframe for pathway.
+                pathway_data = self.pathway_relations_df[self.pathway_relations_df['pathway'] == pathway]
+                #activities = pathway_data.apply(lambda row: self.calculate_interaction_activity(row['source'], row['interactiontype'], sample), axis=1)
+                activities = [
+                                self.calculate_interaction_activity(row['source'], row['interactiontype'], sample)
+                                for _, row in pathway_data.iterrows()
+                            ]
+                pathway_activity = np.mean(activities, axis=0)
+                sample_activities.append([pathway, sample, pathway_activity])
+            
+            #Convert to DataFrame and save to CSV.
+            df = pd.DataFrame(sample_activities, columns=['pathway', 'sample', 'activity'])
+            df.to_csv(f'./data/samples/{sample}_activity.csv', index=False)
+            return True
+        except Exception as e:
+            print(f"Error processing sample {sample}: {e}")
+            return False
 
-
+    @profile
     def calculate_activity(self):
         #Calculate activity for each sample and each pathway.
         sample_names = self.gene_expression_df.columns
-        pathway_activities = []
     
-        pool = mp.Pool()
+        pool = mp.Pool(processes=10)
         results = [pool.apply_async(self.process_sample, args=(sample,)) for sample in sample_names]
         
-        for result in tqdm(results, total=len(sample_names)):
-            pathway_activities.extend(result.get(timeout=100))
+        success_samples = []
+        for sample, result in zip(sample_names, tqdm(results, total=len(sample_names))):
+            if result.get(timeout=100):
+                success_samples.append(sample)
+    
+        pool.close()
+        pool.join()
+        
+        #Merge all the individual CSV files into one DataFrame.
+        all_dfs = []
+        for sample in success_samples:
+            df = pd.read_csv(f'./data/samples/{sample}_activity.csv')
+            all_dfs.append(df)
 
         #Create a DataFrame for the results and save to a CSV file.        
-        pathway_activities_df = pd.DataFrame(pathway_activities, columns=['pathway', 'sample', 'activity'])
+        pathway_activities_df = pd.concat(all_dfs, ignore_index=True)
         self.output_df = pathway_activities_df.pivot(index='pathway', columns='sample', values='activity')
         self.output_df.to_csv(self.output_file)
         print(f"Activity calculations saved to {self.output_file}")
 
-        
+       
 def calc_activity_from_adata(adata):
     #On the index we have cell names (adata.obs_names) and the columns are gene names (adata.var_names). We transpose this dataframe before calculating activity.
     df = pd.DataFrame(data=adata.X, index=adata.obs_names, columns=adata.var_names).T
@@ -102,10 +123,11 @@ def calc_activity_from_adata(adata):
 
 # %%
 if __name__ == '__main__':
-    udp = pd.read_csv('./data/sample_file.csv', index_col=0)
-    udp.index = udp.index.map(str.lower)
-    activity_obj = path_activity(udp)
-    activity_obj.calculate_activity()
+    #udp = pd.read_csv('./data/sample_file.csv', index_col=0)
+    #udp.index = udp.index.map(str.lower)
+    #activity_obj = path_activity(udp)
+    #activity_obj.calculate_activity()
+    
     '''
     profile_filename = './data/profile_output.prof'
     cProfile.run('activity_obj.calculate_activity()', profile_filename)
@@ -114,6 +136,16 @@ if __name__ == '__main__':
         stats = pstats.Stats(profile_filename, stream=f)
         stats.strip_dirs().sort_stats('cumulative').print_stats(10)
     '''
+    adata = sc.read_h5ad('./data/sc_trainingmagic.h5ad')
+    calc_activity_from_adata(adata)
 # %%
-adata = sc.read_h5ad('./data/sc_trainingmagic.h5ad')
-calc_activity_from_adata(adata)
+'''
+import pandas as pd
+
+
+udp = pd.read_csv('./data/sample_file.csv', index_col=0)
+udp_large = pd.concat([udp] * 50, axis=1)
+udp_large.columns = [f"{col}_{i}" for i in range(50) for col in udp.columns]
+udp_large.to_csv('./data/sample_file_large.csv')
+'''
+# %%
