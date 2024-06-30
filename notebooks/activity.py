@@ -22,6 +22,9 @@ class path_activity:
         self.gene_expression_df = udp
         self.gene_expression_df.index = self.gene_expression_df.index.map(str.lower)
 
+        #Round the values to 5 decimal places.
+        self.gene_expression_df = self.gene_expression_df.round(5)
+
 
         #Split the 'source' and 'target' columns by '*' and lowercase the gene names.
         def split_and_lower(x):
@@ -33,8 +36,11 @@ class path_activity:
         #Load pathway relations data.
         self.pathway_relations_df = pd.read_csv(self.pathway_relations_file)
         self.pathway_relations_df['source'] = self.pathway_relations_df['source'].apply(split_and_lower)
-        self.pathway_relations_df['target'] = self.pathway_relations_df['target'].apply(split_and_lower)
+        #self.pathway_relations_df['target'] = self.pathway_relations_df['target'].apply(split_and_lower)
 
+        #Filter gene_expression_df to include only genes from pathway_relations data.
+        genes_in_source = set(gene for sublist in self.pathway_relations_df['source'] for gene in sublist)
+        self.gene_expression_df = self.gene_expression_df[self.gene_expression_df.index.isin(genes_in_source)]
 
     # Function to determine if an interaction type is inhibitory
     def is_inhibitory(self, interaction_type):
@@ -91,7 +97,7 @@ class path_activity:
         #Calculate activity for each sample and each pathway.
         sample_names = self.gene_expression_df.columns
     
-        pool = mp.Pool(processes=10)
+        pool = mp.Pool(processes=40)
         results = [pool.apply_async(self.process_sample, args=(sample,)) for sample in sample_names]
         
         success_samples = []
