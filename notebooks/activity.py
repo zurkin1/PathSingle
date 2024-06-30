@@ -8,22 +8,25 @@ import numpy as np
 import multiprocessing as mp
 import scanpy as sc
 import scanpy.external as sce
-from line_profiler import profile
 import os
+import anndata
 
 
 class path_activity:
-    def __init__(self, udp):
+    def __init__(self, adata):
         #Load the necessary data.
         self.pathway_relations_file = './data/pathway_relations.csv'
         self.output_file = './data/output_activity.csv'
 
         #Load gene expression data.
-        self.gene_expression_df = udp
-        self.gene_expression_df.index = self.gene_expression_df.index.map(str.lower)
+        #self.gene_expression_df = udp
+        #self.gene_expression_df.index = self.gene_expression_df.index.map(str.lower)
+        self.adata = adata
+        self.adata.var_names = self.adata.var_names.str.lower()
 
         #Round the values to 5 decimal places.
-        self.gene_expression_df = self.gene_expression_df.round(5)
+        #self.gene_expression_df = self.gene_expression_df.round(5)
+        self.adata.X = np.round(self.adata.X, 5)
 
 
         #Split the 'source' and 'target' columns by '*' and lowercase the gene names.
@@ -40,7 +43,8 @@ class path_activity:
 
         #Filter gene_expression_df to include only genes from pathway_relations data.
         genes_in_source = set(gene for sublist in self.pathway_relations_df['source'] for gene in sublist)
-        self.gene_expression_df = self.gene_expression_df[self.gene_expression_df.index.isin(genes_in_source)]
+        #self.gene_expression_df = self.gene_expression_df[self.gene_expression_df.index.isin(genes_in_source)]
+        self.adata = self.adata[:, self.adata.var_names.isin(genes_in_source)]
 
     # Function to determine if an interaction type is inhibitory
     def is_inhibitory(self, interaction_type):
@@ -56,11 +60,15 @@ class path_activity:
     #Function to calculate activity for a single interaction and a single sample.
     #Calculate the product of gene values in the source column.
     #https://kernprof.readthedocs.io/en/latest/
-    @profile
-    def calculate_interaction_activity(self, sources, interaction_type, sample):
+    def calculate_interaction_activity(self, sources, interaction_type, sample_idx):
         activity = 1.0
         for gene in sources:
-            gene_value = self.gene_expression_df.at[gene, sample] if gene in self.gene_expression_df.index else 0.0
+            #gene_value = self.gene_expression_df.at[gene, sample] if gene in self.gene_expression_df.index else 0.0
+            if gene in self.adata.var_names:
+                gene_idx = self.adata.var_names.get_loc(gene)
+                gene_value = self.adata.X[sample_idx, gene_idx]
+            else:
+                gene_value = 0.0
             activity *= gene_value
 
         #Adjust activity for different relation subtypes.
@@ -69,8 +77,7 @@ class path_activity:
 
         return activity
 
-    @profile
-    def process_sample(self, sample):
+    def process_sample(self, sample_idx, sample_name):
         try:
             sample_activities = []
             for pathway in self.pathway_relations_df['pathway'].unique():
@@ -78,26 +85,26 @@ class path_activity:
                 pathway_data = self.pathway_relations_df[self.pathway_relations_df['pathway'] == pathway]
                 #activities = pathway_data.apply(lambda row: self.calculate_interaction_activity(row['source'], row['interactiontype'], sample), axis=1)
                 activities = [
-                                self.calculate_interaction_activity(row['source'], row['interactiontype'], sample)
+                                self.calculate_interaction_activity(row['source'], row['interactiontype'], sample_idx)
                                 for _, row in pathway_data.iterrows()
                             ]
                 pathway_activity = np.mean(activities, axis=0)
-                sample_activities.append([pathway, sample, pathway_activity])
+                sample_activities.append([pathway, sample_name, pathway_activity])
             
             #Convert to DataFrame and save to CSV.
             df = pd.DataFrame(sample_activities, columns=['pathway', 'sample', 'activity'])
-            df.to_csv(f'./data/samples/{sample}_activity.csv', index=False)
+            df.to_csv(f'./data/samples/{sample_name}_activity.csv', index=False)
             return True
         except Exception as e:
-            print(f"Error processing sample {sample}: {e}")
+            print(f"Error processing sample {sample_name}: {e}")
             return False
 
-    @profile
     def calculate_activity(self):
         #Calculate activity for each sample and each pathway.
-        sample_names = self.gene_expression_df.columns
+        #sample_names = self.gene_expression_df.columns
+        sample_names = self.adata.obs_names
     
-        pool = mp.Pool(processes=40)
+        pool = mp.Pool(processes=10)
         results = [pool.apply_async(self.process_sample, args=(sample,)) for sample in sample_names]
         
         success_samples = []
@@ -123,8 +130,8 @@ class path_activity:
        
 def calc_activity_from_adata(adata):
     #On the index we have cell names (adata.obs_names) and the columns are gene names (adata.var_names). We transpose this dataframe before calculating activity.
-    df = pd.DataFrame(data=adata.X, index=adata.obs_names, columns=adata.var_names).T
-    activity_obj = path_activity(df)
+    #df = pd.DataFrame(data=adata.X, index=adata.obs_names, columns=adata.var_names).T
+    activity_obj = path_activity(adata)
     activity_obj.calculate_activity()
 
 # %%
