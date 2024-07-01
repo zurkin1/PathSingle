@@ -5,11 +5,8 @@ import gc
 import numpy as np
 #import cProfile
 #import pstats
-import multiprocessing as mp
+from concurrent.futures import ProcessPoolExecutor
 import scanpy as sc
-import scanpy.external as sce
-import os
-import anndata
 
 
 class path_activity:
@@ -17,6 +14,20 @@ class path_activity:
         #Load the necessary data.
         self.pathway_relations_file = './data/pathway_relations.csv'
         self.output_file = './data/output_activity.csv'
+
+        #Split the 'source' and 'target' columns by '*' and lowercase the gene names.
+        def split_and_lower(x):
+            if isinstance(x, str):
+                return x.lower().split('*')
+            return []
+
+        #Load pathway relations data.
+        self.pathway_relations_df = pd.read_csv(self.pathway_relations_file)
+        self.pathway_relations_df['source'] = self.pathway_relations_df['source'].apply(split_and_lower)
+        #self.pathway_relations_df['target'] = self.pathway_relations_df['target'].apply(split_and_lower)
+
+        #Filter gene_expression_df to include only genes from pathway_relations data.
+        #genes_in_source = set(gene for sublist in self.pathway_relations_df['source'] for gene in sublist)
 
         #Load gene expression data.
         #self.gene_expression_df = udp
@@ -26,25 +37,11 @@ class path_activity:
 
         #Round the values to 5 decimal places.
         #self.gene_expression_df = self.gene_expression_df.round(5)
-        self.adata.X = np.round(self.adata.X, 5)
+        #self.adata.X = np.round(self.adata.X, 5)
+        sc.pp.scale(self.adata, max_value=1e-5, copy=True)
 
-
-        #Split the 'source' and 'target' columns by '*' and lowercase the gene names.
-        def split_and_lower(x):
-            if isinstance(x, str):
-                return x.lower().split('*')
-            return []
-
-
-        #Load pathway relations data.
-        self.pathway_relations_df = pd.read_csv(self.pathway_relations_file)
-        self.pathway_relations_df['source'] = self.pathway_relations_df['source'].apply(split_and_lower)
-        #self.pathway_relations_df['target'] = self.pathway_relations_df['target'].apply(split_and_lower)
-
-        #Filter gene_expression_df to include only genes from pathway_relations data.
-        genes_in_source = set(gene for sublist in self.pathway_relations_df['source'] for gene in sublist)
         #self.gene_expression_df = self.gene_expression_df[self.gene_expression_df.index.isin(genes_in_source)]
-        self.adata = self.adata[:, self.adata.var_names.isin(genes_in_source)]
+        #self.adata = self.adata[:, self.adata.var_names.isin(genes_in_source)]
 
     # Function to determine if an interaction type is inhibitory
     def is_inhibitory(self, interaction_type):
@@ -60,12 +57,13 @@ class path_activity:
     #Function to calculate activity for a single interaction and a single sample.
     #Calculate the product of gene values in the source column.
     #https://kernprof.readthedocs.io/en/latest/
-    def calculate_interaction_activity(self, sources, interaction_type, sample_idx):
+    def calculate_interaction_activity(self, sources, interaction_type, sample_name):
         activity = 1.0
         for gene in sources:
             #gene_value = self.gene_expression_df.at[gene, sample] if gene in self.gene_expression_df.index else 0.0
             if gene in self.adata.var_names:
                 gene_idx = self.adata.var_names.get_loc(gene)
+                sample_idx = self.adata.obs_names.get_loc(sample_name)
                 gene_value = self.adata.X[sample_idx, gene_idx]
             else:
                 gene_value = 0.0
@@ -77,7 +75,7 @@ class path_activity:
 
         return activity
 
-    def process_sample(self, sample_idx, sample_name):
+    def process_sample(self, sample_name):
         try:
             sample_activities = []
             for pathway in self.pathway_relations_df['pathway'].unique():
@@ -85,7 +83,7 @@ class path_activity:
                 pathway_data = self.pathway_relations_df[self.pathway_relations_df['pathway'] == pathway]
                 #activities = pathway_data.apply(lambda row: self.calculate_interaction_activity(row['source'], row['interactiontype'], sample), axis=1)
                 activities = [
-                                self.calculate_interaction_activity(row['source'], row['interactiontype'], sample_idx)
+                                self.calculate_interaction_activity(row['source'], row['interactiontype'], sample_name)
                                 for _, row in pathway_data.iterrows()
                             ]
                 pathway_activity = np.mean(activities, axis=0)
@@ -103,18 +101,28 @@ class path_activity:
         #Calculate activity for each sample and each pathway.
         #sample_names = self.gene_expression_df.columns
         sample_names = self.adata.obs_names
-    
-        pool = mp.Pool(processes=10)
-        results = [pool.apply_async(self.process_sample, args=(sample,)) for sample in sample_names]
-        
+
         success_samples = []
-        for sample, result in zip(sample_names, tqdm(results, total=len(sample_names))):
-            if result.get(timeout=100):
-                success_samples.append(sample)
+        failures = 0
+        successes = 0
     
-        pool.close()
-        pool.join()
+        #pool = mp.Pool(processes=10)
+        #results = [pool.apply_async(self.process_sample, args=(i, sample,)) for i, sample in enumerate(sample_names)]
         
+        #Use multiprocessing to process samples.
+        with ProcessPoolExecutor(max_workers=40) as executor:
+            futures = [executor.submit(self.process_sample, sample_name) for sample_name in sample_names]
+
+            for future, sample_name in zip(futures, sample_names):
+                success = future.result()
+                if success:
+                    success_samples.append(sample_name)
+                    successes += 1
+                else:
+                    failures += 1
+        
+        print(f"Successfully processed {successes} samples, {failures} samples failed.")
+
         #Merge all the individual CSV files into one DataFrame.
         all_dfs = []
         for sample in success_samples:
