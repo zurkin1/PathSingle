@@ -1,172 +1,254 @@
 # %%
+#Step 1: Prepare Pathway Matrix Before Runtime.
 import pandas as pd
-from tqdm import tqdm
-import gc
 import numpy as np
-#import cProfile
-#import pstats
-from concurrent.futures import ProcessPoolExecutor
-import scanpy as sc
+import json
+import torch
+from torch.utils.data import DataLoader
+from tqdm import tqdm
 
 
-class path_activity:
-    def __init__(self, adata):
-        #Load the necessary data.
-        self.pathway_relations_file = './data/pathway_relations.csv'
-        self.output_file = './data/output_activity.csv'
+MAX_NUMBER_OF_INTERACTIONS = 200
 
-        #Split the 'source' and 'target' columns by '*' and lowercase the gene names.
-        def split_and_lower(x):
-            if isinstance(x, str):
-                return x.lower().split('*')
-            return []
 
-        #Load pathway relations data.
-        self.pathway_relations_df = pd.read_csv(self.pathway_relations_file)
-        self.pathway_relations_df['source'] = self.pathway_relations_df['source'].apply(split_and_lower)
-        #self.pathway_relations_df['target'] = self.pathway_relations_df['target'].apply(split_and_lower)
+def create_pathway_matrix():
+    #Load pathway relations data.
+    pathway_relations_df = pd.read_csv('./data/pathway_relations.csv')
 
-        #Filter gene_expression_df to include only genes from pathway_relations data.
-        #genes_in_source = set(gene for sublist in self.pathway_relations_df['source'] for gene in sublist)
+    #Ensure 'source' column is properly cleaned and converted to lists of strings.
+    pathway_relations_df['source'] = pathway_relations_df['source'].fillna('').astype(str).str.lower().str.split('*')
 
-        #Load gene expression data.
-        #self.gene_expression_df = udp
-        #self.gene_expression_df.index = self.gene_expression_df.index.map(str.lower)
-        self.adata = adata
-        self.adata.var_names = self.adata.var_names.str.lower()
+    #Create a binary matrix for pathway relations with adjustments for interaction types.
+    pathway_genes = pathway_relations_df['source']
+    all_genes = sorted(set(sum(pathway_genes.tolist(), [])))
 
-        #Round the values to 5 decimal places.
-        #self.gene_expression_df = self.gene_expression_df.round(5)
-        #self.adata.X = np.round(self.adata.X, 5)
-        sc.pp.scale(self.adata, max_value=1e-5, copy=True)
+    gene_index = {gene: i for i, gene in enumerate(all_genes)}
+    pathway_index = {pathway: i for i, pathway in enumerate(pathway_relations_df['pathway'].unique())}
 
-        #self.gene_expression_df = self.gene_expression_df[self.gene_expression_df.index.isin(genes_in_source)]
-        #self.adata = self.adata[:, self.adata.var_names.isin(genes_in_source)]
+    pathway_matrix = np.zeros((len(all_genes), len(pathway_index), MAX_NUMBER_OF_INTERACTIONS))
+    inhibition_flags = np.zeros(len(pathway_index))
+    current_interaction_counter = {}
 
-    # Function to determine if an interaction type is inhibitory
-    def is_inhibitory(self, interaction_type):
+
+    #Function to determine if an interaction type is inhibitory.
+    def is_inhibitory(interaction_type):
         inhibitory_keywords = ['inhibition', 'repression', 'dissociation', 'missing interaction', 'dephosphorylation', 'ubiquitination']
         return any(keyword in interaction_type for keyword in inhibitory_keywords)
 
-    #Calculate activity and consistency of paths.
-    #Handle molecules (proteins, rnas and compouns).
-    #Complexes are proteins == basic complexes (built from links to probes) or group of proteins.
-    #Compounds are assumed to always be present (UDP == 1).
-    #If a molecule does not have a probability we need to remove the whole interaction from activity and consistency calculations.
-    #Reference https://www.kegg.jp/kegg/xml/docs/.
-    #Function to calculate activity for a single interaction and a single sample.
-    #Calculate the product of gene values in the source column.
-    #https://kernprof.readthedocs.io/en/latest/
-    def calculate_interaction_activity(self, sources, interaction_type, sample_name):
-        activity = 1.0
-        for gene in sources:
-            #gene_value = self.gene_expression_df.at[gene, sample] if gene in self.gene_expression_df.index else 0.0
-            if gene in self.adata.var_names:
-                gene_idx = self.adata.var_names.get_loc(gene)
-                sample_idx = self.adata.obs_names.get_loc(sample_name)
-                gene_value = self.adata.X[sample_idx, gene_idx]
-            else:
-                gene_value = 0.0
-            activity *= gene_value
 
-        #Adjust activity for different relation subtypes.
-        if self.is_inhibitory(interaction_type):
-           activity = 1 - activity
-
-        return activity
-
-    def process_sample(self, sample_name):
-        try:
-            sample_activities = []
-            for pathway in self.pathway_relations_df['pathway'].unique():
-                #Define dataframe for pathway.
-                pathway_data = self.pathway_relations_df[self.pathway_relations_df['pathway'] == pathway]
-                #activities = pathway_data.apply(lambda row: self.calculate_interaction_activity(row['source'], row['interactiontype'], sample), axis=1)
-                activities = [
-                                self.calculate_interaction_activity(row['source'], row['interactiontype'], sample_name)
-                                for _, row in pathway_data.iterrows()
-                            ]
-                pathway_activity = np.mean(activities, axis=0)
-                sample_activities.append([pathway, sample_name, pathway_activity])
-            
-            #Convert to DataFrame and save to CSV.
-            df = pd.DataFrame(sample_activities, columns=['pathway', 'sample', 'activity'])
-            df.to_csv(f'./data/samples/{sample_name}_activity.csv', index=False)
-            return True
-        except Exception as e:
-            print(f"Error processing sample {sample_name}: {e}")
-            return False
-
-    def calculate_activity(self):
-        #Calculate activity for each sample and each pathway.
-        #sample_names = self.gene_expression_df.columns
-        sample_names = self.adata.obs_names
-
-        success_samples = []
-        failures = 0
-        successes = 0
-    
-        #pool = mp.Pool(processes=10)
-        #results = [pool.apply_async(self.process_sample, args=(i, sample,)) for i, sample in enumerate(sample_names)]
+    for _, row in pathway_relations_df.iterrows():
+        pathway = row['pathway']
+        interaction_type = row['interactiontype']
         
-        #Use multiprocessing to process samples.
-        with ProcessPoolExecutor(max_workers=40) as executor:
-            futures = [executor.submit(self.process_sample, sample_name) for sample_name in sample_names]
-
-            for future, sample_name in zip(futures, sample_names):
-                success = future.result()
-                if success:
-                    success_samples.append(sample_name)
-                    successes += 1
+        #Initialize current_interaction_counter dictionary.
+        interaction_counter = current_interaction_counter.get(pathway, 0)
+        if interaction_counter == 0:
+            current_interaction_counter[pathway] = 0
+        
+        #If row['source'] have more than one gene we will use a new pathway_matrix, otherwise we will use the one in index 0 to save memory.
+        len_row = len(row['source'])
+        for gene in row['source']:
+            if gene in gene_index:
+                if len_row == 1:
+                    pathway_matrix[gene_index[gene], pathway_index[pathway], 0] = 1
                 else:
-                    failures += 1
+                    pathway_matrix[gene_index[gene], pathway_index[pathway], current_interaction_counter[pathway]] = 1
         
-        print(f"Successfully processed {successes} samples, {failures} samples failed.")
+        if len_row > 1:
+            current_interaction_counter[pathway] += 1
+        
+        if is_inhibitory(interaction_type):
+            inhibition_flags[pathway_index[pathway]] = 1
 
-        #Merge all the individual CSV files into one DataFrame.
-        all_dfs = []
-        for sample in success_samples:
-            df = pd.read_csv(f'./data/samples/{sample}_activity.csv')
-            all_dfs.append(df)
+    #Save the pathway matrix and indices.
+    np.save('./data/pathway_matrix.npy', pathway_matrix)
+    np.save('./data/inhibition_flags.npy', inhibition_flags)
+    with open('./data/gene_index.json', 'w') as f:
+        json.dump(gene_index, f)
+    with open('./data/pathway_index.json', 'w') as f:
+        json.dump(pathway_index, f)
 
-        #Create a DataFrame for the results and save to a CSV file.        
-        pathway_activities_df = pd.concat(all_dfs, ignore_index=True)
-        self.output_df = pathway_activities_df.pivot(index='pathway', columns='sample', values='activity')
-        self.output_df.to_csv(self.output_file)
-        print(f"Activity calculations saved to {self.output_file}")
-
-       
+# %%
+#Step 2: Load Pathway Matrix and Gene Expression Data at Runtime.
+#Load pathway matrix and indices.
 def calc_activity_from_adata(adata):
     #On the index we have cell names (adata.obs_names) and the columns are gene names (adata.var_names). We transpose this dataframe before calculating activity.
-    #df = pd.DataFrame(data=adata.X, index=adata.obs_names, columns=adata.var_names).T
-    activity_obj = path_activity(adata)
-    activity_obj.calculate_activity()
+    df = pd.DataFrame(data=adata.X, index=adata.obs_names, columns=adata.var_names).T
 
-# %%
-if __name__ == '__main__':
-    #udp = pd.read_csv('./data/sample_file.csv', index_col=0)
-    #udp.index = udp.index.map(str.lower)
-    #activity_obj = path_activity(udp)
-    #activity_obj.calculate_activity()
+    #Load pathway matrix and indices.
+    pathway_matrix = np.load('./data/pathway_matrix.npy')
+    with open('./data/gene_index.json', 'r') as f:
+        gene_index = json.load(f)
+    with open('./data/pathway_index.json', 'r') as f:
+        pathway_index = json.load(f)
+
+    #Load gene expression data.
+    gene_expression_df = df #pd.read_csv('./data/sample_file.csv')
+    gene_expression_df['GeneSymbol'] = gene_expression_df.index.str.lower() #['GeneSymbol'].str.lower()
     
-    '''
-    profile_filename = './data/profile_output.prof'
-    cProfile.run('activity_obj.calculate_activity()', profile_filename)
+    #Create a mapping of gene names to their indices in the gene_expression_tensor.
+    gene_to_index = {gene: i for i, gene in enumerate(gene_expression_df['GeneSymbol'])}
 
-    with open('./data/profile_stats.txt', 'w') as f:
-        stats = pstats.Stats(profile_filename, stream=f)
-        stats.strip_dirs().sort_stats('cumulative').print_stats(10)
-    '''
-    adata = sc.read_h5ad('./data/sc_trainingmagic.h5ad')
-    calc_activity_from_adata(adata)
+    #Take intersection of genes present in both datasets.
+    intersecting_genes = list(set(gene_expression_df['GeneSymbol']) & set(gene_index.keys()))
+    intersecting_indices = [gene_index[gene] for gene in intersecting_genes]
+
+    #Create a reduced pathway matrix and a reduced gene expression matrix.
+    reduced_pathway_matrix = pathway_matrix[intersecting_indices, :]
+    gene_expression_matrix = gene_expression_df.set_index('GeneSymbol').loc[intersecting_genes].values
+
+    #Convert to PyTorch tensors.
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    reduced_pathway_tensor = torch.tensor(reduced_pathway_matrix, dtype=torch.float32).to(device)
+    gene_expression_tensor = torch.tensor(gene_expression_matrix, dtype=torch.float32).to(device)
+
+    #Step 3: Parallelize Multiplication Using Data Loaders.
+    #Define a Dataset.
+    class PathwayDataset(torch.utils.data.Dataset):
+        def __init__(self, pathway_tensor):
+            self.pathway_tensor = pathway_tensor
+
+        def __len__(self):
+            return self.pathway_tensor.shape[1]
+
+        def __getitem__(self, idx):
+            return self.pathway_tensor[:, idx]
+
+    #Create DataLoader.
+    batch_size = 1000  #Adjust based on your memory constraints.
+    pathway_dataset = PathwayDataset(reduced_pathway_tensor)
+    pathway_loader = DataLoader(pathway_dataset, batch_size=batch_size, shuffle=False)
+
+    #Initialize a list to hold results.
+    results = []
+
+    #Process the multiplication in batches using DataLoader.
+    for pathway_batch in tqdm(pathway_loader):
+        pathway_batch = pathway_batch.to(device)
+        result_batch = torch.matmul(pathway_batch, gene_expression_tensor) #Multiplying a batch of 1000 rows from the pathway_matrix numpy array map we created, with the gene expression matrix.
+        results.append(result_batch)
+
+    #Concatenate the results.
+    activity_matrix = torch.cat(results, dim=0)
+
+    #Convert back to CPU and NumPy if needed.
+    activity_matrix = activity_matrix.cpu().numpy()
+
+    #Save results to CSV.
+    activity_df = pd.DataFrame(activity_matrix, index=list(pathway_index.keys()), columns=gene_expression_df.columns[1:])
+    activity_df.to_csv('./data/output_activity.csv')
+
 # %%
-'''
+import numpy as np
 import pandas as pd
+import json
+import torch
+from torch.utils.data import DataLoader
+from tqdm import tqdm
+import gc
+import scanpy as sc
 
 
-udp = pd.read_csv('./data/sample_file.csv', index_col=0)
-udp_large = pd.concat([udp] * 50, axis=1)
-udp_large.columns = [f"{col}_{i}" for i in range(50) for col in udp.columns]
-udp_large.to_csv('./data/sample_file_large.csv')
-'''
-# %%
+epsilon = 1e-10
+#Load gene expression data.
+#gene_expression_df = pd.read_csv('./data/sample_file.csv', index_col=0)
+#gene_expression_df.index = gene_expression_df.index.map(str.lower)
+adata = sc.read_h5ad('./data/sc_trainingmagic.h5ad')
+
+#Convert the gene expression data to a PyTorch tensor.
+gene_expression_tensor = torch.tensor(adata.X.T, dtype=torch.float32)  # Transpose to match the desired orientation
+
+#Create a mapping of gene names to their indices in the gene_expression_tensor.
+gene_names = adata.var_names.str.lower()
+gene_to_index = {gene: i for i, gene in enumerate(gene_names)}
+
+#Create a mapping of gene names to their indices in the gene_expression_tensor.
+#gene_to_index = {gene: i for i, gene in enumerate(gene_expression_df.index)}
+
+#Load pathway relations.
+pathway_relations = pd.read_csv('./data/pathway_relations.csv')
+
+#Ensure 'source' column is properly cleaned and converted to lists of strings.
+pathway_relations['source'] = pathway_relations['source'].fillna('').astype(str).str.lower().str.split('*')
+
+#Parse pathway relations to create a simplified data structure.
+pathway_interactions = {}
+
+
+#Function to determine if an interaction type is inhibitory.
+def is_inhibitory(interaction_type):
+    inhibitory_keywords = ['inhibition', 'repression', 'dissociation', 'missing interaction', 'dephosphorylation', 'ubiquitination']
+    return any(keyword in interaction_type for keyword in inhibitory_keywords)
+
+
+for _, row in pathway_relations.iterrows():
+    pathway = row['pathway']
+    sources = row['source']
+    inttype = row['interactiontype']
+    
+    if pathway not in pathway_interactions:
+        pathway_interactions[pathway] = []
+    
+    pathway_interactions[pathway].append((sources,inttype))
+
+#Convert gene expression data to PyTorch tensor.
+#gene_expression_tensor = torch.tensor(gene_expression_df.values, dtype=torch.float32)
+
+#Define a Dataset.
+class GeneExpressionDataset(torch.utils.data.Dataset):
+    def __init__(self, gene_expression_tensor):
+        self.gene_expression_tensor = gene_expression_tensor
+
+    def __len__(self):
+        return self.gene_expression_tensor.shape[1]
+
+    def __getitem__(self, idx):
+        return self.gene_expression_tensor[:, idx]
+
+#Create DataLoader.
+batch_size = 5
+gene_expression_dataset = GeneExpressionDataset(gene_expression_tensor)
+gene_expression_loader = DataLoader(gene_expression_dataset, batch_size=batch_size, shuffle=False)
+
+#Initialize a dictionary to store pathway activities.
+pathway_activities = {pathway: [] for pathway in pathway_interactions.keys()}
+
+#Process the multiplication in batches using DataLoader.
+for gene_expression_batch in tqdm(gene_expression_loader):
+    gene_expression_batch = gene_expression_batch.to('cpu')
+    
+    for sample in range(0,gene_expression_batch.shape[0]):
+
+        #Calculate activities for each pathway.
+        for pathway, interactions in pathway_interactions.items():
+                pathway_activity = 0
+                interactions_counter = 0
+                for interaction in interactions:
+                    interaction_activity = 1
+                    for gene in interaction[0]:
+                        if gene in gene_to_index:
+                            interaction_activity *= gene_expression_batch[sample, gene_to_index[gene]]
+                    
+                    if is_inhibitory(interaction[1]):
+                        interaction_activity = 1 - interaction_activity
+                    pathway_activity += interaction_activity
+                    interactions_counter += 1
+                
+                #Calculate the mean activity for each pathway and for all cells.                
+                pathway_activity /= interactions_counter
+            
+                pathway_activities[pathway].append(pathway_activity) #.cpu().numpy())
+
+mean_activity_matrix = np.zeros((len(adata.obs_names), len(pathway_interactions)))
+
+for idx, (pathway_name, activities) in enumerate(pathway_activities.items()):
+    if activities:
+        mean_activity_matrix[:, idx] = activities
+    else:
+        print(f"No activities for pathway {pathway_name}")
+
+#Create the DataFrame for the activity matrix.
+activity_df = pd.DataFrame(mean_activity_matrix, index=adata.obs_names, columns=list(pathway_interactions.keys())).T
+
+#Save results to CSV.
+activity_df.to_csv('./data/output_activity.csv')
