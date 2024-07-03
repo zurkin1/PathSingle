@@ -12,3 +12,6 @@ tqdm
 omnipath
 umap-learn
 magic-impute
+torch
+torchvision
+torchaudio
