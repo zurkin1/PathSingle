@@ -1,14 +1,15 @@
+# %%
 import pandas as pd
 import pybiopax
 from tqdm import tqdm
 
 
 #Load the pathway commons file.
-file_path = './data/PathwayCommons12.Detailed.BIOPAX.owl'
+file_path = './data/PathwayCommons12.Detailed.BIOPAX.owl.gz'
 
 #Initialize the model.
-model = pybiopax.model_from_owl_file(file_path, encoding="utf8")
-
+model = pybiopax.model_from_owl_gz(file_path, encoding="utf8")
+# %%
 #Extract all pathways.
 pathways = model.get_objects_by_type(pybiopax.biopax.Pathway)
 
