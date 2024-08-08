@@ -4,6 +4,8 @@ from scipy.spatial.distance import pdist, squareform
 from scipy.optimize import linear_sum_assignment
 
 
+#General metric functions used in the benchmarks.
+
 #Dunn index calculation function.
 def dunn_index(X, labels):
     #Compute pairwise distances.

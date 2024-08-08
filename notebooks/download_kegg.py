@@ -2,6 +2,8 @@ import pandas as pd
 import requests
 import os
 
+
+#Code for downloading KEGG pathways.
 #Read the CSV file,
 csv_file = './data/kegg_pathways.csv'
 df = pd.read_csv(csv_file,  dtype={'ID': str})
