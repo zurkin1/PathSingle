@@ -1,5 +1,5 @@
-import numpy as np
 import pandas as pd
+import numpy as np
 import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm
@@ -70,7 +70,7 @@ def calc_activity(adata):
     # Initialize a list to store dictionaries of interaction activities.
     interaction_dicts = []
 
-    #Process the multiplication in batches using DataLoader.
+    #Process the data in batches using DataLoader.
     for batch_idx, gene_expression_batch in enumerate(tqdm(gene_expression_loader)):
         gene_expression_batch = gene_expression_batch.to('cpu')
         
@@ -93,8 +93,11 @@ def calc_activity(adata):
                     pathway_activity += interaction_activity
                     interactions_counter += 1
 
-                # Add interaction activity to the dictionary.
-                interaction_dict[f'interaction_{pathway}_{interaction_idx}'] = interaction_activity
+                    # Add interaction activity to the dictionary. item() converts tensor to float.
+                    if isinstance(interaction_activity, torch.Tensor):
+                        interaction_dict[f'interaction_{pathway}_{interaction_idx}'] = interaction_activity.item()
+                    else:
+                        interaction_dict[f'interaction_{pathway}_{interaction_idx}'] = interaction_activity
                 
                 #Once we finish with the pathway, calculate the mean activity for the pathway.               
                 pathway_activity /= interactions_counter
@@ -121,8 +124,3 @@ def calc_activity(adata):
     #Save results to CSV.
     activity_df.T.to_csv('./data/output_activity.csv')
     interaction_activities.to_csv('./data/output_interaction_activity.csv')
-
-
-if __name__ == '__main__':
-    cdata = sc.read('./data/emt_magic.csv', delimiter=',', cache=True) #emt_magic
-    calc_activity(cdata)
