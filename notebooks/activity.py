@@ -106,7 +106,7 @@ def calc_activity(adata):
             interaction_dicts.append(interaction_dict)
 
     # Convert the list of dictionaries to a DataFrame.
-    interaction_activities = pd.DataFrame(interaction_dicts)
+    interaction_activities = pd.DataFrame(interaction_dicts).astype(np.float32)
     # Set the sample name as the index.
     interaction_activities.set_index('sample_name', inplace=True)
 
