@@ -106,7 +106,7 @@ def calc_activity(adata):
             interaction_dicts.append(interaction_dict)
 
     # Convert the list of dictionaries to a DataFrame.
-    interaction_activities = pd.DataFrame(interaction_dicts).astype(np.float32)
+    interaction_activities = pd.DataFrame(interaction_dicts).astype(np.float16)
     # Set the sample name as the index.
     interaction_activities.set_index('sample_name', inplace=True)
 
@@ -123,4 +123,5 @@ def calc_activity(adata):
 
     #Save results to CSV.
     activity_df.T.to_csv('./data/output_activity.csv')
+    interaction_activites = interaction_activities.astype(np.float16)
     interaction_activities.to_csv('./data/output_interaction_activity.csv')
