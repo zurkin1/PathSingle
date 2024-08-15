@@ -16,7 +16,7 @@ def calc_activity(adata):
     print(adata)
 
     #Convert the gene expression data to a PyTorch tensor. Transpose to match the desired orientation.
-    gene_expression_tensor = torch.tensor(adata.X.T, dtype=torch.float32) #gene_expression_df.values
+    gene_expression_tensor = torch.tensor(adata.X.T, dtype=torch.float16) #gene_expression_df.values
 
     #Create a mapping of gene names to their indices in the gene_expression_tensor.
     gene_names = adata.var_names.str.lower() #gene_expression_df.index
@@ -106,7 +106,7 @@ def calc_activity(adata):
             interaction_dicts.append(interaction_dict)
 
     # Convert the list of dictionaries to a DataFrame.
-    interaction_activities = pd.DataFrame(interaction_dicts).astype(np.float16)
+    interaction_activities = pd.DataFrame(interaction_dicts)
     # Set the sample name as the index.
     interaction_activities.set_index('sample_name', inplace=True)
 
