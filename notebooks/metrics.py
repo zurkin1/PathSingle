@@ -60,13 +60,24 @@ def acc(y_true, y_pred):
     Return
         accuracy, in [0,1]
     """
-    y_true = y_true.astype(np.int64)
+    # Ensure y_true and y_pred are NumPy arrays of integers.
+    y_true = np.asarray(y_true, dtype=np.int64)
+    y_pred = np.asarray(y_pred, dtype=np.int64)
+
     assert y_pred.size == y_true.size
+
+    # Determine the size of the confusion matrix and initialize it.
     D = max(y_pred.max(), y_true.max()) + 1
     w = np.zeros((D, D), dtype=np.int64)
+
+    # Fill the confusion matrix.
     for i in range(y_pred.size):
         w[y_pred[i], y_true[i]] += 1
+    
+    # Perform the assignment using the Hungarian algorithm.
     ind = linear_sum_assignment(w.max() - w)
+
+    # Return accuracy.
     return sum(w[ind[0], ind[1]]) * 1.0 / y_pred.size
 
 
