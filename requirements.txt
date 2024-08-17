@@ -16,5 +16,4 @@ torch
 torchvision
 torchaudio
 matplotlib
-pybiopax
 scprep
