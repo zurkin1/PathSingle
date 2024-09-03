@@ -26,7 +26,7 @@ For detailed usage instructions, please refer to the notebooks in the `code` fol
 The `pathway_db` subfolder contains scripts for building and customizing the pathways database.
 
 ## Supported Pathways
-PathSingle currently supports 357 curated pathways. Click the link to view the full list. [List of supported pathways.](data/pathway_relations.csv)
+PathSingle currently supports 357 curated pathways. Click the link to view the full list. [List of supported pathways.](code/data/pathway_relations.csv)
 
 ## Contributing
 We welcome contributions! Please see our Contributing Guidelines for more information on how to get involved.
