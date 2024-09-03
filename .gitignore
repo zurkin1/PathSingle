@@ -11,3 +11,9 @@ notebooks/data/output_activity.csv
 notebooks/data/output_activity2.csv
 notebooks/data/output_activity1.csv
 notebooks/data/output_activity3.csv
+code/data/biopax1.zip
+code/data/gsea_results_matrix.npy
+code/data/output_interaction_activity2.csv
+code/data/output_interaction_activity.csv
+code/data/activity_df.csv
+code/data/output_activity.csv

@@ -1,10 +1,43 @@
-# PathSingle A Biochemical Pathway Analysis Tool
-![Pathway analysis](https://norbis.w.uib.no/files/2016/05/F1.large_-768x623.jpg)
+# PathSingle: A Biochemical Pathway Analysis Tool for Single-Cell Data
+![Pathway analysis](data/Pathsingle.png)
 
-In order to run PathSingle please refer to the notebook folder where the notebook is availabe, demonstrating single-cell RNAseq data.
+## Overview
+PathSingle is a Python-based pathway analysis tool tailored for single-cell data analysis. It employs a unique graph-based algorithm to enable the analysis of diverse cellular states, such as T cell subtypes. Designed to be open-source, extensible, and computationally efficient, PathSingle provides researchers with a versatile framework for uncovering biologically meaningful insights from high-dimensional single-cell transcriptomics data.
 
-### [List of supported pathways.](data/pathnames.txt)
+## Key Features
+- Tailored for single-cell RNA-seq data analysis
+- Unique graph-based algorithm for pathway analysis
+- Efficient classification of diverse cellular states
+- Open-source and extensible
+- Computationally efficient
 
-### [Guide for adding a new pathway.](data/guide.md)
+## Installation
+- Simply clone this repository.
 
-Support: zurkin at yahoo dot com
+## QuickStart
+```
+from activity import *
+
+
+anndata = sc.read('./data/activity_df.csv', delimiter=',', cache=False)
+calc_activity(anndata)
+```
+
+## Usage
+For detailed usage instructions, please refer to the notebooks in the code folder, which demonstrate single-cell RNA-seq data processing using PathSingle.
+
+The pathway_db subfolder contains scripts for building and customizing the pathways database.
+
+## Supported Pathways
+PathSingle currently supports 357 curated pathways. Click the link to view the full list.
+[List of supported pathways.](data/pathway_relations.csv)
+
+## License
+PathSingle is available under the MIT license. See the LICENSE file for more details.
+
+## Support
+For questions, issues, or feature requests, please open an issue on our GitHub repository.
+For additional support, contact: zurkin at yahoo dot com
+
+## Acknowledgments
+We thank the scientific community for their valuable feedback and contributions to this project.
