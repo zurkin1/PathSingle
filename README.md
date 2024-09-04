@@ -37,7 +37,7 @@ PathSingle is available under the MIT license. See the LICENSE file for more det
 ## Support
 For questions, issues, or feature requests, please open an issue on our GitHub repository.
 
-For additional support, contact: zurkin at yahoo dot com
+For additional support, contact: zurkin at yahoo dot com.
 
 ## Acknowledgments
 We thank the scientific community for their valuable feedback and contributions to this project.
