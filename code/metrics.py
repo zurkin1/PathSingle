@@ -83,7 +83,7 @@ def acc(y_true, y_pred):
 
 def print_stats(act_mat, true_labels, kmeans_labels):
     #Silhouette score.
-    silhouette_avg = silhouette_score(act_mat, kmeans_labels)
+    silhouette_avg = silhouette_score(act_mat, kmeans_labels, metric='euclidean')
     print(f"Silhouette Score: {silhouette_avg}")
 
     #Calinski-Harabasz index.
