@@ -10,3 +10,7 @@ code/data/output_interaction_activity.csv
 code/data/activity_df.csv
 code/data/output_activity.csv
 code/data/sc_training.h5ad
+/build
+.pypirc
+/dist
+/pathsingle.egg-info

@@ -1,0 +1,6 @@
+include README.md
+include LICENSE
+include pathsingle/*.*
+include pathsingle/data/*.csv
+include pathsingle/pathway_db/*
+exclude pathsingle/data/*.h5ad
