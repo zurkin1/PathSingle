@@ -1,5 +1,5 @@
 # PathSingle: A Biochemical Pathway Analysis Tool for Single-Cell Data
-![Pathway analysis](code/data/Pathsingle.png)
+![Pathway analysis](pathsingle/data/Pathsingle.png)
 
 ## Overview
 PathSingle is a Python-based pathway analysis tool tailored for single-cell data analysis. It employs a unique graph-based algorithm to enable the analysis of diverse cellular states, such as T cell subtypes. Designed to be open-source, extensible, and computationally efficient, PathSingle provides researchers with a versatile framework for uncovering biologically meaningful insights from high-dimensional single-cell transcriptomics data.
