@@ -12,9 +12,8 @@ PathSingle is a Python-based pathway analysis tool tailored for single-cell data
 - Computationally efficient
 
 ## Installation
-pip install pathsingle
-Or
-Simply clone this repository using git clone command.
+`pip install pathsingle`
+Or simply clone this repository using git clone command.
 
 ## Quick Start
 ```
