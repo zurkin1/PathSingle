@@ -123,5 +123,5 @@ def calc_activity(adata):
 
     #Save results to CSV.
     activity_df.T.to_csv('./data/output_activity.csv')
-    interaction_activites = interaction_activities.astype(np.float16)
+    interaction_activities = interaction_activities.astype(np.float16)
     interaction_activities.to_csv('./data/output_interaction_activity.csv')

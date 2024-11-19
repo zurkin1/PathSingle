@@ -19,20 +19,15 @@ setup(
         'pandas',
         'scikit-learn',
         'ipywidgets',
-        'networkx',
-        'plotly',
-        'bs4',
         'scanpy',
-        'scikit-misc',
         'tqdm',
         'omnipath',
         'umap-learn',
         'magic-impute',
         'torch',
-        'torchvision',
-        'torchaudio',
         'matplotlib',
-        'scprep'
+        'scprep',
+        'seaborn'
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',  # Change as appropriate
