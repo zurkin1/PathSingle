@@ -2,6 +2,14 @@ import numpy as np
 from sklearn.metrics import silhouette_score, calinski_harabasz_score, completeness_score, homogeneity_score, adjusted_mutual_info_score
 from scipy.spatial.distance import pdist, squareform
 from scipy.optimize import linear_sum_assignment
+from scipy.stats import combine_pvalues
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from tqdm.notebook import tqdm
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.feature_selection import VarianceThreshold
 
 
 #General metric functions used in the benchmarks.
@@ -101,3 +109,108 @@ def print_stats(act_mat, true_labels, kmeans_labels):
 
     #Adjusted_mutual_info_scor
     print(f"adjusted_mutual_info_score: {adjusted_mutual_info_score(true_labels, kmeans_labels)}")
+
+
+def decoupler_feature_importance(scores, reactome, pvals=None):
+    print(f"Shape of data: {scores.shape}")
+    num_genesets_returned = scores.shape[1]
+
+    # Extract the processed gene sets from the scores DataFrame.
+    processed_gene_sets = scores.columns
+
+    # Store the normalized enrichment scores (NES) in the result matrix.
+    gsea_results_matrix = scores.T.values
+
+    if pvals is not None:
+        # Combine p-values across all cells using Fisher's method.
+        combined_pvals = np.zeros(num_genesets_returned)
+        for j in range(num_genesets_returned):
+            # Replace zero values with a very small number (e.g., 1e-10).
+            pvals_col = np.where(pvals.iloc[:, j] == 0, 1e-10, pvals.iloc[:, j])
+            combined_pvals[j] = combine_pvalues(pvals_col)[1]
+
+        # Create a DataFrame to store the combined p-values and sort by p-value.
+        gene_sets = reactome['geneset'].unique()
+        combined_pvals_df = pd.DataFrame({'geneset': processed_gene_sets, 'combined_pval': combined_pvals})
+        combined_pvals_df = combined_pvals_df.sort_values('combined_pval')
+
+        # Replace zero p-values with a very small number (e.g., 1e-10).
+        combined_pvals_df['combined_pval'] = combined_pvals_df['combined_pval'].replace(0, 1e-10)
+        # Replace p-values of 1 with a value slightly less than 1 (e.g., 1 - 1e-10).
+        combined_pvals_df['combined_pval'] = combined_pvals_df['combined_pval'].replace(1, 1 - 1e-10)
+        # Set a threshold for p-values.
+        threshold = 1e-20
+        combined_pvals_df['adjusted_pval'] = combined_pvals_df['combined_pval'].apply(lambda x: max(x, threshold))
+        combined_pvals_df['pval_rank'] = combined_pvals_df['combined_pval'].rank()
+
+        # Plot the distribution of p-values for the gene sets.
+        #plt.figure(figsize=(10, 6))
+        #plt.hist(combined_pvals_df['combined_pval'], bins=50, edgecolor='k')
+        #plt.yscale('log')
+        #plt.xlabel('Gene sets p-value')
+        #plt.ylabel('Frequency')
+        #plt.title('Distribution of Gene Sets p-values')
+        #plt.show()
+    else:
+        combined_pvals_df = pd.DataFrame({'geneset': processed_gene_sets, 'combined_pval': 0, 'pval_rank': 0})
+
+    # Use additional metric.
+    combined_pvals_df['enrichment_score'] = scores.mean().values
+    # Rank by combined p-value and enrichment score.
+    combined_pvals_df['enrichment_rank'] = combined_pvals_df['enrichment_score'].rank(ascending=False)
+    # Create a composite score.
+    combined_pvals_df['composite_score'] = combined_pvals_df['pval_rank'] + combined_pvals_df['enrichment_rank']
+    # Sort by composite score
+    combined_pvals_df = combined_pvals_df.sort_values('composite_score')
+
+    # Display the top 20 gene sets based on combined p-values.
+    top_gene_sets = combined_pvals_df.head(20).copy()
+    #top_gene_sets['-log10(combined_pval)'] = -np.log10(top_gene_sets['combined_pval'])
+    #print(top_gene_sets.head())
+
+    # Plot the top 20 gene sets with regards to combined ranks.
+    plt.figure(figsize=(10, 8))
+    sns.barplot(x='combined_pval', y='geneset', data=top_gene_sets)
+    plt.xlabel('Gene sets p-value)')
+    plt.ylabel('Gene Set')
+    plt.title('Top 20 Gene Sets by p-value')
+    plt.show()
+
+    return top_gene_sets
+
+
+def feature_importance(scores_df, true_labels):
+        # Loop through the features, omitting one at a time and calculating the acc score.
+        # Dictionary to store the accuracy results.
+        acc_results = {}
+
+        # Loop through each gene set.
+        for pathway in tqdm(scores_df.columns):
+            # Omit the current pathway.
+            pathsingle_results_matrix_omitted = scores_df.drop(columns=[pathway]).values
+
+            selector = VarianceThreshold(threshold=0.01)
+            pathsingle_results_matrix_omitted = selector.fit_transform(pathsingle_results_matrix_omitted)
+
+            #Scale the data.
+            scaler = MinMaxScaler()
+            pathsingle_results_matrix_omitted = scaler.fit_transform(pathsingle_results_matrix_omitted)
+            
+            # Perform KMeans clustering.
+            num_clusters = len(np.unique(true_labels))
+            kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit(pathsingle_results_matrix_omitted)
+            cluster_assignments = kmeans.labels_
+            
+            # Evaluate clustering results using acc metric.
+            clustering_accuracy = acc(true_labels, cluster_assignments)
+            
+            # Store the accuracy result.
+            acc_results[pathway] = clustering_accuracy
+
+        # Sort the gene sets according to the acc result (the best gene set is the one that reduced the results the most).
+        sorted_genesets = sorted(acc_results.items(), key=lambda x: x[1])
+
+        # Display the sorted gene sets.
+        print("Top 40 gene sets by clustering accuracy:")
+        for pathway, accuracy in sorted_genesets[:40]:
+            print(f'Pathway set: {pathway}')
