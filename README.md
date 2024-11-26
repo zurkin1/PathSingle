@@ -23,7 +23,11 @@ calc_activity(anndata)
 ```
 
 ## Usage
-For detailed usage instructions, please refer to the notebooks in the `code` folder, which demonstrate single-cell RNA-seq data processing using PathSingle.
+For detailed usage instructions, please refer to the notebooks in the `pathsingle` folder.
+
+[PBMC benchmark](pathsingle/bench_pbmc.ipynb)
+
+[T-cells classification benchmark](pathsingle/bench_challenge.ipynb)
 
 The `pathway_db` subfolder contains scripts for building and customizing the pathways database.
 

@@ -1,0 +1,487 @@
+PATHWAY_URI	DISPLAY_NAME	DIRECT_SUB_PATHWAY_URIS	ALL_SUB_PATHWAY_URIS
+http://pathwaycommons.org/pc12/Pathway_254dba72e2e743e5ace2acf7bfaf6ff3	cholesterol biosynthesis II (via 24,25-dihydrolanosterol)		
+http://pathwaycommons.org/pc12/Pathway_0440b3bac8e77fec2b8e8a6e42df192b	4-hydroxyproline degradation I		
+http://pathwaycommons.org/pc12/Pathway_30755498f4ade989cebe27ee67e3e0e4	L-cysteine degradation III		
+http://pathwaycommons.org/pc12/Pathway_451f7d77975ea5c2d225cc53a1d54e5a	fatty acid beta-oxidation I		
+http://pathwaycommons.org/pc12/Pathway_911cfa86fd84f6cafa3f012bebc32b82	histidine degradation III		
+http://pathwaycommons.org/pc12/Pathway_dc80bf39bae6ebce45bbe2b85eea7e58	serotonin degradation		
+http://pathwaycommons.org/pc12/Pathway_46c0b4f277b0fc3cb82d8fccd913c96b	sulfite oxidation IV		
+http://pathwaycommons.org/pc12/Pathway_9043dd8b1fb1d3b1b7ac08cfa06a7f54	fatty acid activation		
+http://pathwaycommons.org/pc12/Pathway_b6d3b695a67091fb3ac0e5e9d8fda0d4	inositol pyrophosphates biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_6654f82a2f2910836fa8a67acd9731cb	alanine biosynthesis III		
+http://pathwaycommons.org/pc12/Pathway_646e3740aa0f25a905ba52fa7ad7baec	lysine degradation II		
+http://pathwaycommons.org/pc12/Pathway_a771843aa1c68d1cdc774deca3063876	L-cysteine degradation II		
+http://pathwaycommons.org/pc12/Pathway_814d570b1ab7027d6a7cd238bc3e80d3	superoxide radicals degradation		
+http://pathwaycommons.org/pc12/Pathway_9a2051d94ac424f68e68678df0a37abc	methylglyoxal degradation VI		
+http://pathwaycommons.org/pc12/Pathway_53d1ecdabdb538fcfb8517c842bdcef8	methylglyoxal degradation I		
+http://pathwaycommons.org/pc12/Pathway_ef8d9837a7de4bb7a08b819c3139829e	UDP-N-acetyl-D-galactosamine biosynthesis I		
+http://pathwaycommons.org/pc12/Pathway_e1b06906a34221aab8cc5f74d8ab2b77	lactose degradation III		
+http://pathwaycommons.org/pc12/Pathway_cc3e9f0206e9d16618ce7b8253fa914d	beta-alanine degradation I		
+http://pathwaycommons.org/pc12/Pathway_7828a0cde358f529ddc040f5c7eb6361	chondroitin sulfate degradation (metazoa)		
+http://pathwaycommons.org/pc12/Pathway_ef00f9d53d486c4856552f019c061d83	alanine biosynthesis II		
+http://pathwaycommons.org/pc12/Pathway_57b0d9ec1912972dc9836dc2dd8ae6ed	phenylethylamine degradation I		
+http://pathwaycommons.org/pc12/Pathway_ea3d908b92bea211e5ef1f207faaf615	acetate conversion to acetyl-CoA		
+http://pathwaycommons.org/pc12/Pathway_6e7a329bcb6ab4d51994629dbb71340b	2-amino-3-carboxymuconate semialdehyde degradation to glutaryl-CoA		
+http://pathwaycommons.org/pc12/Pathway_0b0eb5d075fd16d7fb20d3fbfb8801d3	L-glutamine biosynthesis II (tRNA-dependent)		
+http://pathwaycommons.org/pc12/Pathway_55320b8426f0b0f9108eb5fd36baf6fc	4-hydroxy-2-nonenal detoxification		
+http://pathwaycommons.org/pc12/Pathway_92f678a722efe4a00110078bbe298809	UDP-N-acetyl-D-glucosamine biosynthesis II		
+http://pathwaycommons.org/pc12/Pathway_e4d7723e19ec8fb1120669b61a1d4279	adenine and adenosine salvage III		
+http://pathwaycommons.org/pc12/Pathway_80b775e37815fb34423ae5900a041723	inosine-5'-phosphate biosynthesis II		
+http://pathwaycommons.org/pc12/Pathway_9a04c3bfa01b4ca5f33327a09a59270d	tryptophan degradation to 2-amino-3-carboxymuconate semialdehyde		
+http://pathwaycommons.org/pc12/Pathway_bb7af08c4f0fb73756777391f1c9b6ea	NAD biosynthesis II (from tryptophan)		
+http://pathwaycommons.org/pc12/Pathway_c261732c4bed65576f44931807320e5f	serine biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_e2214ad32360e8522036a640c0107500	anandamide degradation		
+http://pathwaycommons.org/pc12/Pathway_184c9c34618597ba866f060e30bdb6d8	phosphatidylethanolamine biosynthesis II		
+http://pathwaycommons.org/pc12/Pathway_d32a6f866670fa4f682e1d7b9f35648d	sucrose degradation V (mammalian)		
+http://pathwaycommons.org/pc12/Pathway_e0ad91bdab0541b3cc5785db67604363	gluconeogenesis I		
+http://pathwaycommons.org/pc12/Pathway_181385d748ce9ecf906824b6acb87757	spermine and spermidine degradation I		
+http://pathwaycommons.org/pc12/Pathway_b1a2d04e7635bad8d582ed1eab55e2d7	alanine degradation III		
+http://pathwaycommons.org/pc12/Pathway_88e37e81265df3829ecd8b95076b1050	D-myo-inositol (1,4,5)-trisphosphate degradation		
+http://pathwaycommons.org/pc12/Pathway_43894c5981463d15122494ba1fb80e90	glutathione biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_175de2da4cbfa47be6f3406fc5726028	histamine biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_7a4f214e6bba72f204df837074c15f29	cholesterol biosynthesis I		
+http://pathwaycommons.org/pc12/Pathway_9720a44620588dd9cf9d138e705bcce4	D-myo-inositol (1,3,4)-trisphosphate biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_25cc562439e1a16cbfcf5e9f9f2bf99a	superpathway of D-myo-inositol (1,4,5)-trisphosphate metabolism		
+http://pathwaycommons.org/pc12/Pathway_6fee541d89d2206f5998a26e2a0bf2a5	phenylalanine degradation I (aerobic)		
+http://pathwaycommons.org/pc12/Pathway_585a29b83f0a5229568754134f83799d	aspartate biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_1cf6236b2044fbb3360bacf186b8bc21	glutamine degradation I		
+http://pathwaycommons.org/pc12/Pathway_25ca302d170ee9eb7c0183074551039a	glutamate degradation X		
+http://pathwaycommons.org/pc12/Pathway_d1161f988cd7be5b51aa18ac6c6229f4	3-phosphoinositide biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_ede257f647ad3238df543faa86289c94	glutamate dependent acid resistance		
+http://pathwaycommons.org/pc12/Pathway_2eb1a6c28230796292c991c1690297ed	coenzyme A biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_1e818a1d1f97651521ea8f9b106a09f0	N-acetylglucosamine degradation II		
+http://pathwaycommons.org/pc12/Pathway_f77d594ac6f354429bbdd2700ba61487	glycine biosynthesis I		
+http://pathwaycommons.org/pc12/Pathway_e7f91a4c8b5291d31ed9aff6aad74bad	2-oxobutanoate degradation I		
+http://pathwaycommons.org/pc12/Pathway_2ed1301279f09eb41b609762dc4525dc	salvage pathways of pyrimidine ribonucleotides		
+http://pathwaycommons.org/pc12/Pathway_bba720b285db0fd355563c4e6a1f1de6	4-hydroxyphenylpyruvate biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_10dc1e93aeb0c6d6270c371bfb5ee1ed	trehalose degradation II (trehalase)		
+http://pathwaycommons.org/pc12/Pathway_7cf665e0f7b31340867c36b4cfa449d5	glutamate degradation II		
+http://pathwaycommons.org/pc12/Pathway_fe74f12859aa247529ed511a75dbad8f	glycine degradation (creatine biosynthesis)		
+http://pathwaycommons.org/pc12/Pathway_07dd993d62dbc2fc293b41df8e733a1d	glycogen degradation II		
+http://pathwaycommons.org/pc12/Pathway_de47e9c866b7f1cd0035906b808c32ef	dTMP de novo biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_d281d90401b7b7b08f45d8dec45fb4d2	glycogen degradation III		
+http://pathwaycommons.org/pc12/Pathway_9c457f7310d26fe229dc87f637510659	S-methyl-5'-thioadenosine degradation II		
+http://pathwaycommons.org/pc12/Pathway_8a824df103b983a15fa192cf87d82d2e	all-trans-decaprenyl diphosphate biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_8cb827f1de6464bceb3666aea1609263	cardiolipin biosynthesis II		
+http://pathwaycommons.org/pc12/Pathway_1352d35695c5a5b0a5c02abae6e44950	thiamin salvage III		
+http://pathwaycommons.org/pc12/Pathway_a1a6545117567f733dddf68a1a30f36d	xanthine and xanthosine salvage		
+http://pathwaycommons.org/pc12/Pathway_d80cf28c23086c80dc1d0133a2a75091	D-myo-inositol (1,4,5)-trisphosphate biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_897eee447a62e1d4669a07c6697a22f3	morphine biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_e9bed1ebed70cc50e4425c090c756bfd	pyruvate fermentation to lactate		
+http://pathwaycommons.org/pc12/Pathway_c71b8d10003628c90898bea6efbf8f35	epoxysqualene biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_82f8d3d7b2ef57d8f1a9562d2644c55c	thyroid hormone biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_209ea075c3883afe14a1f8fde7a70169	tyrosine biosynthesis IV		
+http://pathwaycommons.org/pc12/Pathway_68b4d964522a099cf8079c2bbb58069b	phosphatidylglycerol biosynthesis II (non-plastidic)		
+http://pathwaycommons.org/pc12/Pathway_224c872521124d549a0bf634c4f4972c	stearate biosynthesis I (animals)		
+http://pathwaycommons.org/pc12/Pathway_d30a469547a3f515e7da0e3fa5c916d2	sulfate activation for sulfonation		
+http://pathwaycommons.org/pc12/Pathway_0f40c2798afbb61326066db669bd66df	myo-inositol biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_a5bfac6c8e93c22e4e9ea7b69c451dcc	glycerol-3-phosphate shuttle		
+http://pathwaycommons.org/pc12/Pathway_4bdb49de21f86ea3ea0b1731dc47ad17	D-myo-inositol-5-phosphate metabolism		
+http://pathwaycommons.org/pc12/Pathway_be305c8060fb606edf087d1fe7d995ef	superpathway of serine and glycine biosynthesis I		
+http://pathwaycommons.org/pc12/Pathway_08f72de3e07a5576ec6130c64675c89d	ethanol degradation II		
+http://pathwaycommons.org/pc12/Pathway_e07cca414ab0ffd36f5051efca1de561	putrescine degradation III		
+http://pathwaycommons.org/pc12/Pathway_8c8a726ecf700b1e5c8b23940fdb5006	glutathione redox reactions I		
+http://pathwaycommons.org/pc12/Pathway_5fb8e9adf6c09117af721306d6e61143	proline biosynthesis II (from arginine)		
+http://pathwaycommons.org/pc12/Pathway_6a2d3a9d376d174e16ee9eeec25ca5f0	salvage pathways of pyrimidine deoxyribonucleotides		
+http://pathwaycommons.org/pc12/Pathway_578bb78616223cb9695baf809c51b106	D-glucuronate degradation I		
+http://pathwaycommons.org/pc12/Pathway_c3101236f90a3c530150c0046ddb1f12	taurine biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_59060df222f6053e54f9044f802b0728	acyl-CoA hydrolysis		
+http://pathwaycommons.org/pc12/Pathway_252051263bf92db8f2b8d28bb75cfb88	NAD biosynthesis III		
+http://pathwaycommons.org/pc12/Pathway_0861307651b66687a8728a84052e9c3e	formaldehyde oxidation II (glutathione-dependent)		
+http://pathwaycommons.org/pc12/Pathway_523f38f451fb7c2cad7107a9a7d8dee3	trans, trans-farnesyl diphosphate biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_664c6fb22a99cd87aba31a65cca3fc9e	urea cycle		
+http://pathwaycommons.org/pc12/Pathway_f4921a242cad51d19065d5121560a93c	geranylgeranyldiphosphate biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_577b3dcdda1eabe036e92e62865ebb8b	citrulline-nitric oxide cycle		
+http://pathwaycommons.org/pc12/Pathway_2d65ba0d6e8eccf317eeb2d6b19d4cbe	glutamate degradation III (via 4-aminobutyrate)		
+http://pathwaycommons.org/pc12/Pathway_f9ae5e43f406b9edb73534215f99d4f0	tRNA splicing		
+http://pathwaycommons.org/pc12/Pathway_971b4865f15ae1acdb9342a90d2972f1	mevalonate pathway I		
+http://pathwaycommons.org/pc12/Pathway_7c540a9dfc95d373ee6ff0ed637bbc51	adenine and adenosine salvage VI		
+http://pathwaycommons.org/pc12/Pathway_2abd70e284f82c94cd85c0d9042ff75e	zymosterol biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_4305054095333f9546ff6ba7275bb27a	folate polyglutamylation		
+http://pathwaycommons.org/pc12/Pathway_b13e8a76f64ea08ba0be39e0221eae6f	pyridoxal 5'-phosphate salvage pathway		
+http://pathwaycommons.org/pc12/Pathway_258acd0053fa14b38bb076a8a4fa4768	proline biosynthesis I		
+http://pathwaycommons.org/pc12/Pathway_7a42a87332427731829f56fd140c5e17	tetrahydrobiopterin biosynthesis I		
+http://pathwaycommons.org/pc12/Pathway_fa4ddb5a1ef0d2eb7d2da601d4f3b6f4	sorbitol degradation I		
+http://pathwaycommons.org/pc12/Pathway_5830030b9042336830e68db5671209d5	N-acetylglucosamine degradation I		
+http://pathwaycommons.org/pc12/Pathway_75bb37812b9c5f6dfd356822a84b2469	phosphatidylcholine biosynthesis I		
+http://pathwaycommons.org/pc12/Pathway_ad1e646d0db4dc299434ccc5a3b73a68	spermidine biosynthesis I		
+http://pathwaycommons.org/pc12/Pathway_a7ce151af9fbc5f81f0357e8a48c4bf1	glutamate removal from folates		
+http://pathwaycommons.org/pc12/Pathway_e698b2fdac874a6e68eb22b1d96ce06f	3-phosphoinositide degradation		
+http://pathwaycommons.org/pc12/Pathway_261e757815807af872dbd0171fbd6507	adenosine nucleotides degradation II		
+http://pathwaycommons.org/pc12/Pathway_13d21433a364703180dd6828a8dc0c89	flavin biosynthesis IV (mammalian)		
+http://pathwaycommons.org/pc12/Pathway_3c8fddaba9fc6783c43bb04a282e7c51	molybdenum cofactor biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_928a2305e85fb6bfbb953c407fd279f6	ketolysis		
+http://pathwaycommons.org/pc12/Pathway_7dfc115113bdda3ebc452f866ee82ee6	L-dopa degradation		
+http://pathwaycommons.org/pc12/Pathway_8275c24071fa5879d99c9361cc7a9c96	mitochondrial L-carnitine shuttle pathway		
+http://pathwaycommons.org/pc12/Pathway_105f58732a4ac44137ffdf526e188f21	S-adenosyl-L-methionine biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_acaa9490948488c098e107222e926d75	fatty acid biosynthesis initiation II		
+http://pathwaycommons.org/pc12/Pathway_f8dbbeb1ad4fb5c4fc80419266bb9f55	(S)-reticuline biosynthesis II		
+http://pathwaycommons.org/pc12/Pathway_af0c7c9e543d223007a3f543b0c2d660	BMP Signalling Pathway		
+http://pathwaycommons.org/pc12/Pathway_02c786aa181832de24054b76a1ce8a2b	ketogenesis		
+http://pathwaycommons.org/pc12/Pathway_f5786d0c41c228a9a87930d92a17079e	methylglyoxal degradation III		
+http://pathwaycommons.org/pc12/Pathway_8a7972870d46040277193146bf1dd4cc	acetyl-CoA biosynthesis III (from citrate)		
+http://pathwaycommons.org/pc12/Pathway_9c9dc534109623af026d56d04e4c31ea	aspartate degradation II		
+http://pathwaycommons.org/pc12/Pathway_e929ca53a84f7d82a943709a072cac2a	dopamine degradation		
+http://pathwaycommons.org/pc12/Pathway_8e5b9905bb99cfcf36e827d1836f6e36	tetrahydrofolate salvage from 5,10-methenyltetrahydrofolate		
+http://pathwaycommons.org/pc12/Pathway_35384317e757e671139f1bc84f2d321d	colanic acid building blocks biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_12cd55f72ef825a39e86983e5ebe4be9	pyrimidine ribonucleotides de novo biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_e67b79600136fe6eef8a107a8cc259cf	tryptophan degradation X (mammalian, via tryptamine)		
+http://pathwaycommons.org/pc12/Pathway_088cc091170471577ffb6fe1f09f71cf	dermatan sulfate degradation (metazoa)		
+http://pathwaycommons.org/pc12/Pathway_af377e11eb6562da1b1a4bff3c9d2524	fatty acid alpha-oxidation II		
+http://pathwaycommons.org/pc12/Pathway_f8d20613017be82f9fb6f1355e2d84b6	L-carnitine biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_875daf257ab21dd543e15f2f033d225c	adenine and adenosine salvage I		
+http://pathwaycommons.org/pc12/Pathway_fe1d35a7d1b06931802eab32fa688241	GDP-L-fucose biosynthesis II (from L-fucose)		
+http://pathwaycommons.org/pc12/Pathway_d735fef9a27cc54ad9c49130bb536cf8	GDP-mannose biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_2b305642da7f6da0eb408ef4d3db5635	putrescine biosynthesis III		
+http://pathwaycommons.org/pc12/Pathway_447b8b17aae53c9beae5471462708510	tryptophan degradation III (eukaryotic)		
+http://pathwaycommons.org/pc12/Pathway_d8b9b12b90689f44dc15c3e5bde8ba47	glutamine biosynthesis I		
+http://pathwaycommons.org/pc12/Pathway_213a77a417040837374510de6427e302	heme biosynthesis II		
+http://pathwaycommons.org/pc12/Pathway_608f92d5b0ac230366f7f632d4c6a557	androgen biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_c29c1e159b68aa045c8dbcc7c4d97a05	phospholipases		
+http://pathwaycommons.org/pc12/Pathway_0b1e056c94a422208bf0e4974f5762c0	pentose phosphate pathway (non-oxidative branch)		
+http://pathwaycommons.org/pc12/Pathway_0e5ca64ffe1e590e3fd07e45a63f3f66	D-myo-inositol (3,4,5,6)-tetrakisphosphate biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_b7273aadb3ed6964cc6a7ed0fb31b3d5	NAD phosphorylation and dephosphorylation		
+http://pathwaycommons.org/pc12/Pathway_1f4396187ae471b23baa6483d60a73ef	noradrenaline and adrenaline degradation		
+http://pathwaycommons.org/pc12/Pathway_5ac465ecdde2e81eb0eb24bcb149a660	S-methyl-5-thio-alpha-D-ribose 1-phosphate degradation		
+http://pathwaycommons.org/pc12/Pathway_b1ddc18b646866adf7569b333ab8215a	superpathway of geranylgeranyldiphosphate biosynthesis I (via mevalonate)		
+http://pathwaycommons.org/pc12/Pathway_2bdb599dfbc86521beca81a5b812e75d	oxidized GTP and dGTP detoxification		
+http://pathwaycommons.org/pc12/Pathway_c9f33f81c94942d050151b5702727e97	spermine biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_44c36d4d30135edbfb9f4c7eac3e3225	pentose phosphate pathway (oxidative branch)		
+http://pathwaycommons.org/pc12/Pathway_92b66cb0aa0382982f2467d1c02c08ac	glycine biosynthesis III		
+http://pathwaycommons.org/pc12/Pathway_067a99f06c030881fd36ef916f32bac6	arginine biosynthesis IV		
+http://pathwaycommons.org/pc12/Pathway_b8c5a5229675865b636e9b46e1c7e295	calcium transport I		
+http://pathwaycommons.org/pc12/Pathway_23e050e16f6768140c7a668d07db4db0	4-hydroxybenzoate biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_0d4059a90168f4194186285431fd649e	phosphatidylethanolamine biosynthesis III		
+http://pathwaycommons.org/pc12/Pathway_9d6e9e9f1cef76a7b1496a65ae9bf665	glutathione-mediated detoxification I		
+http://pathwaycommons.org/pc12/Pathway_bad78d4957b6c1e0808e47d04b4c0762	protein citrullination		
+http://pathwaycommons.org/pc12/Pathway_265ef27588300e435b2f579bd0b49a93	dermatan sulfate biosynthesis (late stages)		
+http://pathwaycommons.org/pc12/Pathway_1a2112026a92b61f67421a16b02633b9	guanosine nucleotides degradation III		
+http://pathwaycommons.org/pc12/Pathway_01ff9d4e766a220a5edab38361e5a587	cysteine biosynthesis/homocysteine degradation		
+http://pathwaycommons.org/pc12/Pathway_042d6cd9ded75f9bb9888508442e945c	purine ribonucleosides degradation to ribose-1-phosphate		
+http://pathwaycommons.org/pc12/Pathway_ef09e61fe65d65cf277f7c908d185672	pentose phosphate pathway		
+http://pathwaycommons.org/pc12/Pathway_df9553611a7ff05bb47de262fd0018da	asparagine degradation I		
+http://pathwaycommons.org/pc12/Pathway_9351324adca7123a13038b4c57cc370d	sphingosine and sphingosine-1-phosphate metabolism		
+http://pathwaycommons.org/pc12/Pathway_f00770315e1efd12f8db87fcb4ef502d	D-myo-inositol (1,4,5,6)-tetrakisphosphate biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_b7d2ae324727f15b5a7685374bbf3773	thio-molybdenum cofactor biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_6db11fd63857329ea3087cf3e6e93436	cholesterol biosynthesis III (via desmosterol)		
+http://pathwaycommons.org/pc12/Pathway_bc8d1cf98d8361249760b630c4491098	CDP-diacylglycerol biosynthesis I		
+http://pathwaycommons.org/pc12/Pathway_433e3ef2135043b2eeb63c2f31ae2905	NAD salvage pathway III		
+http://pathwaycommons.org/pc12/Pathway_3580b307e8fd8c51765e9623be0a7f3e	NAD biosynthesis from 2-amino-3-carboxymuconate semialdehyde		
+http://pathwaycommons.org/pc12/Pathway_28bba1a19dbcedffec0e94d0a1fd14c8	Rapoport-Luebering glycolytic shunt		
+http://pathwaycommons.org/pc12/Pathway_4864d255c6c6b2c873f100c974e071a0	histamine degradation		
+http://pathwaycommons.org/pc12/Pathway_d898427c72d6da84a9b98ec07fcad1a4	guanine and guanosine salvage I		
+http://pathwaycommons.org/pc12/Pathway_436e8b2fd0194abbd45921b0b15bebdd	oleate biosynthesis II (animals)		
+http://pathwaycommons.org/pc12/Pathway_4b20404fbc41a1db94956bb3a54690a5	diphthamide biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_314773ca6849852102afa67e6af782d5	superpathway of inositol phosphate compounds		
+http://pathwaycommons.org/pc12/Pathway_291b63e6f901424839074dc1726cd86c	1D-myo-inositol hexakisphosphate biosynthesis II (mammalian)		
+http://pathwaycommons.org/pc12/Pathway_75e235810c8b7fa1648b839571b52c7e	GDP-L-fucose biosynthesis I (from GDP-D-mannose)		
+http://pathwaycommons.org/pc12/Pathway_b48b5d4dacac3b7ff72224dbdf2898c9	triacylglycerol degradation		
+http://pathwaycommons.org/pc12/Pathway_65dcb215944e40802ccd7fe611d05319	tetrapyrrole biosynthesis II		
+http://pathwaycommons.org/pc12/Pathway_265c07c99958edaab4aea102ceebac11	tetrahydrobiopterin biosynthesis II		
+http://pathwaycommons.org/pc12/Pathway_9daac3098539c24d88d7f5f536b104a0	thymine degradation		
+http://pathwaycommons.org/pc12/Pathway_bf7b33b93580fb85636964b76845f1ca	triacylglycerol biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_aa2de6a3c51a4fe7808710883e5a8e64	glucose and glucose-1-phosphate degradation		
+http://pathwaycommons.org/pc12/Pathway_c23f8fa77d0db568de6a2e1aefae45da	1,25-dihydroxyvitamin D3 biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_d969f9db09338c6c7e2be289aaa0bc15	ceramide biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_ef10ec99c5529f8dfcf891b1f2b872a9	MAP kinase cascade		
+http://pathwaycommons.org/pc12/Pathway_19e72a199ffd76eeb6051c6e1a115d88	galactose degradation I (Leloir pathway)		
+http://pathwaycommons.org/pc12/Pathway_20f7e437d0b001b54495b226c32e83f9	purine nucleotides degradation II (aerobic)		
+http://pathwaycommons.org/pc12/Pathway_4888edf67b4e4c6f750ac7c193b4ddd3	arginine degradation I (arginase pathway)		
+http://pathwaycommons.org/pc12/Pathway_c55430aa4d915ce878926999f965de3f	fatty acid beta-oxidation III (unsaturated, odd number)		
+http://pathwaycommons.org/pc12/Pathway_ba308f1df69bc8dbb2229053514e9953	PRPP biosynthesis I		
+http://pathwaycommons.org/pc12/Pathway_88bd010b4d87303ea4f386f4fc1d2ac1	D-mannose degradation		
+http://pathwaycommons.org/pc12/Pathway_6e19da5d4d3d26a7134e554ae3fd12ed	fatty acid alpha-oxidation III		
+http://pathwaycommons.org/pc12/Pathway_b5da1765891758d346c1879b95bae4d8	heme biosynthesis from uroporphyrinogen-III I		
+http://pathwaycommons.org/pc12/Pathway_2f17e3b4d93e6b19107a92f99a4a887b	eumelanin biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_8830a6dcef3dcb821c6c1dc9dd5ac920	glycerol degradation I		
+http://pathwaycommons.org/pc12/Pathway_d771f2de45bf67ca76fd84a401cdbfe6	L-dopachrome biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_c3c3f5ad343ba6bc6875ec1ae230b78f	GDP-glucose biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_b28b1d6aa76fb229a78dededd13df755	UDP-D-xylose and UDP-D-glucuronate biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_e884d3376cab2c94cf33c09d4851be6c	ceramide degradation		
+http://pathwaycommons.org/pc12/Pathway_67a7a14df95e425324c4d685e7f96c18	superpathway of cholesterol biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_61a359a01101e7719b49c323a70e69c9	lanosterol biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_d4a0e635f684dc09c42e8b4b401f6bb3	tRNA charging		
+http://pathwaycommons.org/pc12/Pathway_dbb1a942dd49d4a87bfdfab28ed8ea7b	NADH repair		
+http://pathwaycommons.org/pc12/Pathway_4c7b337282046bd511e645f6d10dda80	citrulline degradation		
+http://pathwaycommons.org/pc12/Pathway_a0f066a969573e06f5f298b7ec241ebc	selenocysteine biosynthesis II (archaea and eukaryotes)		
+http://pathwaycommons.org/pc12/Pathway_fbf04f9b9224e6cdd16f80f7cbcbd9d2	glutaryl-CoA degradation		
+http://pathwaycommons.org/pc12/Pathway_18289ad9b5dc6765bbc27422a7e9b165	threonine degradation II		
+http://pathwaycommons.org/pc12/Pathway_6b2303b2ebd501236169c19dcdaa6c33	asparagine biosynthesis I		
+http://pathwaycommons.org/pc12/Pathway_71e403ec98d7ad79b86f805750d323a2	glutamate biosynthesis II		
+http://pathwaycommons.org/pc12/Pathway_7ec1da5c3aeb99905ce91706bc147e82	creatine-phosphate biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_bc4d2b2435e4a5925a86af155b9429f5	5-aminoimidazole ribonucleotide biosynthesis I		
+http://pathwaycommons.org/pc12/Pathway_66f922d334311144f78ebb4444509a2c	oxidative ethanol degradation III		
+http://pathwaycommons.org/pc12/Pathway_1fa0cf67410c570e7e6b9c45cd9cc1f6	1D-myo-inositol hexakisphosphate biosynthesis V (from Ins(1,3,4)P3)		
+http://pathwaycommons.org/pc12/Pathway_05004b6396dce78922db2ddafaff44c3	catecholamine biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_99c0a9dd136c330bbe561e4c958ecf37	choline biosynthesis III		
+http://pathwaycommons.org/pc12/Pathway_6988919c4f1e382bfaf77d9830efc472	leukotriene biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_cefd050c872924d01f2a34be76fcad7a	melatonin degradation III		
+http://pathwaycommons.org/pc12/Pathway_3f043e34a74b38d004ac7ede9c864db0	4-aminobutyrate degradation I		
+http://pathwaycommons.org/pc12/Pathway_c91bd877022325494bd6fbe798e649b6	ethanol degradation IV		
+http://pathwaycommons.org/pc12/Pathway_d2b2180dc6abc48c7d8ccc392605fd22	UDP-N-acetyl-D-galactosamine biosynthesis II		
+http://pathwaycommons.org/pc12/Pathway_544ec377aca862b3599cc805f0e0beee	methylthiopropionate biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_bd1fc317eac6f5ecd5157f684ff95208	NAD salvage pathway II		
+http://pathwaycommons.org/pc12/Pathway_0337f2b53332a7972e4f90b1da3b040a	acyl carrier protein metabolism		
+http://pathwaycommons.org/pc12/Pathway_fb76752ad229e6db3e664e2cebe91e32	methylmalonyl pathway		
+http://pathwaycommons.org/pc12/Pathway_5c06c09f20bd4df8ca93c0891ba2b63d	L-cysteine degradation I		
+http://pathwaycommons.org/pc12/Pathway_7ac6de17ac4e11e6001aa6a17f4c4650	purine nucleotides de novo biosynthesis II		
+http://pathwaycommons.org/pc12/Pathway_8033d77e8fae9ebfc8d76bc00cfe0d8e	uridine-5'-phosphate biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_16704b3e96f1cd4951abddeccd0f0bb9	uracil degradation II (reductive)		
+http://pathwaycommons.org/pc12/Pathway_317c99787f27f9210a3d451bf88cba71	thiosulfate disproportionation III (rhodanese)		
+http://pathwaycommons.org/pc12/Pathway_db8c9e7a8ae9971bc5febc0778e18a20	sphingomyelin metabolism		
+http://pathwaycommons.org/pc12/Pathway_0e43a814167a21390f48d82c826bb046	serotonin and melatonin biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_5d3a8467b589c154cd4e75223b146400	tyrosine degradation I		
+http://pathwaycommons.org/pc12/Pathway_773c9e83286b847dcbbd47920f6c9319	dolichyl-diphosphooligosaccharide biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_48be49db22981b4e95c2432d2511c06e	urate biosynthesis/inosine 5'-phosphate degradation		
+http://pathwaycommons.org/pc12/Pathway_75923265e31310d78baa0541e477f50b	dolichol and dolichyl phosphate biosynthesis		
+http://pathwaycommons.org/pc12/Pathway_140db615921bfd883faad5acccf6474c	glycolysis I		
+http://pathwaycommons.org/pc12/Pathway_a1b80b0c4d0ef9d5235f70866e5208ac	gamma-glutamyl cycle		
+http://pathwaycommons.org/pc12/Pathway_1c9f12a5bc9c1b434b24bc936da6aefa	arginine degradation VI (arginase 2 pathway)		
+http://pathwaycommons.org/pc12/Pathway_386d7233007851e2c6740d54e9aadc0f	CMP-N-acetylneuraminate biosynthesis I (eukaryotes)		
+http://pathwaycommons.org/pc12/Pathway_f1fc7e1a1a722fb5c1d6cf4bd2286be7	L-serine degradation		
+http://pathwaycommons.org/pc12/Pathway_563af868f2e93293723d78f81ca2fceb	pyrimidine ribonucleotides interconversion		
+http://pathwaycommons.org/pc12/Pathway_b362c802b7a78764190b82d2d5ff557a	alpha-tocopherol degradation		
+
+PATHWAY_URI	DATASOURCE	DISPLAY_NAME	ALL_NAMES	NUM_DIRECT_COMPONENT_OR_STEP_PROCESSES
+http://pathwaycommons.org/pc12/Pathway_254dba72e2e743e5ace2acf7bfaf6ff3	HumanCyc	cholesterol biosynthesis II (via 24,25-dihydrolanosterol)	"cholesterol biosynthesis II (via 24,25-dihydrolanosterol)";	118
+http://pathwaycommons.org/pc12/Pathway_0440b3bac8e77fec2b8e8a6e42df192b	HumanCyc	4-hydroxyproline degradation I	"4-hydroxyproline degradation I";"4-hydroxyproline degradation";	12
+http://pathwaycommons.org/pc12/Pathway_30755498f4ade989cebe27ee67e3e0e4	HumanCyc	L-cysteine degradation III	"L-cysteine degradation III";	6
+http://pathwaycommons.org/pc12/Pathway_451f7d77975ea5c2d225cc53a1d54e5a	HumanCyc	fatty acid beta-oxidation I	"fatty acid beta-oxidation I";	68
+http://pathwaycommons.org/pc12/Pathway_911cfa86fd84f6cafa3f012bebc32b82	HumanCyc	histidine degradation III	"histidine degradation III";	46
+http://pathwaycommons.org/pc12/Pathway_dc80bf39bae6ebce45bbe2b85eea7e58	HumanCyc	serotonin degradation	"serotonin degradation";	44
+http://pathwaycommons.org/pc12/Pathway_46c0b4f277b0fc3cb82d8fccd913c96b	HumanCyc	sulfite oxidation IV	"sulfite oxidation IV";	6
+http://pathwaycommons.org/pc12/Pathway_9043dd8b1fb1d3b1b7ac08cfa06a7f54	HumanCyc	fatty acid activation	"fatty acid activation";"acyl-CoA synthetase pathway";	26
+http://pathwaycommons.org/pc12/Pathway_b6d3b695a67091fb3ac0e5e9d8fda0d4	HumanCyc	inositol pyrophosphates biosynthesis	"inositol pyrophosphates biosynthesis";"diphosphorylated inositol polyphosphates biosynthesis";	120
+http://pathwaycommons.org/pc12/Pathway_6654f82a2f2910836fa8a67acd9731cb	HumanCyc	alanine biosynthesis III	"alanine biosynthesis III";	4
+http://pathwaycommons.org/pc12/Pathway_646e3740aa0f25a905ba52fa7ad7baec	HumanCyc	lysine degradation II	"lysine degradation II";"lysine degradation I";	58
+http://pathwaycommons.org/pc12/Pathway_a771843aa1c68d1cdc774deca3063876	HumanCyc	L-cysteine degradation II	"L-cysteine degradation II";"L-cysteine catabolism";"L-cysteine degradation";	4
+http://pathwaycommons.org/pc12/Pathway_814d570b1ab7027d6a7cd238bc3e80d3	HumanCyc	superoxide radicals degradation	"superoxide radicals degradation";"removal of superoxide radicals";	16
+http://pathwaycommons.org/pc12/Pathway_9a2051d94ac424f68e68678df0a37abc	HumanCyc	methylglyoxal degradation VI	"methylglyoxal degradation VI";	10
+http://pathwaycommons.org/pc12/Pathway_53d1ecdabdb538fcfb8517c842bdcef8	HumanCyc	methylglyoxal degradation I	"methylglyoxal degradation I";	12
+http://pathwaycommons.org/pc12/Pathway_ef8d9837a7de4bb7a08b819c3139829e	HumanCyc	UDP-N-acetyl-D-galactosamine biosynthesis I	"UDP-N-acetyl-D-galactosamine biosynthesis I";	4
+http://pathwaycommons.org/pc12/Pathway_e1b06906a34221aab8cc5f74d8ab2b77	HumanCyc	lactose degradation III	"lactose degradation III";"lactose degradation 3";	8
+http://pathwaycommons.org/pc12/Pathway_cc3e9f0206e9d16618ce7b8253fa914d	HumanCyc	beta-alanine degradation I	"beta-alanine degradation I";	8
+http://pathwaycommons.org/pc12/Pathway_7828a0cde358f529ddc040f5c7eb6361	HumanCyc	chondroitin sulfate degradation (metazoa)	"chondroitin sulfate degradation (metazoa)";	36
+http://pathwaycommons.org/pc12/Pathway_ef00f9d53d486c4856552f019c061d83	HumanCyc	alanine biosynthesis II	"alanine biosynthesis II";	6
+http://pathwaycommons.org/pc12/Pathway_57b0d9ec1912972dc9836dc2dd8ae6ed	HumanCyc	phenylethylamine degradation I	"phenylethylamine degradation I";	12
+http://pathwaycommons.org/pc12/Pathway_ea3d908b92bea211e5ef1f207faaf615	HumanCyc	acetate conversion to acetyl-CoA	"acetate conversion to acetyl-CoA";	14
+http://pathwaycommons.org/pc12/Pathway_6e7a329bcb6ab4d51994629dbb71340b	HumanCyc	2-amino-3-carboxymuconate semialdehyde degradation to glutaryl-CoA	"2-amino-3-carboxymuconate semialdehyde degradation to glutaryl-CoA";	28
+http://pathwaycommons.org/pc12/Pathway_0b0eb5d075fd16d7fb20d3fbfb8801d3	HumanCyc	L-glutamine biosynthesis II (tRNA-dependent)	"glutaminyl-tRNAgln biosynthesis via transamidation";"L-glutamine biosynthesis II (tRNA-dependent)";	8
+http://pathwaycommons.org/pc12/Pathway_55320b8426f0b0f9108eb5fd36baf6fc	HumanCyc	4-hydroxy-2-nonenal detoxification	"4-hydroxy-2-nonenal detoxification";	24
+http://pathwaycommons.org/pc12/Pathway_92f678a722efe4a00110078bbe298809	HumanCyc	UDP-N-acetyl-D-glucosamine biosynthesis II	"UDP-N-acetyl-D-glucosamine biosynthesis II";"UDP-N-acetylgalactosamine biosynthesis";	42
+http://pathwaycommons.org/pc12/Pathway_e4d7723e19ec8fb1120669b61a1d4279	HumanCyc	adenine and adenosine salvage III	"adenine and adenosine salvage III";"adenosine nucleotides salvage III";	22
+http://pathwaycommons.org/pc12/Pathway_80b775e37815fb34423ae5900a041723	HumanCyc	inosine-5'-phosphate biosynthesis II	"inosine-5'-phosphate biosynthesis II";"IMP biosynthesis II";	20
+http://pathwaycommons.org/pc12/Pathway_9a04c3bfa01b4ca5f33327a09a59270d	HumanCyc	tryptophan degradation to 2-amino-3-carboxymuconate semialdehyde	"tryptophan degradation to 2-amino-3-carboxymuconate semialdehyde";	32
+http://pathwaycommons.org/pc12/Pathway_bb7af08c4f0fb73756777391f1c9b6ea	HumanCyc	NAD biosynthesis II (from tryptophan)	"nicotinamide adenine dinucleotide biosynthesis";"NAD biosynthesis II (from tryptophan)";	50
+http://pathwaycommons.org/pc12/Pathway_c261732c4bed65576f44931807320e5f	HumanCyc	serine biosynthesis	"serine biosynthesis";	16
+http://pathwaycommons.org/pc12/Pathway_e2214ad32360e8522036a640c0107500	HumanCyc	anandamide degradation	"anandamide degradation";	10
+http://pathwaycommons.org/pc12/Pathway_184c9c34618597ba866f060e30bdb6d8	HumanCyc	phosphatidylethanolamine biosynthesis II	"phosphatidylethanolamine biosynthesis II";	18
+http://pathwaycommons.org/pc12/Pathway_d32a6f866670fa4f682e1d7b9f35648d	HumanCyc	sucrose degradation V (mammalian)	"sucrose degradation V (mammalian)";	34
+http://pathwaycommons.org/pc12/Pathway_e0ad91bdab0541b3cc5785db67604363	HumanCyc	gluconeogenesis I	"gluconeogenesis I";	114
+http://pathwaycommons.org/pc12/Pathway_181385d748ce9ecf906824b6acb87757	HumanCyc	spermine and spermidine degradation I	"spermine and spermidine degradation I";"polyamine degradation I";	36
+http://pathwaycommons.org/pc12/Pathway_b1a2d04e7635bad8d582ed1eab55e2d7	HumanCyc	alanine degradation III	"alanine degradation III";	6
+http://pathwaycommons.org/pc12/Pathway_88e37e81265df3829ecd8b95076b1050	HumanCyc	D-myo-inositol (1,4,5)-trisphosphate degradation	"D-myo-inositol (1,4,5)-trisphosphate degradation";	40
+http://pathwaycommons.org/pc12/Pathway_43894c5981463d15122494ba1fb80e90	HumanCyc	glutathione biosynthesis	"glutathione biosynthesis";	14
+http://pathwaycommons.org/pc12/Pathway_175de2da4cbfa47be6f3406fc5726028	HumanCyc	histamine biosynthesis	"histamine biosynthesis";	4
+http://pathwaycommons.org/pc12/Pathway_7a4f214e6bba72f204df837074c15f29	HumanCyc	cholesterol biosynthesis I	"cholesterol biosynthesis I";	160
+http://pathwaycommons.org/pc12/Pathway_9720a44620588dd9cf9d138e705bcce4	HumanCyc	D-myo-inositol (1,3,4)-trisphosphate biosynthesis	"D-myo-inositol (1,3,4)-trisphosphate biosynthesis";	58
+http://pathwaycommons.org/pc12/Pathway_25cc562439e1a16cbfcf5e9f9f2bf99a	HumanCyc	superpathway of D-myo-inositol (1,4,5)-trisphosphate metabolism	"superpathway of D-myo-inositol (1,4,5)-trisphosphate metabolism";	98
+http://pathwaycommons.org/pc12/Pathway_6fee541d89d2206f5998a26e2a0bf2a5	HumanCyc	phenylalanine degradation I (aerobic)	"phenylalanine degradation I (aerobic)";	30
+http://pathwaycommons.org/pc12/Pathway_585a29b83f0a5229568754134f83799d	HumanCyc	aspartate biosynthesis	"aspartate biosynthesis and degradation";"aspartate biosynthesis";	12
+http://pathwaycommons.org/pc12/Pathway_1cf6236b2044fbb3360bacf186b8bc21	HumanCyc	glutamine degradation I	"glutamine degradation I";"glutamine - glutamate pathway I";"glutamine degradation IV";	12
+http://pathwaycommons.org/pc12/Pathway_25ca302d170ee9eb7c0183074551039a	HumanCyc	glutamate degradation X	"glutamate degradation X";	12
+http://pathwaycommons.org/pc12/Pathway_d1161f988cd7be5b51aa18ac6c6229f4	HumanCyc	3-phosphoinositide biosynthesis	"3-phosphoinositide biosynthesis";"phosphatidylinositol-3,4,5-triphosphate biosynthesis";"phosphatidylinositol-3,4-bisphosphate biosynthesis";"phosphatidylinositol 3-phosphate biosynthesis";	124
+http://pathwaycommons.org/pc12/Pathway_ede257f647ad3238df543faa86289c94	HumanCyc	glutamate dependent acid resistance	"glutamate dependent acid resistance";	12
+http://pathwaycommons.org/pc12/Pathway_2eb1a6c28230796292c991c1690297ed	HumanCyc	coenzyme A biosynthesis	"coenzyme A biosynthesis";"CoA biosynthesis";	16
+http://pathwaycommons.org/pc12/Pathway_1e818a1d1f97651521ea8f9b106a09f0	HumanCyc	N-acetylglucosamine degradation II	"N-acetylglucosamine degradation II";	14
+http://pathwaycommons.org/pc12/Pathway_f77d594ac6f354429bbdd2700ba61487	HumanCyc	glycine biosynthesis I	"glycine biosynthesis I";	8
+http://pathwaycommons.org/pc12/Pathway_e7f91a4c8b5291d31ed9aff6aad74bad	HumanCyc	2-oxobutanoate degradation I	"2-oxobutyrate degradation";"2-oxobutyrate catabolism";"2-oxobutanoate degradation I";	16
+http://pathwaycommons.org/pc12/Pathway_2ed1301279f09eb41b609762dc4525dc	HumanCyc	salvage pathways of pyrimidine ribonucleotides	"pyrimidine ribonucleotide/ribonucleoside metabolism";"salvage pathways of pyrimidine ribonucleotides";	54
+http://pathwaycommons.org/pc12/Pathway_bba720b285db0fd355563c4e6a1f1de6	HumanCyc	4-hydroxyphenylpyruvate biosynthesis	"4-hydroxyphenylpyruvate biosynthesis";	6
+http://pathwaycommons.org/pc12/Pathway_10dc1e93aeb0c6d6270c371bfb5ee1ed	HumanCyc	trehalose degradation II (trehalase)	"trehalose degradation II (trehalase)";	18
+http://pathwaycommons.org/pc12/Pathway_7cf665e0f7b31340867c36b4cfa449d5	HumanCyc	glutamate degradation II	"glutamate - aspartate pathway";"glutamate degradation II";"aspartate degradation";	16
+http://pathwaycommons.org/pc12/Pathway_fe74f12859aa247529ed511a75dbad8f	HumanCyc	glycine degradation (creatine biosynthesis)	"glycine degradation II";"glycine degradation (creatine biosynthesis)";"glycine degradation";	8
+http://pathwaycommons.org/pc12/Pathway_07dd993d62dbc2fc293b41df8e733a1d	HumanCyc	glycogen degradation II	"glycogenolysis II";"glycogen degradation II";	44
+http://pathwaycommons.org/pc12/Pathway_de47e9c866b7f1cd0035906b808c32ef	HumanCyc	dTMP de novo biosynthesis	"dTMP de novo biosynthesis";	18
+http://pathwaycommons.org/pc12/Pathway_d281d90401b7b7b08f45d8dec45fb4d2	HumanCyc	glycogen degradation III	"glycogen degradation III";	50
+http://pathwaycommons.org/pc12/Pathway_9c457f7310d26fe229dc87f637510659	HumanCyc	S-methyl-5'-thioadenosine degradation II	"S-methyl-5'-thioadenosine degradation II";"methylthioadenosine degradation II";	8
+http://pathwaycommons.org/pc12/Pathway_8a824df103b983a15fa192cf87d82d2e	HumanCyc	all-trans-decaprenyl diphosphate biosynthesis	"all-trans-decaprenyl diphosphate biosynthesis";	4
+http://pathwaycommons.org/pc12/Pathway_8cb827f1de6464bceb3666aea1609263	HumanCyc	cardiolipin biosynthesis II	"cardiolipin biosynthesis II";	10
+http://pathwaycommons.org/pc12/Pathway_1352d35695c5a5b0a5c02abae6e44950	HumanCyc	thiamin salvage III	"thiamin salvage III";	4
+http://pathwaycommons.org/pc12/Pathway_a1a6545117567f733dddf68a1a30f36d	HumanCyc	xanthine and xanthosine salvage	"xanthine and xanthosine salvage";	6
+http://pathwaycommons.org/pc12/Pathway_d80cf28c23086c80dc1d0133a2a75091	HumanCyc	D-myo-inositol (1,4,5)-trisphosphate biosynthesis	"D-myo-inositol (1,4,5)-trisphosphate biosynthesis";"IP3 biosynthesis";	102
+http://pathwaycommons.org/pc12/Pathway_897eee447a62e1d4669a07c6697a22f3	HumanCyc	morphine biosynthesis	"morphine biosynthesis";	26
+http://pathwaycommons.org/pc12/Pathway_e9bed1ebed70cc50e4425c090c756bfd	HumanCyc	pyruvate fermentation to lactate	"pyruvate fermentation to lactate";	20
+http://pathwaycommons.org/pc12/Pathway_c71b8d10003628c90898bea6efbf8f35	HumanCyc	epoxysqualene biosynthesis	"epoxysqualene biosynthesis";	24
+http://pathwaycommons.org/pc12/Pathway_82f8d3d7b2ef57d8f1a9562d2644c55c	HumanCyc	thyroid hormone biosynthesis	"thyroid hormone biosynthesis";	24
+http://pathwaycommons.org/pc12/Pathway_209ea075c3883afe14a1f8fde7a70169	HumanCyc	tyrosine biosynthesis IV	"tyrosine biosynthesis IV";	8
+http://pathwaycommons.org/pc12/Pathway_68b4d964522a099cf8079c2bbb58069b	HumanCyc	phosphatidylglycerol biosynthesis II (non-plastidic)	"phosphatidylglycerol biosynthesis II (non-plastidic)";	60
+http://pathwaycommons.org/pc12/Pathway_224c872521124d549a0bf634c4f4972c	HumanCyc	stearate biosynthesis I (animals)	"stearic acid biosynthesis";"stearate biosynthesis I (animals)";	42
+http://pathwaycommons.org/pc12/Pathway_d30a469547a3f515e7da0e3fa5c916d2	HumanCyc	sulfate activation for sulfonation	"sulfation pathway";"sulfate activation for sulfonation";	12
+http://pathwaycommons.org/pc12/Pathway_0f40c2798afbb61326066db669bd66df	HumanCyc	myo-inositol biosynthesis	"myo-inositol biosynthesis";	16
+http://pathwaycommons.org/pc12/Pathway_a5bfac6c8e93c22e4e9ea7b69c451dcc	HumanCyc	glycerol-3-phosphate shuttle	"glycerol-3-phosphate shuttle";"glycerol-3-P shuttle";"G3P shuttle";	14
+http://pathwaycommons.org/pc12/Pathway_4bdb49de21f86ea3ea0b1731dc47ad17	HumanCyc	D-myo-inositol-5-phosphate metabolism	"D-myo-inositol-5-phosphate metabolism";	62
+http://pathwaycommons.org/pc12/Pathway_be305c8060fb606edf087d1fe7d995ef	HumanCyc	superpathway of serine and glycine biosynthesis I	"superpathway of serine and glycine biosynthesis I";	24
+http://pathwaycommons.org/pc12/Pathway_08f72de3e07a5576ec6130c64675c89d	HumanCyc	ethanol degradation II	"ethanol degradation II";	30
+http://pathwaycommons.org/pc12/Pathway_e07cca414ab0ffd36f5051efca1de561	HumanCyc	putrescine degradation III	"putrescine degradation III";	32
+http://pathwaycommons.org/pc12/Pathway_8c8a726ecf700b1e5c8b23940fdb5006	HumanCyc	glutathione redox reactions I	"glutathione redox reactions I";	52
+http://pathwaycommons.org/pc12/Pathway_5fb8e9adf6c09117af721306d6e61143	HumanCyc	proline biosynthesis II (from arginine)	"proline biosynthesis II (from arginine)";	40
+http://pathwaycommons.org/pc12/Pathway_6a2d3a9d376d174e16ee9eeec25ca5f0	HumanCyc	salvage pathways of pyrimidine deoxyribonucleotides	"salvage pathways of pyrimidine deoxyribonucleotides";"deoxypyrimidine nucleotide/nucleoside metabolism";	24
+http://pathwaycommons.org/pc12/Pathway_578bb78616223cb9695baf809c51b106	HumanCyc	D-glucuronate degradation I	"D-glucuronate degradation I";"glucuronate degradation";"glucuronate/xylulose pathway";"pentose pathway";"glucuronic acid oxidation pathway";	12
+http://pathwaycommons.org/pc12/Pathway_c3101236f90a3c530150c0046ddb1f12	HumanCyc	taurine biosynthesis	"L-cysteine degradation IV";"taurine biosynthesis";	10
+http://pathwaycommons.org/pc12/Pathway_59060df222f6053e54f9044f802b0728	HumanCyc	acyl-CoA hydrolysis	"acyl-CoA hydrolysis";"acyl-CoA thioesterase pathway";	8
+http://pathwaycommons.org/pc12/Pathway_252051263bf92db8f2b8d28bb75cfb88	HumanCyc	NAD biosynthesis III	"nicotinamide adenine dinucleotide biosynthesis";"NAD biosynthesis III";	12
+http://pathwaycommons.org/pc12/Pathway_0861307651b66687a8728a84052e9c3e	HumanCyc	formaldehyde oxidation II (glutathione-dependent)	"formaldehyde oxidation II (GSH-dependent)";"formaldehyde oxidation II (glutathione-dependent)";	24
+http://pathwaycommons.org/pc12/Pathway_523f38f451fb7c2cad7107a9a7d8dee3	HumanCyc	trans, trans-farnesyl diphosphate biosynthesis	"trans, trans-farnesyl diphosphate biosynthesis";"FPP biosynthesis";	24
+http://pathwaycommons.org/pc12/Pathway_664c6fb22a99cd87aba31a65cca3fc9e	HumanCyc	urea cycle	"Krebs ornithine cycle";"urea cycle";"Krebs-Henseleit cycle";	88
+http://pathwaycommons.org/pc12/Pathway_f4921a242cad51d19065d5121560a93c	HumanCyc	geranylgeranyldiphosphate biosynthesis	"GGPP biosynthesis";"geranylgeranyldiphosphate biosynthesis";	6
+http://pathwaycommons.org/pc12/Pathway_577b3dcdda1eabe036e92e62865ebb8b	HumanCyc	citrulline-nitric oxide cycle	"nitric oxide biosynthesis II";"citrulline-NO cycle";"citrulline-nitric oxide cycle";	52
+http://pathwaycommons.org/pc12/Pathway_2d65ba0d6e8eccf317eeb2d6b19d4cbe	HumanCyc	glutamate degradation III (via 4-aminobutyrate)	"glutamate degradation III (via 4-aminobutyrate)";"GABA shunt";	44
+http://pathwaycommons.org/pc12/Pathway_f9ae5e43f406b9edb73534215f99d4f0	HumanCyc	tRNA splicing	"tRNA splicing";	20
+http://pathwaycommons.org/pc12/Pathway_971b4865f15ae1acdb9342a90d2972f1	HumanCyc	mevalonate pathway I	"isopentenyl diphosphate biosynthesis - mevalonate dependent";"mevalonate pathway I";"MVA pathway";"isoprenoid pathway";	54
+http://pathwaycommons.org/pc12/Pathway_7c540a9dfc95d373ee6ff0ed637bbc51	HumanCyc	adenine and adenosine salvage VI	"adenine and adenosine salvage VI";	4
+http://pathwaycommons.org/pc12/Pathway_2abd70e284f82c94cd85c0d9042ff75e	HumanCyc	zymosterol biosynthesis	"zymosterol biosynthesis";	60
+http://pathwaycommons.org/pc12/Pathway_4305054095333f9546ff6ba7275bb27a	HumanCyc	folate polyglutamylation	"folate polyglutamylation";	32
+http://pathwaycommons.org/pc12/Pathway_b13e8a76f64ea08ba0be39e0221eae6f	HumanCyc	pyridoxal 5'-phosphate salvage pathway	"pyridoxal 5'-phosphate salvage pathway";"vitamin B6 salvage";	26
+http://pathwaycommons.org/pc12/Pathway_258acd0053fa14b38bb076a8a4fa4768	HumanCyc	proline biosynthesis I	"proline biosynthesis I";	24
+http://pathwaycommons.org/pc12/Pathway_7a42a87332427731829f56fd140c5e17	HumanCyc	tetrahydrobiopterin biosynthesis I	"tetrahydrobiopterin biosynthesis I";	24
+http://pathwaycommons.org/pc12/Pathway_fa4ddb5a1ef0d2eb7d2da601d4f3b6f4	HumanCyc	sorbitol degradation I	"sorbitol degradation I";"sorbitol utilization";	8
+http://pathwaycommons.org/pc12/Pathway_5830030b9042336830e68db5671209d5	HumanCyc	N-acetylglucosamine degradation I	"N-acetyl-glucosamine degradation";"N-acetylglucosamine degradation I";"glucosamine degradation";	10
+http://pathwaycommons.org/pc12/Pathway_75bb37812b9c5f6dfd356822a84b2469	HumanCyc	phosphatidylcholine biosynthesis I	"phosphatidylcholine biosynthesis I";"CDP-choline pathway";	18
+http://pathwaycommons.org/pc12/Pathway_ad1e646d0db4dc299434ccc5a3b73a68	HumanCyc	spermidine biosynthesis I	"spermidine biosynthesis I";"spermidine biosynthesis";"arginine degradation to spermidine";	12
+http://pathwaycommons.org/pc12/Pathway_a7ce151af9fbc5f81f0357e8a48c4bf1	HumanCyc	glutamate removal from folates	"glutamate removal from folates";	4
+http://pathwaycommons.org/pc12/Pathway_e698b2fdac874a6e68eb22b1d96ce06f	HumanCyc	3-phosphoinositide degradation	"3-phosphoinositide degradation";"phosphatidyl-inositol 3,4,5-trisphosphate degradation";	106
+http://pathwaycommons.org/pc12/Pathway_261e757815807af872dbd0171fbd6507	HumanCyc	adenosine nucleotides degradation II	"purine ribonucleotide/ribonucleoside metabolism";"adenosine nucleotides degradation II";	40
+http://pathwaycommons.org/pc12/Pathway_13d21433a364703180dd6828a8dc0c89	HumanCyc	flavin biosynthesis IV (mammalian)	"riboflavin (vitamin B2) metabolism";"flavin biosynthesis IV (mammalian)";	8
+http://pathwaycommons.org/pc12/Pathway_3c8fddaba9fc6783c43bb04a282e7c51	HumanCyc	molybdenum cofactor biosynthesis	"molybdenum cofactor biosynthesis";"moco biosynthesis";"molybdopterin biosynthesis";	26
+http://pathwaycommons.org/pc12/Pathway_928a2305e85fb6bfbb953c407fd279f6	HumanCyc	ketolysis	"ketolysis";"ketone body metabolism";"ketone body degradation";	22
+http://pathwaycommons.org/pc12/Pathway_7dfc115113bdda3ebc452f866ee82ee6	HumanCyc	L-dopa degradation	"L-dopa degradation";"dihydroxy-L-phenylalanine degradation";	10
+http://pathwaycommons.org/pc12/Pathway_8275c24071fa5879d99c9361cc7a9c96	HumanCyc	mitochondrial L-carnitine shuttle pathway	"mitochondrial L-carnitine shuttle pathway";	8
+http://pathwaycommons.org/pc12/Pathway_105f58732a4ac44137ffdf526e188f21	HumanCyc	S-adenosyl-L-methionine biosynthesis	"S-adenosyl-L-methionine biosynthesis";"S-adenosylmethionine biosynthesis";	8
+http://pathwaycommons.org/pc12/Pathway_acaa9490948488c098e107222e926d75	HumanCyc	fatty acid biosynthesis initiation II	"fatty acid biosynthesis initiation II";	12
+http://pathwaycommons.org/pc12/Pathway_f8dbbeb1ad4fb5c4fc80419266bb9f55	HumanCyc	(S)-reticuline biosynthesis II	"(S)-reticuline biosynthesis II";	16
+http://pathwaycommons.org/pc12/Pathway_af0c7c9e543d223007a3f543b0c2d660	HumanCyc	BMP Signalling Pathway	"BMP Signalling Pathway";	32
+http://pathwaycommons.org/pc12/Pathway_02c786aa181832de24054b76a1ce8a2b	HumanCyc	ketogenesis	"ketone body synthesis";"acetoacetate biosynthesis";"ketogenesis";	28
+http://pathwaycommons.org/pc12/Pathway_f5786d0c41c228a9a87930d92a17079e	HumanCyc	methylglyoxal degradation III	"methylglyoxal degradation III";	14
+http://pathwaycommons.org/pc12/Pathway_8a7972870d46040277193146bf1dd4cc	HumanCyc	acetyl-CoA biosynthesis III (from citrate)	"acetyl-CoA biosynthesis III (from citrate)";	4
+http://pathwaycommons.org/pc12/Pathway_9c9dc534109623af026d56d04e4c31ea	HumanCyc	aspartate degradation II	"aspartate degradation II";"malate/aspartate shuttle pathway";	20
+http://pathwaycommons.org/pc12/Pathway_e929ca53a84f7d82a943709a072cac2a	HumanCyc	dopamine degradation	"dopamine degradation";	80
+http://pathwaycommons.org/pc12/Pathway_8e5b9905bb99cfcf36e827d1836f6e36	HumanCyc	tetrahydrofolate salvage from 5,10-methenyltetrahydrofolate	"THF salvage";"folic acid salvage";"folate salvage";"tetrahydrofolate salvage from 5,10-methenyltetrahydrofolate";	24
+http://pathwaycommons.org/pc12/Pathway_35384317e757e671139f1bc84f2d321d	HumanCyc	colanic acid building blocks biosynthesis	"colanic acid building blocks biosynthesis";	50
+http://pathwaycommons.org/pc12/Pathway_12cd55f72ef825a39e86983e5ebe4be9	HumanCyc	pyrimidine ribonucleotides de novo biosynthesis	"pyrimidine ribonucleotides de novo biosynthesis";"pyrimidine biosynthesis";	88
+http://pathwaycommons.org/pc12/Pathway_e67b79600136fe6eef8a107a8cc259cf	HumanCyc	tryptophan degradation X (mammalian, via tryptamine)	"tryptophan degradation X (mammalian, via tryptamine)";	18
+http://pathwaycommons.org/pc12/Pathway_088cc091170471577ffb6fe1f09f71cf	HumanCyc	dermatan sulfate degradation (metazoa)	"dermatan sulfate degradation (metazoa)";	32
+http://pathwaycommons.org/pc12/Pathway_af377e11eb6562da1b1a4bff3c9d2524	HumanCyc	fatty acid alpha-oxidation II	"fatty acid alpha-oxidation II";	38
+http://pathwaycommons.org/pc12/Pathway_f8d20613017be82f9fb6f1355e2d84b6	HumanCyc	L-carnitine biosynthesis	"L-carnitine biosynthesis";"(R)-carnitine biosynthesis";	14
+http://pathwaycommons.org/pc12/Pathway_875daf257ab21dd543e15f2f033d225c	HumanCyc	adenine and adenosine salvage I	"adenosine nucleosides salvage I";"adenine and adenosine salvage I";"purine salvage";"salvage pathway of adenosine nucleosides";	6
+http://pathwaycommons.org/pc12/Pathway_fe1d35a7d1b06931802eab32fa688241	HumanCyc	GDP-L-fucose biosynthesis II (from L-fucose)	"GDP-L-fucose biosynthesis II (from L-fucose)";"GDP-L-fucose biosynthesis (salvage pathway)";	8
+http://pathwaycommons.org/pc12/Pathway_d735fef9a27cc54ad9c49130bb536cf8	HumanCyc	GDP-mannose biosynthesis	"GDP-mannose biosynthesis";	20
+http://pathwaycommons.org/pc12/Pathway_2b305642da7f6da0eb408ef4d3db5635	HumanCyc	putrescine biosynthesis III	"putrescine biosynthesis III";"ODC pathway";	10
+http://pathwaycommons.org/pc12/Pathway_447b8b17aae53c9beae5471462708510	HumanCyc	tryptophan degradation III (eukaryotic)	"tryptophan degradation III (eukaryotic)";"the kynurenine pathway";	86
+http://pathwaycommons.org/pc12/Pathway_d8b9b12b90689f44dc15c3e5bde8ba47	HumanCyc	glutamine biosynthesis I	"glutamine - glutamate pathway";"glutamine biosynthesis I";	8
+http://pathwaycommons.org/pc12/Pathway_213a77a417040837374510de6427e302	HumanCyc	heme biosynthesis II	"heme biosynthesis II";	40
+http://pathwaycommons.org/pc12/Pathway_608f92d5b0ac230366f7f632d4c6a557	HumanCyc	androgen biosynthesis	"testosterone biosynthesis";"androgen biosynthesis";	32
+http://pathwaycommons.org/pc12/Pathway_c29c1e159b68aa045c8dbcc7c4d97a05	HumanCyc	phospholipases	"phospholipases";"phospholipase pathway";	110
+http://pathwaycommons.org/pc12/Pathway_0b1e056c94a422208bf0e4974f5762c0	HumanCyc	pentose phosphate pathway (non-oxidative branch)	"pentose phosphate pathway (non-oxidative branch)";	34
+http://pathwaycommons.org/pc12/Pathway_0e5ca64ffe1e590e3fd07e45a63f3f66	HumanCyc	D-myo-inositol (3,4,5,6)-tetrakisphosphate biosynthesis	"D-myo-inositol (3,4,5,6)-tetrakisphosphate biosynthesis";	20
+http://pathwaycommons.org/pc12/Pathway_b7273aadb3ed6964cc6a7ed0fb31b3d5	HumanCyc	NAD phosphorylation and dephosphorylation	"NAD phosphorylation and dephosphorylation";	14
+http://pathwaycommons.org/pc12/Pathway_1f4396187ae471b23baa6483d60a73ef	HumanCyc	noradrenaline and adrenaline degradation	"noradrenaline and adrenaline degradation";"norepinephrine and epinephrine degradation";	94
+http://pathwaycommons.org/pc12/Pathway_5ac465ecdde2e81eb0eb24bcb149a660	HumanCyc	S-methyl-5-thio-alpha-D-ribose 1-phosphate degradation	"S-methyl-5-thio-alpha-D-ribose 1-phosphate degradation";	22
+http://pathwaycommons.org/pc12/Pathway_b1ddc18b646866adf7569b333ab8215a	HumanCyc	superpathway of geranylgeranyldiphosphate biosynthesis I (via mevalonate)	"GGPP biosynthesis";"superpathway of geranylgeranyldiphosphate biosynthesis I (via mevalonate)";	76
+http://pathwaycommons.org/pc12/Pathway_2bdb599dfbc86521beca81a5b812e75d	HumanCyc	oxidized GTP and dGTP detoxification	"8-oxo-7,8-dihydro-guanosine-triphosphate and 8-oxo-7,8-dihydro-deoxyguanosine-triphosphate";"oxidized GTP and dGTP detoxification";"oxidized guanosine triphosphate and deoxyguanosine triphosphate detoxification";"8-oxo-(d)GTP detoxification";	10
+http://pathwaycommons.org/pc12/Pathway_c9f33f81c94942d050151b5702727e97	HumanCyc	spermine biosynthesis	"spermine biosynthesis";	14
+http://pathwaycommons.org/pc12/Pathway_44c36d4d30135edbfb9f4c7eac3e3225	HumanCyc	pentose phosphate pathway (oxidative branch)	"pentose phosphate pathway (oxidative branch)";	16
+http://pathwaycommons.org/pc12/Pathway_92b66cb0aa0382982f2467d1c02c08ac	HumanCyc	glycine biosynthesis III	"glycine biosynthesis III";	6
+http://pathwaycommons.org/pc12/Pathway_067a99f06c030881fd36ef916f32bac6	HumanCyc	arginine biosynthesis IV	"arginine biosynthesis 4";"arginine biosynthesis IV";	62
+http://pathwaycommons.org/pc12/Pathway_b8c5a5229675865b636e9b46e1c7e295	HumanCyc	calcium transport I	"calcium transport I";	12
+http://pathwaycommons.org/pc12/Pathway_23e050e16f6768140c7a668d07db4db0	HumanCyc	4-hydroxybenzoate biosynthesis	"p-hydroxybenzoate biosynthesis I (eukaryotes)";"4-hydroxybenzoate biosynthesis";	16
+http://pathwaycommons.org/pc12/Pathway_0d4059a90168f4194186285431fd649e	HumanCyc	phosphatidylethanolamine biosynthesis III	"phosphatidylethanolamine biosynthesis III";	4
+http://pathwaycommons.org/pc12/Pathway_9d6e9e9f1cef76a7b1496a65ae9bf665	HumanCyc	glutathione-mediated detoxification I	"glutathione-mediated detoxification I";	76
+http://pathwaycommons.org/pc12/Pathway_bad78d4957b6c1e0808e47d04b4c0762	HumanCyc	protein citrullination	"protein citrullination";	14
+http://pathwaycommons.org/pc12/Pathway_265ef27588300e435b2f579bd0b49a93	HumanCyc	dermatan sulfate biosynthesis (late stages)	"dermatan sulfate biosynthesis (late stages)";	18
+http://pathwaycommons.org/pc12/Pathway_1a2112026a92b61f67421a16b02633b9	HumanCyc	guanosine nucleotides degradation III	"guanosine nucleotides degradation III";	24
+http://pathwaycommons.org/pc12/Pathway_01ff9d4e766a220a5edab38361e5a587	HumanCyc	cysteine biosynthesis/homocysteine degradation	"homocysteine degradation";"cysteine biosynthesis/homocysteine degradation";"cysteine biosynthesis II";	8
+http://pathwaycommons.org/pc12/Pathway_042d6cd9ded75f9bb9888508442e945c	HumanCyc	purine ribonucleosides degradation to ribose-1-phosphate	"purine ribonucleosides degradation to ribose-1-phosphate";	26
+http://pathwaycommons.org/pc12/Pathway_ef09e61fe65d65cf277f7c908d185672	HumanCyc	pentose phosphate pathway	"pentose shunt";"phosphogluconate pathway";"superpathway of oxidative and non-oxidative branches of pentose phosphate pathway";"hexose monophosphate shunt";"pentose phosphate pathway";	50
+http://pathwaycommons.org/pc12/Pathway_df9553611a7ff05bb47de262fd0018da	HumanCyc	asparagine degradation I	"asparagine degradation 1";"asparagine degradation I";	6
+http://pathwaycommons.org/pc12/Pathway_9351324adca7123a13038b4c57cc370d	HumanCyc	sphingosine and sphingosine-1-phosphate metabolism	"sphingosine and sphingosine-1-phosphate metabolism";"ceramide degradation";	32
+http://pathwaycommons.org/pc12/Pathway_f00770315e1efd12f8db87fcb4ef502d	HumanCyc	D-myo-inositol (1,4,5,6)-tetrakisphosphate biosynthesis	"D-myo-inositol (1,4,5,6)-tetrakisphosphate biosynthesis";	18
+http://pathwaycommons.org/pc12/Pathway_b7d2ae324727f15b5a7685374bbf3773	HumanCyc	thio-molybdenum cofactor biosynthesis	"thio-molybdenum cofactor biosynthesis";"molybdenum cofactor (sulfide) biosynthesis";	4
+http://pathwaycommons.org/pc12/Pathway_6db11fd63857329ea3087cf3e6e93436	HumanCyc	cholesterol biosynthesis III (via desmosterol)	"cholesterol biosynthesis III (via desmosterol)";	136
+http://pathwaycommons.org/pc12/Pathway_bc8d1cf98d8361249760b630c4491098	HumanCyc	CDP-diacylglycerol biosynthesis I	"CDP-diacylglycerol biosynthesis I";"CDP-diacylglycerol biosynthesis";	54
+http://pathwaycommons.org/pc12/Pathway_433e3ef2135043b2eeb63c2f31ae2905	HumanCyc	NAD salvage pathway III	"nicotinamide riboside salvage pathway";"NAD salvage pathway III";"nicotinamide adenine dinucleotide salvage";	14
+http://pathwaycommons.org/pc12/Pathway_3580b307e8fd8c51765e9623be0a7f3e	HumanCyc	NAD biosynthesis from 2-amino-3-carboxymuconate semialdehyde	"NAD biosynthesis from 2-amino-3-carboxymuconate semialdehyde";	18
+http://pathwaycommons.org/pc12/Pathway_28bba1a19dbcedffec0e94d0a1fd14c8	HumanCyc	Rapoport-Luebering glycolytic shunt	"Rapoport-Luebering glycolytic shunt";	48
+http://pathwaycommons.org/pc12/Pathway_4864d255c6c6b2c873f100c974e071a0	HumanCyc	histamine degradation	"histamine degradation";	24
+http://pathwaycommons.org/pc12/Pathway_d898427c72d6da84a9b98ec07fcad1a4	HumanCyc	guanine and guanosine salvage I	"guanine and guanosine salvage I";	10
+http://pathwaycommons.org/pc12/Pathway_436e8b2fd0194abbd45921b0b15bebdd	HumanCyc	oleate biosynthesis II (animals)	"oleate biosynthesis II (animals)";	20
+http://pathwaycommons.org/pc12/Pathway_4b20404fbc41a1db94956bb3a54690a5	HumanCyc	diphthamide biosynthesis	"diphthamide biosynthesis";	16
+http://pathwaycommons.org/pc12/Pathway_314773ca6849852102afa67e6af782d5	HumanCyc	superpathway of inositol phosphate compounds	"superpathway of inositol phosphate compounds";	394
+http://pathwaycommons.org/pc12/Pathway_291b63e6f901424839074dc1726cd86c	HumanCyc	1D-myo-inositol hexakisphosphate biosynthesis II (mammalian)	"1D-myo-inositol hexakisphosphate biosynthesis II (mammalian)";"phytate biosynthesis";	64
+http://pathwaycommons.org/pc12/Pathway_75e235810c8b7fa1648b839571b52c7e	HumanCyc	GDP-L-fucose biosynthesis I (from GDP-D-mannose)	"GDP-L-fucose biosynthesis I (de novo synthesis)";"GDP-L-fucose biosynthesis I (from GDP-D-mannose)";	8
+http://pathwaycommons.org/pc12/Pathway_b48b5d4dacac3b7ff72224dbdf2898c9	HumanCyc	triacylglycerol degradation	"triacylglycerol degradation";"lipolysis";"triacylglyceride degradation";"triacylglycerol hydrolysis";	40
+http://pathwaycommons.org/pc12/Pathway_65dcb215944e40802ccd7fe611d05319	HumanCyc	tetrapyrrole biosynthesis II	"tetrapyrrole biosynthesis II";	20
+http://pathwaycommons.org/pc12/Pathway_265c07c99958edaab4aea102ceebac11	HumanCyc	tetrahydrobiopterin biosynthesis II	"tetrahydrobiopterin biosynthesis II";	26
+http://pathwaycommons.org/pc12/Pathway_9daac3098539c24d88d7f5f536b104a0	HumanCyc	thymine degradation	"thymine degradation";"uracil degradation (reductive)";	22
+http://pathwaycommons.org/pc12/Pathway_bf7b33b93580fb85636964b76845f1ca	HumanCyc	triacylglycerol biosynthesis	"TAG biosynthesis";"triglyceride biosynthesis";"triacylglycerol biosynthesis";"Kennedy pathway";	72
+http://pathwaycommons.org/pc12/Pathway_aa2de6a3c51a4fe7808710883e5a8e64	HumanCyc	glucose and glucose-1-phosphate degradation	"glucose and glucose-1-phosphate degradation";	34
+http://pathwaycommons.org/pc12/Pathway_c23f8fa77d0db568de6a2e1aefae45da	HumanCyc	1,25-dihydroxyvitamin D3 biosynthesis	"1,25-dihydroxyvitamin D3 biosynthesis";"vitamin D3 biosynthesis";	12
+http://pathwaycommons.org/pc12/Pathway_d969f9db09338c6c7e2be289aaa0bc15	HumanCyc	ceramide biosynthesis	"ceramide biosynthesis";	18
+http://pathwaycommons.org/pc12/Pathway_ef10ec99c5529f8dfcf891b1f2b872a9	HumanCyc	MAP kinase cascade	"MAP kinase cascade";	12
+http://pathwaycommons.org/pc12/Pathway_19e72a199ffd76eeb6051c6e1a115d88	HumanCyc	galactose degradation I (Leloir pathway)	"Leloir pathway";"galactose degradation I (Leloir pathway)";	20
+http://pathwaycommons.org/pc12/Pathway_20f7e437d0b001b54495b226c32e83f9	HumanCyc	purine nucleotides degradation II (aerobic)	"purine nucleotides degradation II (aerobic)";"purine nucleotides catabolism";	92
+http://pathwaycommons.org/pc12/Pathway_4888edf67b4e4c6f750ac7c193b4ddd3	HumanCyc	arginine degradation I (arginase pathway)	"arginine degradation I (arginase pathway)";"glutamate biosynthesis";"arginase degradative pathway";	52
+http://pathwaycommons.org/pc12/Pathway_c55430aa4d915ce878926999f965de3f	HumanCyc	fatty acid beta-oxidation III (unsaturated, odd number)	"fatty acid beta-oxidation III (unsaturated, odd number)";	12
+http://pathwaycommons.org/pc12/Pathway_ba308f1df69bc8dbb2229053514e9953	HumanCyc	PRPP biosynthesis I	"5-phosphoribosyl 1-pyrophosphate biosynthesis";"PRPP biosynthesis I";	10
+http://pathwaycommons.org/pc12/Pathway_88bd010b4d87303ea4f386f4fc1d2ac1	HumanCyc	D-mannose degradation	"D-mannose degradation";"mannose degradation";	4
+http://pathwaycommons.org/pc12/Pathway_6e19da5d4d3d26a7134e554ae3fd12ed	HumanCyc	fatty acid alpha-oxidation III	"fatty acid alpha-oxidation III";	18
+http://pathwaycommons.org/pc12/Pathway_b5da1765891758d346c1879b95bae4d8	HumanCyc	heme biosynthesis from uroporphyrinogen-III I	"heme biosynthesis from uroporphyrinogen-III I";	20
+http://pathwaycommons.org/pc12/Pathway_2f17e3b4d93e6b19107a92f99a4a887b	HumanCyc	eumelanin biosynthesis	"melanochrome biosynthesis";"melanogenesis";"eumelanin biosynthesis";	22
+http://pathwaycommons.org/pc12/Pathway_8830a6dcef3dcb821c6c1dc9dd5ac920	HumanCyc	glycerol degradation I	"glycerol degradation I";	16
+http://pathwaycommons.org/pc12/Pathway_d771f2de45bf67ca76fd84a401cdbfe6	HumanCyc	L-dopachrome biosynthesis	"melanin biosynthesis (proximal phase)";"L-dopachrome biosynthesis";	8
+http://pathwaycommons.org/pc12/Pathway_c3c3f5ad343ba6bc6875ec1ae230b78f	HumanCyc	GDP-glucose biosynthesis	"GDP-glucose biosynthesis";	34
+http://pathwaycommons.org/pc12/Pathway_b28b1d6aa76fb229a78dededd13df755	HumanCyc	UDP-D-xylose and UDP-D-glucuronate biosynthesis	"UDP-glucuronic acid biosynthesis (from UDP-glucose)";"UDP-D-xylose and UDP-D-glucuronate biosynthesis";"UDP-GlcA biosynthesis";"UDPXyl biosynthesis";"UDP-glucuronate biosynthesis (from UDP-glucose)";"UDP-xylose biosynthesis";	8
+http://pathwaycommons.org/pc12/Pathway_e884d3376cab2c94cf33c09d4851be6c	HumanCyc	ceramide degradation	"ceramide degradation";	8
+http://pathwaycommons.org/pc12/Pathway_67a7a14df95e425324c4d685e7f96c18	HumanCyc	superpathway of cholesterol biosynthesis	"superpathway of cholesterol biosynthesis";	308
+http://pathwaycommons.org/pc12/Pathway_61a359a01101e7719b49c323a70e69c9	HumanCyc	lanosterol biosynthesis	"lanosterol biosynthesis";	4
+http://pathwaycommons.org/pc12/Pathway_d4a0e635f684dc09c42e8b4b401f6bb3	HumanCyc	tRNA charging	"tRNA charging";	128
+http://pathwaycommons.org/pc12/Pathway_dbb1a942dd49d4a87bfdfab28ed8ea7b	HumanCyc	NADH repair	"NADH repair";	20
+http://pathwaycommons.org/pc12/Pathway_4c7b337282046bd511e645f6d10dda80	HumanCyc	citrulline degradation	"citrulline degradation";	16
+http://pathwaycommons.org/pc12/Pathway_a0f066a969573e06f5f298b7ec241ebc	HumanCyc	selenocysteine biosynthesis II (archaea and eukaryotes)	"selenocysteine biosynthesis II (archaea and eukaryotes)";	24
+http://pathwaycommons.org/pc12/Pathway_fbf04f9b9224e6cdd16f80f7cbcbd9d2	HumanCyc	glutaryl-CoA degradation	"glutaryl-CoA degradation";	26
+http://pathwaycommons.org/pc12/Pathway_18289ad9b5dc6765bbc27422a7e9b165	HumanCyc	threonine degradation II	"TDG pathway";"threonine degradation II";"threonine dehydrogenase pathway";	6
+http://pathwaycommons.org/pc12/Pathway_6b2303b2ebd501236169c19dcdaa6c33	HumanCyc	asparagine biosynthesis I	"asparagine biosynthesis I";	4
+http://pathwaycommons.org/pc12/Pathway_71e403ec98d7ad79b86f805750d323a2	HumanCyc	glutamate biosynthesis II	"glutamate biosynthesis II";	12
+http://pathwaycommons.org/pc12/Pathway_7ec1da5c3aeb99905ce91706bc147e82	HumanCyc	creatine-phosphate biosynthesis	"creatine-phosphate biosynthesis";	20
+http://pathwaycommons.org/pc12/Pathway_bc4d2b2435e4a5925a86af155b9429f5	HumanCyc	5-aminoimidazole ribonucleotide biosynthesis I	"5-aminoimidazole ribonucleotide biosynthesis I";	22
+http://pathwaycommons.org/pc12/Pathway_66f922d334311144f78ebb4444509a2c	HumanCyc	oxidative ethanol degradation III	"oxidative ethanol degradation III";	42
+http://pathwaycommons.org/pc12/Pathway_1fa0cf67410c570e7e6b9c45cd9cc1f6	HumanCyc	1D-myo-inositol hexakisphosphate biosynthesis V (from Ins(1,3,4)P3)	"1D-myo-inositol hexakisphosphate biosynthesis V (from Ins(1,3,4)P3)";"phytate biosynthesis";	22
+http://pathwaycommons.org/pc12/Pathway_05004b6396dce78922db2ddafaff44c3	HumanCyc	catecholamine biosynthesis	"catecholamine biosynthesis";"adrenaline biosynthesis";"dopamine biosynthesis";"noradrenaline biosynthesis";	50
+http://pathwaycommons.org/pc12/Pathway_99c0a9dd136c330bbe561e4c958ecf37	HumanCyc	choline biosynthesis III	"choline biosynthesis III";	28
+http://pathwaycommons.org/pc12/Pathway_6988919c4f1e382bfaf77d9830efc472	HumanCyc	leukotriene biosynthesis	"leukotriene biosynthesis";	34
+http://pathwaycommons.org/pc12/Pathway_cefd050c872924d01f2a34be76fcad7a	HumanCyc	melatonin degradation III	"melatonin degradation III";	6
+http://pathwaycommons.org/pc12/Pathway_3f043e34a74b38d004ac7ede9c864db0	HumanCyc	4-aminobutyrate degradation I	"4-aminobutyrate degradation I";"GABA degradation";"gamma-amino-butyrate shunt";	32
+http://pathwaycommons.org/pc12/Pathway_c91bd877022325494bd6fbe798e649b6	HumanCyc	ethanol degradation IV	"ethanol degradation IV";	26
+http://pathwaycommons.org/pc12/Pathway_d2b2180dc6abc48c7d8ccc392605fd22	HumanCyc	UDP-N-acetyl-D-galactosamine biosynthesis II	"UDP-N-acetyl-D-galactosamine biosynthesis II";	40
+http://pathwaycommons.org/pc12/Pathway_544ec377aca862b3599cc805f0e0beee	HumanCyc	methylthiopropionate biosynthesis	"methylthiopropionate biosynthesis";	4
+http://pathwaycommons.org/pc12/Pathway_bd1fc317eac6f5ecd5157f684ff95208	HumanCyc	NAD salvage pathway II	"NAD salvage pathway II";"nicotinamide adenine dinucleotide salvage";	38
+http://pathwaycommons.org/pc12/Pathway_0337f2b53332a7972e4f90b1da3b040a	HumanCyc	acyl carrier protein metabolism	"ACP metabolism";"acyl carrier protein metabolism";"[acp] metabolism";	8
+http://pathwaycommons.org/pc12/Pathway_fb76752ad229e6db3e664e2cebe91e32	HumanCyc	methylmalonyl pathway	"methylmalonyl pathway";	12
+http://pathwaycommons.org/pc12/Pathway_5c06c09f20bd4df8ca93c0891ba2b63d	HumanCyc	L-cysteine degradation I	"cysteine degradation I";"L-cysteine degradation I";	10
+http://pathwaycommons.org/pc12/Pathway_7ac6de17ac4e11e6001aa6a17f4c4650	HumanCyc	purine nucleotides de novo biosynthesis II	"purine nucleotides de novo biosynthesis II";"purine biosynthesis 2";	74
+http://pathwaycommons.org/pc12/Pathway_8033d77e8fae9ebfc8d76bc00cfe0d8e	HumanCyc	uridine-5'-phosphate biosynthesis	"de novo biosynthesis of uridine-5'-phosphate";"uridine-5'-phosphate biosynthesis";"de novo biosynthesis of uridine-5'-monophosphate";"pyrimidine biosynthesis";	22
+http://pathwaycommons.org/pc12/Pathway_16704b3e96f1cd4951abddeccd0f0bb9	HumanCyc	uracil degradation II (reductive)	"beta-alanine biosynthesis";"uracil degradation II (reductive)";	22
+http://pathwaycommons.org/pc12/Pathway_317c99787f27f9210a3d451bf88cba71	HumanCyc	thiosulfate disproportionation III (rhodanese)	"thiosulfate disproportionation III (rhodanese)";	4
+http://pathwaycommons.org/pc12/Pathway_db8c9e7a8ae9971bc5febc0778e18a20	HumanCyc	sphingomyelin metabolism	"sphingomyelin metabolism";	26
+http://pathwaycommons.org/pc12/Pathway_0e43a814167a21390f48d82c826bb046	HumanCyc	serotonin and melatonin biosynthesis	"serotonin and melatonin biosynthesis";	26
+http://pathwaycommons.org/pc12/Pathway_5d3a8467b589c154cd4e75223b146400	HumanCyc	tyrosine degradation I	"tyrosine fumarate catabolism";"tyrosine degradation I";	28
+http://pathwaycommons.org/pc12/Pathway_773c9e83286b847dcbbd47920f6c9319	HumanCyc	dolichyl-diphosphooligosaccharide biosynthesis	"eukaryotic N-linked glycosylation";"dolichyl-diphosphooligosaccharide biosynthesis";"mannosyl-chito-dolichol biosynthesis";	46
+http://pathwaycommons.org/pc12/Pathway_48be49db22981b4e95c2432d2511c06e	HumanCyc	urate biosynthesis/inosine 5'-phosphate degradation	"urate biosynthesis/inosine 5'-phosphate degradation";"urate biosynthesis";"IMP degradation";"inosine 5'-phosphate degradation";"ureide biogenesis";	36
+http://pathwaycommons.org/pc12/Pathway_75923265e31310d78baa0541e477f50b	HumanCyc	dolichol and dolichyl phosphate biosynthesis	"dolichol and dolichyl phosphate biosynthesis";	14
+http://pathwaycommons.org/pc12/Pathway_140db615921bfd883faad5acccf6474c	HumanCyc	glycolysis I	"EMP pathway";"glycolysis (plastidic)";"Embden-Meyerhof-Parnas pathway";"Embden-Meyerhof pathway";"glycolysis I";"glucose degradation";	108
+http://pathwaycommons.org/pc12/Pathway_a1b80b0c4d0ef9d5235f70866e5208ac	HumanCyc	gamma-glutamyl cycle	"glutathione metabolism";"gamma-glutamyl cycle";	60
+http://pathwaycommons.org/pc12/Pathway_1c9f12a5bc9c1b434b24bc936da6aefa	HumanCyc	arginine degradation VI (arginase 2 pathway)	"arginine degradation VI (arginase 2 pathway)";"proline biosynthesis from arginine";	60
+http://pathwaycommons.org/pc12/Pathway_386d7233007851e2c6740d54e9aadc0f	HumanCyc	CMP-N-acetylneuraminate biosynthesis I (eukaryotes)	"CMP-N-acetylneuraminate biosynthesis I (eukaryotes)";"CMP-N-acetylneuraminic acid biosynthesis I (eukaryotes)";	26
+http://pathwaycommons.org/pc12/Pathway_f1fc7e1a1a722fb5c1d6cf4bd2286be7	HumanCyc	L-serine degradation	"L-serine degradation";	8
+http://pathwaycommons.org/pc12/Pathway_563af868f2e93293723d78f81ca2fceb	HumanCyc	pyrimidine ribonucleotides interconversion	"pyrimidine ribonucleotides interconversion";"pyrimidine biosynthesis";	66
+http://pathwaycommons.org/pc12/Pathway_b362c802b7a78764190b82d2d5ff557a	HumanCyc	alpha-tocopherol degradation	"alpha-tocopherol degradation";"vitamin E degradation";	8
