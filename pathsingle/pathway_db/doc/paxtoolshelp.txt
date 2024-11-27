@@ -96,3 +96,12 @@ java -Xmx80g -XX:+UseG1GC -XX:+UseStringDeduplication -XX:MaxGCPauseMillis=500 -
 # Getting reactome data.
 wget https://reactome.org/download/current/biopax.zip
 unzip biopax.zip
+
+# Download UniProt ID to Gene Name mapping file for Human.
+wget https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/by_organism/HUMAN_9606_idmapping.dat.gz
+
+# Decompress.
+gunzip HUMAN_9606_idmapping.dat.gz
+
+# Filter only Gene Name mappings (using awk).
+awk -F'\t' '$2=="Gene_Name" {print $1"\t"$3}' HUMAN_9606_idmapping.dat > uniprot_to_gene.tsv
