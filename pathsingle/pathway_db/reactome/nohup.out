@@ -1,0 +1,1 @@
+#logback.classic pattern: %d %-5level [%thread] %logger{25} - %msg%n

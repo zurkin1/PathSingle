@@ -85,5 +85,14 @@ help
 Commands can also use compressed input files (only '.gz').
 
 java -jar paxtools.jar summarize owl\PathwayCommons12.humancyc.BIOPAX.owl --pathways
-java -jar paxtools.jar toSIF owl\PathwayCommons12.humancyc.BIOPAX.owl owl\PathwayCommons12.humancyc.BIOPAX.sif -extended -useNameIfNoId "seqDb=uniprot,hgnc,refseq" "chemDb=chebi"
+java -jar paxtools.jar toSIF owl/PathwayCommons12.kegg.BIOPAX.owl owl/PathwayCommons12.kegg.BIOPAX.sif -extended -useNameIfNoId "seqDb=hgnc,refseq,uniprot" "chemDb=chebi"
+References:
 https://download.baderlab.org/PathwayCommons/PC2/v12/
+https://pmc.ncbi.nlm.nih.gov/articles/PMC3001121/
+
+# Summarize to see pathways.
+java -Xmx80g -XX:+UseG1GC -XX:+UseStringDeduplication -XX:MaxGCPauseMillis=500 -XX:G1HeapRegionSize=16M -jar paxtools.jar summarize owl/pc-biopax.owl kegg_paths.txt --pathways
+
+# Getting reactome data.
+wget https://reactome.org/download/current/biopax.zip
+unzip biopax.zip
