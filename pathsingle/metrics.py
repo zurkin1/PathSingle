@@ -10,6 +10,8 @@ from tqdm.notebook import tqdm
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.feature_selection import VarianceThreshold
+import umap.umap_ as umap
+import scanpy as sc
 
 
 #General metric functions used in the benchmarks.
@@ -91,25 +93,32 @@ def acc(y_true, y_pred):
 
 def print_stats(act_mat, true_labels, kmeans_labels):
     #Silhouette score.
-    silhouette_avg = silhouette_score(act_mat, kmeans_labels, metric='euclidean')
-    print(f"Silhouette Score: {silhouette_avg}")
+    Silhouette = silhouette_score(act_mat, kmeans_labels, metric='euclidean')
 
     #Calinski-Harabasz index.
-    calinski_harabasz = calinski_harabasz_score(act_mat, kmeans_labels)
-    print(f"Calinski-Harabasz Index: {calinski_harabasz}")
+    Calinski = calinski_harabasz_score(act_mat, kmeans_labels)
 
     #Special accuracy function.
-    print(f"Special accuracy: {acc(true_labels, kmeans_labels)}")
+    Special = acc(true_labels, kmeans_labels)}"
 
     #Completeness score.
-    print(f'completeness score: {completeness_score(true_labels, kmeans_labels)}')
+    Completeness =  completeness_score(true_labels, kmeans_labels)
 
     #Homogeneity_score.
-    print(f"homogeneity_score: {homogeneity_score(true_labels, kmeans_labels)}")
+    Homogeneity = homogeneity_score(true_labels, kmeans_labels)
 
     #Adjusted_mutual_info_scor
-    print(f"adjusted_mutual_info_score: {adjusted_mutual_info_score(true_labels, kmeans_labels)}")
+    Adjusted = adjusted_mutual_info_score(true_labels, kmeans_labels)
 
+    '''
+    print(f"Silhouette Score: {Silhouette}")
+    print(f"Calinski-Harabasz Index: {Calinski}")
+    print(f"Special accuracy: {Special}")
+    print(f'completeness score: {Completeness}')
+    print(f"homogeneity_score: {Homogeneity}")
+    print(f"adjusted_mutual_info_score: {Adjusted}")
+    '''
+    return Silhouette, Calinski, Special, Completeness, Homogeneity, Adjusted
 
 def decoupler_feature_importance(scores, reactome, pvals=None):
     print(f"Shape of data: {scores.shape}")
@@ -214,3 +223,23 @@ def feature_importance(scores_df, true_labels):
         print("Top 40 gene sets by clustering accuracy:")
         for pathway, accuracy in sorted_genesets[:40]:
             print(f'Pathway set: {pathway}')
+
+def cluster_with_kmeans(method_name, results_matrix, adata, n_clusters=10):
+    #Perform KMeans clustering on the UMAP coordinates.
+    kmeans = KMeans(n_clusters).fit(results_matrix)
+
+    #Perform UMAP on the results matrix.
+    umap_model = umap.UMAP(n_neighbors=15)
+    umap_coords = umap_model.fit_transform(results_matrix)
+
+    #Add the UMAP coordinates and clustering results to the AnnData object.
+    adata.obsm[f'umap_{method_name}'] = umap_coords
+    adata.obs[f'kmeans_{method_name}'] = pd.Categorical(kmeans.labels_)
+
+    #Plot the UMAP with KMeans clustering results using Scanpy.
+    #sc.pl.umap(adata, color=['kmeans1'], title='KMeans Clustering on Simulated GSEA NES Values', obsm_key='umap_gsea')
+    #sc.pl.umap(adata, color=["labels"], title="UMAP of True Labels", obsm_key='umap_gsea')
+    sc.pl.embedding(adata, basis=f'umap_{method_name}', color=[f'kmeans_{method_name}'], title=f'KMeans Clustering on {method_name} Values')
+    sc.pl.embedding(adata, basis=f'umap_{method_name}', color=["labels"], title="UMAP of True Labels")
+
+    return kmeans
