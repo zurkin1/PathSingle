@@ -10,3 +10,7 @@ pathsingle/data/output_activity.csv
 *.sif
 pathsingle/pathway_db/owl/pc-biopax.owl.zip
 pathsingle/pathway_db/owl/biopax.zip
+.pypirc
+.vscode/
+build/
+venv/
