@@ -29,7 +29,10 @@ For detailed usage instructions, please refer to the notebooks in the `pathsingl
 
 [T-cells classification benchmark](pathsingle/bench_challenge.ipynb)
 
-The `pathway_db` subfolder contains scripts for building and customizing the pathways database.
+The [pathway_db](pathsingle/pathway_db) subfolder contains scripts for building and customizing the pathways database.
+- [kegg](pathsingle/pathway_db/kegg): Scripts for downloading pathways from KEGG PATHWAY database and building the existing PathSingle database pathway_relations.csv.
+- [reactome](pathsingle/pathway_db/reactome): Scripts for downloading and building a new PathSingle pathway_relations.csv database using Reactome Pathway database.
+- [pathwaycommon](pathsingle/pathway_db/pathwaycommon): Scripts for downloading and building a new PathSingle pathway_relations.csv database using Pathway Commons integrated database.
 
 ## Supported Pathways
 PathSingle currently supports 357 curated pathways. Click the link to view the full list. [List of supported pathways.](pathsingle/data/pathway_relations.csv)

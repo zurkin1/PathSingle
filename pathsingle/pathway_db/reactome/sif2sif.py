@@ -91,6 +91,6 @@ mask = final_grouped['PATHWAY_NAMES'].str.contains('|'.join(inhibitory_keywords)
                                                         case=False, na=False)
 final_grouped.loc[mask, 'INTERACTION_TYPE'] = 'inhibition'
 
-# Write output.
+# Write output. Columns: PATHWAY_NAMES,PARTICIPANT_A,INTERACTION_TYPE,PARTICIPANT_B (might need to adjust to PathSigle format).
 print('Saving data.')
 final_grouped.to_csv(output_file, sep='\t', index=False)
