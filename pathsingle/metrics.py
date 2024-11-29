@@ -99,7 +99,7 @@ def print_stats(act_mat, true_labels, kmeans_labels):
     Calinski = calinski_harabasz_score(act_mat, kmeans_labels)
 
     #Special accuracy function.
-    Special = acc(true_labels, kmeans_labels)}"
+    Special = acc(true_labels, kmeans_labels)
 
     #Completeness score.
     Completeness =  completeness_score(true_labels, kmeans_labels)
