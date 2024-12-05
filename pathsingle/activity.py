@@ -10,10 +10,6 @@ def calc_activity(adata):
     #Load gene expression data.
     #gene_expression_df = pd.read_csv('./data/sample_file.csv', index_col=0)
     #gene_expression_df.index = gene_expression_df.index.map(str.lower)
-    
-    #adata = sc.read_h5ad('./data/sc_trainingmagic.h5ad')
-    #adata = sc.pp.subsample(adata, fraction=0.2, copy=True)
-    print(adata)
 
     #Convert the gene expression data to a PyTorch tensor. Transpose to match the desired orientation.
     gene_expression_tensor = torch.tensor(adata.X.T, dtype=torch.float16) #gene_expression_df.values
@@ -71,7 +67,7 @@ def calc_activity(adata):
     interaction_dicts = []
 
     #Process the data in batches using DataLoader.
-    for batch_idx, gene_expression_batch in enumerate(tqdm(gene_expression_loader)):
+    for batch_idx, gene_expression_batch in enumerate(gene_expression_loader):
         gene_expression_batch = gene_expression_batch.to('cpu')
         
         for sample_idx in range(0,gene_expression_batch.shape[0]):
@@ -102,8 +98,8 @@ def calc_activity(adata):
                 #Once we finish with the pathway, calculate the mean activity for the pathway.               
                 pathway_activity /= interactions_counter
                 pathway_activities[pathway].append(pathway_activity) #.cpu().numpy())
-            
             interaction_dicts.append(interaction_dict)
+        print(batch_idx, end='\r')
 
     # Convert the list of dictionaries to a DataFrame.
     interaction_activities = pd.DataFrame(interaction_dicts)

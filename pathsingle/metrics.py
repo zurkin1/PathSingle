@@ -91,7 +91,7 @@ def acc(y_true, y_pred):
     return sum(w[ind[0], ind[1]]) * 1.0 / y_pred.size
 
 
-def print_stats(act_mat, true_labels, kmeans_labels):
+def calc_stats(act_mat, true_labels, kmeans_labels, debug=False):
     #Silhouette score.
     Silhouette = silhouette_score(act_mat, kmeans_labels, metric='euclidean')
 
@@ -110,14 +110,14 @@ def print_stats(act_mat, true_labels, kmeans_labels):
     #Adjusted_mutual_info_scor
     Adjusted = adjusted_mutual_info_score(true_labels, kmeans_labels)
 
-    '''
-    print(f"Silhouette Score: {Silhouette}")
-    print(f"Calinski-Harabasz Index: {Calinski}")
-    print(f"Special accuracy: {Special}")
-    print(f'completeness score: {Completeness}')
-    print(f"homogeneity_score: {Homogeneity}")
-    print(f"adjusted_mutual_info_score: {Adjusted}")
-    '''
+    if debug:
+        print(f"Silhouette Score: {Silhouette}")
+        print(f"Calinski-Harabasz Index: {Calinski}")
+        print(f"Special accuracy: {Special}")
+        print(f'completeness score: {Completeness}')
+        print(f"homogeneity_score: {Homogeneity}")
+        print(f"adjusted_mutual_info_score: {Adjusted}")
+
     return Silhouette, Calinski, Special, Completeness, Homogeneity, Adjusted
 
 def decoupler_feature_importance(scores, reactome, pvals=None):
@@ -224,22 +224,21 @@ def feature_importance(scores_df, true_labels):
         for pathway, accuracy in sorted_genesets[:40]:
             print(f'Pathway set: {pathway}')
 
-def cluster_with_kmeans(method_name, results_matrix, adata, n_clusters=10):
+def cluster_with_kmeans(method_name, results_matrix, adata, n_clusters=10, draw_umap=False):
     #Perform KMeans clustering on the UMAP coordinates.
     kmeans = KMeans(n_clusters).fit(results_matrix)
+    if draw_umap:
+        #Perform UMAP on the results matrix.
+        umap_model = umap.UMAP(n_neighbors=15)
+        umap_coords = umap_model.fit_transform(results_matrix)
 
-    #Perform UMAP on the results matrix.
-    umap_model = umap.UMAP(n_neighbors=15)
-    umap_coords = umap_model.fit_transform(results_matrix)
+        #Add the UMAP coordinates and clustering results to the AnnData object.
+        adata.obsm[f'umap_{method_name}'] = umap_coords
+        adata.obs[f'kmeans_{method_name}'] = pd.Categorical(kmeans.labels_)
 
-    #Add the UMAP coordinates and clustering results to the AnnData object.
-    adata.obsm[f'umap_{method_name}'] = umap_coords
-    adata.obs[f'kmeans_{method_name}'] = pd.Categorical(kmeans.labels_)
-
-    #Plot the UMAP with KMeans clustering results using Scanpy.
-    #sc.pl.umap(adata, color=['kmeans1'], title='KMeans Clustering on Simulated GSEA NES Values', obsm_key='umap_gsea')
-    #sc.pl.umap(adata, color=["labels"], title="UMAP of True Labels", obsm_key='umap_gsea')
-    sc.pl.embedding(adata, basis=f'umap_{method_name}', color=[f'kmeans_{method_name}'], title=f'KMeans Clustering on {method_name} Values')
-    sc.pl.embedding(adata, basis=f'umap_{method_name}', color=["labels"], title="UMAP of True Labels")
-
+        #Plot the UMAP with KMeans clustering results using Scanpy.
+        #sc.pl.umap(adata, color=['kmeans1'], title='KMeans Clustering on Simulated GSEA NES Values', obsm_key='umap_gsea')
+        #sc.pl.umap(adata, color=["labels"], title="UMAP of True Labels", obsm_key='umap_gsea')
+        sc.pl.embedding(adata, basis=f'umap_{method_name}', color=[f'kmeans_{method_name}'], title=f'KMeans Clustering on {method_name} Values')
+        sc.pl.embedding(adata, basis=f'umap_{method_name}', color=["labels"], title="UMAP of True Labels")
     return kmeans
