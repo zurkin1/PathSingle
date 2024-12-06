@@ -45,7 +45,7 @@ num_splits = 5
 split_files = [f'./data/sc_training_split_{i+1}.h5ad' for i in range(num_splits)]
 splits = [sc.read_h5ad(file) for file in split_files]
 # Concatenate the splits back into a single AnnData object.
-adata = splits[0].concatenate(*splits[1:], batch_key='batch', batch_categories=[f'batch_{i+1}' for i in range(num_splits)])
+adata = splits[0].concat(splits, label='batch', join='outer', merge='same', keys=[f'batch_{i+1}' for i in range(num_splits)])
 adata = sc.pp.subsample(adata, fraction=0.1, copy=True) #28697 cells × 15077 genes.
 print(adata)
 true_labels = adata.obs.state.map({'cycling':0, 'effector':1, 'other':2, 'progenitor':3, 'terminal exhausted':4})
