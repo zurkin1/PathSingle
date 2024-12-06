@@ -91,7 +91,7 @@ def calc_activity(adata):
     # Initialize a list to store dictionaries of interaction activities per sample.
     interaction_dicts = []
 
-    with ProcessPoolExecutor(max_workers=20) as executor:
+    with ProcessPoolExecutor(max_workers=40) as executor:
         for sample_idx in range(gene_expression_tensor.shape[0]):
             sample_name = adata.obs_names[sample_idx]
             sample_data = gene_expression_tensor[sample_idx]
