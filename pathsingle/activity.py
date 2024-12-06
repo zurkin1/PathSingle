@@ -1,13 +1,28 @@
 import pandas as pd
 import numpy as np
 import scanpy as sc
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, as_completed
+import os
 
 
 #Function to determine if an interaction type is inhibitory.
 def is_inhibitory(interaction_type):
     inhibitory_keywords = ['inhibition', 'repression', 'dissociation', 'dephosphorylation', 'ubiquitination'] #'missing interaction'
     return any(keyword in interaction_type for keyword in inhibitory_keywords)
+
+def process_sample(args):
+    """Process all pathways for a single sample"""
+    sample_idx, sample_data, sample_name, pathway_interactions, gene_to_index = args
+    pathway_activities = {}
+    interaction_dict = {'sample_name': sample_name}
+    
+    # Process each pathway sequentially.
+    for pathway, interactions in pathway_interactions.items():
+        pathway_activity, interaction_acts = process_pathway((pathway, interactions, sample_data, gene_to_index))
+        pathway_activities[pathway] = pathway_activity
+        interaction_dict.update(interaction_acts)
+    
+    return sample_idx, pathway_activities, interaction_dict
 
 def gaussian_scaling(p, q, sigma=0.5):
     """Calculate the scaled activity of inputs (p) of an interaction by the outputs (q).
@@ -59,10 +74,6 @@ def process_pathway(args):
 def calc_activity(adata):
     """Calculate the activity of pathways based on gene expression data."""
     #Load gene expression data.
-    #gene_expression_df = pd.read_csv('./data/sample_file.csv', index_col=0)
-    #gene_expression_df.index = gene_expression_df.index.map(str.lower)
-
-    #Convert the gene expression data to a PyTorch tensor. Transpose to match the desired orientation.
     gene_expression_tensor = adata.X #gene_expression_df.values (samples, genes)
 
     #Create a mapping of gene names to their indices in the gene_expression_tensor.
@@ -91,26 +102,30 @@ def calc_activity(adata):
     # Initialize a list to store dictionaries of interaction activities per sample.
     interaction_dicts = []
 
-    with ProcessPoolExecutor(max_workers=40) as executor:
-        for sample_idx in range(gene_expression_tensor.shape[0]):
-            sample_name = adata.obs_names[sample_idx]
-            sample_data = gene_expression_tensor[sample_idx]
-            interaction_dict = {'sample_name': sample_name}
+    # Process samples in parallel.
+    with ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
+        # Prepare arguments for all samples
+        sample_args = [(idx, 
+                       gene_expression_tensor[idx], 
+                       adata.obs_names[idx],
+                       pathway_interactions,
+                       gene_to_index) for idx in range(gene_expression_tensor.shape[0])]
+        
+        # Submit all jobs
+        futures = [executor.submit(process_sample, arg) for arg in sample_args]
+        
+        # Collect results as they complete
+        for future in tqdm(as_completed(futures), total=len(futures)):
+            idx, sample_pathway_activities, interaction_dict = future.result()
             
-            # Prepare arguments for parallel processing.
-            args = [(pathway, interactions, sample_data, gene_to_index) 
-                    for pathway, interactions in pathway_interactions.items()]
-        
-            # Process pathways in parallel.
-            futures = [executor.submit(process_pathway, arg) for arg in args]
-            results = [f.result() for f in futures]
-            # Collect results.
-            for pathway, pathway_activity, interaction_acts in results:
-                pathway_activities[pathway].append(pathway_activity)
-                interaction_dict.update(interaction_acts)
-        
+            # Store pathway activities
+            for pathway, activity in sample_pathway_activities.items():
+                pathway_activities[pathway].append(activity)
+            
+            # Store interaction activities
             interaction_dicts.append(interaction_dict)
-            print(f"Processed sample {sample_idx+1}/{gene_expression_tensor.shape[0]}", end='\r')
+            
+            print(f"Processed sample {idx+1}/{gene_expression_tensor.shape[0]}", end='\r')
 
     mean_activity_matrix = np.zeros((gene_expression_tensor.shape[0], len(pathway_interactions))) # (samples, pathways)
 
