@@ -33,11 +33,23 @@ sc.set_figure_params(figsize=(4, 4))
 warnings.filterwarnings("ignore", message=".*Parameters 'cmap' will be ignored.*", category=UserWarning)
 warnings.filterwarnings("ignore", message="Tight layout not applied.*", category=UserWarning)
 
-# We first download the 68K PBMC data and follow the standard `scanpy` workflow for normalisation of read counts and subsetting on the highly variable genes.
+# We first download the 68K PBMC data and follow the standard `scanpy` workflow for normalisation of read counts and subsetting on the highly variable genes. For the
+# T-cells data uncomment the following block.
 adata = sc.datasets.pbmc68k_reduced()
 adata.obs['labels'] = adata.obs.bulk_labels.map({'CD14+ Monocyte':0, 'Dendritic':1, 'CD56+ NK':2, 'CD4+/CD25 T Reg':3, 'CD19+ B':4, 'CD8+ Cytotoxic T':5, 'CD4+/CD45RO+ Memory':6, 'CD8+/CD45RA+ Naive Cytotoxic':7, 'CD4+/CD45RA+/CD25- Naive T':8, 'CD34+':9})
 true_labels = adata.obs.labels
 print(adata)
+'''
+num_splits = 5
+split_files = [f'./data/sc_training_split_{i+1}.h5ad' for i in range(num_splits)]
+splits = [sc.read_h5ad(file) for file in split_files]
+
+# Concatenate the splits back into a single AnnData object.
+adata = splits[0].concatenate(*splits[1:], batch_key='batch', batch_categories=[f'batch_{i+1}' for i in range(num_splits)])
+#adata = sc.pp.subsample(adata, fraction=0.3, copy=True) #28697 cells × 15077 genes.
+print(adata)
+true_labels = adata.obs.state.map({'cycling':0, 'effector':1, 'other':2, 'progenitor':3, 'terminal exhausted':4})
+'''
 
 # Run Magic.
 print(adata.raw.to_adata().X.toarray()[:5,:5])
@@ -116,15 +128,6 @@ def run_gsea():
         #np.save('./data/gsea_results_matrix.npy', gsea_results_matrix)
         print(cell_index, end='\r')
     return gsea_results_matrix
-'''
-Results for gsea:
-Silhouette - mean: 0.5561046677924425, ci: (0.5534683894232597, 0.5587409461616253)
-Calinski - mean: 16294.160463012933, ci: (15962.582829852261, 16625.738096173605)
-Special - mean: 0.31719047619047624, ci: (0.31164243899418, 0.3227385133867725)
-Completeness - mean: 0.2179805089345317, ci: (0.21609472267907712, 0.21986629518998627)
-Homogeneity - mean: 0.24682039680701184, ci: (0.24492730757050962, 0.24871348604351406)
-Adjusted - mean: 0.20717204963411157, ci: (0.20538114825921425, 0.20896295100900888)
-'''
 
 progeny = decoupler.get_progeny(organism='human', top=2000)
 
@@ -133,28 +136,10 @@ def run_progeny():
     acts = decoupler.get_acts(adata, obsm_key='mlm_estimate')
     #Convert the pathway activity matrix to a DataFrame.
     return pd.DataFrame(acts.obsm['mlm_estimate'], index=adata.obs_names, columns=acts.var_names)
-'''
-Results for progeny:
-Silhouette - mean: 0.6144946217536926, ci: (0.59571121144838, 0.6332780320590052)
-Calinski - mean: 1802.2639849762188, ci: (1755.1765120853065, 1849.351457867131)
-Special - mean: 0.6490476190476191, ci: (0.63785434370834, 0.6602408943868981)
-Completeness - mean: 0.6347861014556874, ci: (0.6295494352718396, 0.6400227676395351)
-Homogeneity - mean: 0.6431875507404569, ci: (0.6408570554777759, 0.6455180460031378)
-Adjusted - mean: 0.6269649005116761, ci: (0.6235347482357637, 0.6303950527875885)
-'''
 
 def run_aucell():
     decoupler.run_aucell(adata, reactome, source="geneset", target="genesymbol", use_raw=False, verbose=False)
     return adata.obsm["aucell_estimate"]
-'''
-Results for aucell:
-Silhouette - mean: 0.5813433527946472, ci: (0.5586026801822613, 0.6040840254070331)
-Calinski - mean: 985.4724865675855, ci: (945.7024049948561, 1025.242568140315)
-Special - mean: 0.6157142857142858, ci: (0.6029025957025977, 0.6285259757259738)
-Completeness - mean: 0.6249309793986906, ci: (0.616305298690219, 0.6335566601071622)
-Homogeneity - mean: 0.6483159001639436, ci: (0.6441170250837653, 0.6525147752441218)
-Adjusted - mean: 0.6243653270044098, ci: (0.618072118848946, 0.6306585351598737)
-'''
 
 def run_pathsingle():
     from sklearn.decomposition import PCA
@@ -176,14 +161,6 @@ def run_pathsingle():
     PCA = PCA(n_components=30, svd_solver='arpack')
     output_activity = PCA.fit_transform(output_activity)
     return output_activity
-'''
-Silhouette Score: 0.5577373354652382
-Calinski-Harabasz Index: 1055.0147987294065
-Special accuracy: 0.6214285714285714
-completeness score: 0.6103618744991666
-homogeneity_score: 0.6504527943574239
-adjusted_mutual_info_score: 0.6176909258981184
-'''
 
 # Define list of method functions.
 methods = [run_aucell] #run_gsea, run_progeny, run_aucell, 
