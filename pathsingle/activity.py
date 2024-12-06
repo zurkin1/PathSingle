@@ -4,7 +4,7 @@ import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 import scanpy as sc
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor
 
 
 #Function to determine if an interaction type is inhibitory.
@@ -24,6 +24,7 @@ def gaussian_scaling(p, q, sigma=0.5):
 def process_pathway(args):
     """Calculate the activities of all pathways for a given sample."""
     pathway, interactions, gene_expression_batch, sample_idx, gene_to_index = args
+    gene_expression_batch = torch.from_numpy(gene_expression_batch)
     pathway_activity = 0
     interactions_counter = 0
     interaction_activities = {}
@@ -116,7 +117,7 @@ def calc_activity(adata):
     interaction_dicts = []
 
     #Process the data in batches using DataLoader.
-    with ThreadPoolExecutor(max_workers=20) as executor:
+    with ProcessPoolExecutor(max_workers=20) as executor:
         for batch_idx, gene_expression_batch in enumerate(gene_expression_loader):
             gene_expression_batch = gene_expression_batch.to('cpu')
             for sample_idx in range(0,gene_expression_batch.shape[0]):
