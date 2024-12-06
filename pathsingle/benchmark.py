@@ -52,14 +52,14 @@ print(adata)
 true_labels = adata.obs.state.map({'cycling':0, 'effector':1, 'other':2, 'progenitor':3, 'terminal exhausted':4})
 # Remove unexpressed genes.
 sc.pp.filter_genes(adata, min_cells=1)  # Keep genes expressed in at least 1 cell.
-sc.pp.normalize_total(adata)  # Library size normalization (works on adata.X).
-sc.pp.sqrt(adata)             # Square root transformation (works on adata.X).
-adata.raw = adata.copy()      # Copy adata.X plus other objects to adata.raw.
+#sc.pp.normalize_total(adata)  # Library size normalization (works on adata.X).
+#sc.pp.sqrt(adata)             # Square root transformation (works on adata.X).
+#adata.raw = adata.copy()      # Copy adata.X plus other objects to adata.raw.
 
 # Run Magic.
-print(adata.raw.to_adata().X.toarray()[:5,:5])
-sce.pp.magic(adata, name_list='all_genes')
-print(adata.raw.to_adata().X[:5,:5])
+#print(adata.raw.to_adata().X.toarray()[:5,:5])
+#sce.pp.magic(adata, name_list='all_genes')
+#print(adata.raw.to_adata().X[:5,:5])
 
 # Retrieving gene sets. Download and read the `gmt` file for the REACTOME pathways annotated in the C2 collection of MSigDB. 
 os.makedirs('./data', exist_ok=True)
@@ -167,8 +167,31 @@ def run_pathsingle():
     output_activity = PCA.fit_transform(output_activity)
     return output_activity
 
+def run_pathsingle2():
+    from sklearn.decomposition import PCA
+    
+    activity_df = pd.DataFrame(adata.X, index=adata.obs_names, columns=adata.var_names)
+    activity_df = scprep.normalize.library_size_normalize(activity_df)
+    activity_df = scprep.transform.sqrt(activity_df)
+    magic_op = magic.MAGIC()
+    activity_df = magic_op.fit_transform(activity_df)
+    activity_df = activity_df.astype(np.float16)
+    activity_df.to_csv('./data/activity_df.csv', index=True)
+    # Run PathSingle.
+    activity = sc.read('./data/activity_df.csv', delimiter=',', cache=False)
+    calc_activity(activity)
+
+    output_activity = pd.read_csv('./data/output_interaction_activity.csv', index_col=0)
+
+    #Scale the data.
+    scaler = Normalizer()
+    output_activity = scaler.fit_transform(output_activity)
+    PCA = PCA(n_components=30, svd_solver='arpack')
+    output_activity = PCA.fit_transform(output_activity)
+    return output_activity
+
 # Define list of method functions.
-methods = [run_pathsingle] #run_gsea, run_progeny, run_aucell, 
+methods = [run_pathsingle2] #run_gsea, run_progeny, run_aucell, 
 
 # Loop through method functions.
 for method_func in methods:
