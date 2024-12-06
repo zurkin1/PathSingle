@@ -34,7 +34,7 @@ def gaussian_scaling(p, q, sigma=0.5):
     return p * scaling
 
 def process_pathway(args):
-    """Calculate the activities of all pathways for a given sample."""
+    """Calculate the activities of one pathway for a given sample."""
     pathway, interactions, gene_expression, gene_to_index = args
     pathway_activity = 0
     interactions_counter = 0
@@ -66,10 +66,10 @@ def process_pathway(args):
         pathway_activity += interaction_activity
         interactions_counter += 1
         
-        # Add interaction activity to the dictionary. item() converts tensor to float.
+        # Add interaction activity to the dictionary.
         interaction_activities[f'interaction_{pathway}_{interaction_idx}'] = interaction_activity
     
-    return pathway, pathway_activity / interactions_counter, interaction_activities
+    return pathway_activity / max(1,interactions_counter), interaction_activities
 
 def calc_activity(adata):
     """Calculate the activity of pathways based on gene expression data."""
