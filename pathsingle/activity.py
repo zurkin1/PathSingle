@@ -63,7 +63,7 @@ def calc_activity(adata):
     #gene_expression_df.index = gene_expression_df.index.map(str.lower)
 
     #Convert the gene expression data to a PyTorch tensor. Transpose to match the desired orientation.
-    gene_expression_tensor = adata.X.T #gene_expression_df.values (genes, samples)
+    gene_expression_tensor = adata.X #gene_expression_df.values (samples, genes)
 
     #Create a mapping of gene names to their indices in the gene_expression_tensor.
     gene_names = adata.var_names.str.lower() #gene_expression_df.index
@@ -91,7 +91,6 @@ def calc_activity(adata):
     # Initialize a list to store dictionaries of interaction activities per sample.
     interaction_dicts = []
 
-    #Process the data in batches using DataLoader.
     with ProcessPoolExecutor(max_workers=20) as executor:
         for sample_idx in range(gene_expression_tensor.shape[0]):
             sample_name = adata.obs_names[sample_idx]
