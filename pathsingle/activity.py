@@ -116,7 +116,7 @@ def calc_activity(adata):
     interaction_dicts = []
 
     #Process the data in batches using DataLoader.
-    with ThreadPoolExecutor(max_workers=4) as executor:
+    with ThreadPoolExecutor(max_workers=20) as executor:
         for batch_idx, gene_expression_batch in enumerate(gene_expression_loader):
             gene_expression_batch = gene_expression_batch.to('cpu')
             for sample_idx in range(0,gene_expression_batch.shape[0]):
