@@ -19,7 +19,6 @@ from pathlib import Path
 from sklearn.preprocessing import StandardScaler  # Normal distribution.
 from sklearn.preprocessing import MinMaxScaler    # [0,1] range.
 from sklearn.preprocessing import Normalizer      # Unit norm.
-from sklearn.feature_selection import VarianceThreshold
 from scipy import stats
 from itertools import chain, repeat
 import urllib.request
@@ -52,13 +51,13 @@ print(adata)
 true_labels = adata.obs.state.map({'cycling':0, 'effector':1, 'other':2, 'progenitor':3, 'terminal exhausted':4})
 # Remove unexpressed genes.
 sc.pp.filter_genes(adata, min_cells=1)  # Keep genes expressed in at least 1 cell.
-#sc.pp.normalize_total(adata)  # Library size normalization (works on adata.X).
-#sc.pp.sqrt(adata)             # Square root transformation (works on adata.X).
-#adata.raw = adata.copy()      # Copy adata.X plus other objects to adata.raw.
+sc.pp.normalize_total(adata)  # Library size normalization (works on adata.X).
+sc.pp.sqrt(adata)             # Square root transformation (works on adata.X).
+adata.raw = adata.copy()      # Copy adata.X plus other objects to adata.raw.
 
 # Run Magic.
 #print(adata.raw.to_adata().X.toarray()[:5,:5])
-#sce.pp.magic(adata, name_list='all_genes')
+sce.pp.magic(adata, name_list='all_genes')
 #print(adata.raw.to_adata().X[:5,:5])
 
 # Retrieving gene sets. Download and read the `gmt` file for the REACTOME pathways annotated in the C2 collection of MSigDB. 
@@ -154,10 +153,7 @@ def run_pathsingle():
     activity = sc.AnnData(activity_df)
 
     calc_activity(activity)
-    output_activity = pd.read_csv('./data/output_interaction_activity.csv', index_col=0)
-
-    #selector = VarianceThreshold(threshold=0.01)
-    #output_activity = selector.fit_transform(output_activity)
+    output_activity = pd.read_csv('./data/output_activity.csv', index_col=0)
 
     #Scale the data.
     scaler = Normalizer()
@@ -189,7 +185,7 @@ def run_pathsingle2():
     return output_activity
 
 # Define list of method functions.
-methods = [run_pathsingle2] #run_gsea, run_progeny, run_aucell, 
+methods = [run_pathsingle] #run_gsea, run_progeny, run_aucell, 
 
 # Loop through method functions.
 for method_func in methods:
