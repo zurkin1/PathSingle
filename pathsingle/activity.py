@@ -4,7 +4,7 @@ import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 import scanpy as sc
-from multiprocessing import Pool
+from torch.multiprocessing import Pool
 import os
 
 

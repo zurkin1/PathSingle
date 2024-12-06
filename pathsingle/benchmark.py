@@ -80,7 +80,7 @@ def run_method(method_name, method):
     """Run a given method 30 times, calculate metrics and confidence intervals."""
     metrics = [[] for _ in range(6)] # Initialize 6 empty lists.
     metric_names = ['Silhouette', 'Calinski', 'Special', 'Completeness', 'Homogeneity', 'Adjusted']
-    for _ in tqdm(range(3)):
+    for _ in tqdm(range(30)):
         pathway_activity_df = method()
         #Perform KMeans clustering and plot UMAP.
         kmeans = cluster_with_kmeans(method_name, pathway_activity_df, adata, n_clusters=10)
