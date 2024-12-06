@@ -170,8 +170,8 @@ def run_pathsingle():
     #output_activity = selector.fit_transform(output_activity)
 
     #Scale the data.
-    #scaler = MinMaxScaler()
-    #output_activity = scaler.fit_transform(output_activity)
+    scaler = Normalizer()
+    output_activity = scaler.fit_transform(output_activity)
     PCA = PCA(n_components=50, svd_solver='arpack')
     output_activity = PCA.fit_transform(output_activity)
     return output_activity

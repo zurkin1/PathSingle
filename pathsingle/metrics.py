@@ -116,7 +116,7 @@ def calc_stats(act_mat, true_labels, kmeans_labels, debug=False):
         print(f"Special accuracy: {Special}")
         print(f'completeness score: {Completeness}')
         print(f"homogeneity_score: {Homogeneity}")
-        print(f"adjusted_mutual_info_score: {Adjusted}")
+        print(f"adjusted_mutual_info_score: {Adjusted}\n")
 
     return Silhouette, Calinski, Special, Completeness, Homogeneity, Adjusted
 
