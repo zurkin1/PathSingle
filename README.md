@@ -23,9 +23,9 @@ calc_activity(anndata)
 ```
 
 ## Usage
-For detailed usage instructions, please refer to the notebooks in the `pathsingle` folder.
+For detailed usage instructions, please refer to the scripts and notebooks in the `pathsingle` folder.
 
-[PBMC benchmark](pathsingle/bench_pbmc.ipynb)
+[PBMC benchmark](pathsingle/benchmark.py)
 
 [T-cells classification benchmark](pathsingle/bench_challenge.ipynb)
 

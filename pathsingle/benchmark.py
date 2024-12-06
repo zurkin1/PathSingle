@@ -80,11 +80,12 @@ def run_method(method_name, method):
     """Run a given method 30 times, calculate metrics and confidence intervals."""
     metrics = [[] for _ in range(6)] # Initialize 6 empty lists.
     metric_names = ['Silhouette', 'Calinski', 'Special', 'Completeness', 'Homogeneity', 'Adjusted']
-    for _ in tqdm(range(30)):
+    for i in tqdm(range(30)):
         pathway_activity_df = method()
         #Perform KMeans clustering and plot UMAP.
         kmeans = cluster_with_kmeans(method_name, pathway_activity_df, adata, n_clusters=10)
         scores = calc_stats(pathway_activity_df, true_labels, kmeans.labels_, debug=True)
+        print(i)
         for score, metric_list in zip(scores, metrics):
             metric_list.append(score)
 
@@ -172,7 +173,7 @@ def run_pathsingle():
     #Scale the data.
     scaler = Normalizer()
     output_activity = scaler.fit_transform(output_activity)
-    PCA = PCA(n_components=50, svd_solver='arpack')
+    PCA = PCA(n_components=30, svd_solver='arpack')
     output_activity = PCA.fit_transform(output_activity)
     return output_activity
 '''
@@ -185,7 +186,7 @@ adjusted_mutual_info_score: 0.6176909258981184
 '''
 
 # Define list of method functions.
-methods = [run_pathsingle] #run_gsea, run_progeny, run_aucell, 
+methods = [run_aucell] #run_gsea, run_progeny, run_aucell, 
 
 # Loop through method functions.
 for method_func in methods:
