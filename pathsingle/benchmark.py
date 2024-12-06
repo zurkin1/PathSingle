@@ -16,7 +16,9 @@ import matplotlib.pyplot as plt
 import magic
 from activity import *
 from pathlib import Path
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler  # Normal distribution.
+from sklearn.preprocessing import MinMaxScaler    # [0,1] range.
+from sklearn.preprocessing import Normalizer      # Unit norm.
 from sklearn.feature_selection import VarianceThreshold
 from scipy import stats
 from itertools import chain, repeat
@@ -78,12 +80,10 @@ def run_method(method_name, method):
     """Run a given method 30 times, calculate metrics and confidence intervals."""
     metrics = [[] for _ in range(6)] # Initialize 6 empty lists.
     metric_names = ['Silhouette', 'Calinski', 'Special', 'Completeness', 'Homogeneity', 'Adjusted']
-    for _ in tqdm(range(30)):
+    for _ in tqdm(range(3)):
         pathway_activity_df = method()
         #Perform KMeans clustering and plot UMAP.
         kmeans = cluster_with_kmeans(method_name, pathway_activity_df, adata, n_clusters=10)
-
-        # Append all scores at once using list comprehension
         scores = calc_stats(pathway_activity_df, true_labels, kmeans.labels_)
         for score, metric_list in zip(scores, metrics):
             metric_list.append(score)
@@ -116,12 +116,14 @@ def run_gsea():
         print(cell_index, end='\r')
     return gsea_results_matrix
 '''
-Silhouette Score: 0.5818618817999396
-Calinski-Harabasz Index: 17819.743450336544
-Special accuracy: 0.3314285714285714
-completeness score: 0.22306129171029385
-homogeneity_score: 0.2461920972304762
-adjusted_mutual_info_score: 0.2096547513727912
+Results for gsea:
+Silhouette - mean: 0.5561046677924425, ci: (0.5534683894232597, 0.5587409461616253)
+Calinski - mean: 16294.160463012933, ci: (15962.582829852261, 16625.738096173605)
+Special - mean: 0.31719047619047624, ci: (0.31164243899418, 0.3227385133867725)
+Completeness - mean: 0.2179805089345317, ci: (0.21609472267907712, 0.21986629518998627)
+Homogeneity - mean: 0.24682039680701184, ci: (0.24492730757050962, 0.24871348604351406)
+Adjusted - mean: 0.20717204963411157, ci: (0.20538114825921425, 0.20896295100900888)
+
 '''
 
 progeny = decoupler.get_progeny(organism='human', top=2000)
@@ -138,6 +140,13 @@ Special - mean: 0.6271428571428571, ci: (0.6114787182419504, 0.6428069960437638)
 Completeness - mean: 0.6207960242943827, ci: (0.6128990147889134, 0.6286930337998521)
 Homogeneity - mean: 0.6358791241359868, ci: (0.6309284707239026, 0.640829777548071)
 Adjusted - mean: 0.6159252478430198, ci: (0.6098366484002805, 0.6220138472857591)
+Results for progeny:
+Silhouette - mean: 0.6144946217536926, ci: (0.59571121144838, 0.6332780320590052)
+Calinski - mean: 1802.2639849762188, ci: (1755.1765120853065, 1849.351457867131)
+Special - mean: 0.6490476190476191, ci: (0.63785434370834, 0.6602408943868981)
+Completeness - mean: 0.6347861014556874, ci: (0.6295494352718396, 0.6400227676395351)
+Homogeneity - mean: 0.6431875507404569, ci: (0.6408570554777759, 0.6455180460031378)
+Adjusted - mean: 0.6269649005116761, ci: (0.6235347482357637, 0.6303950527875885)
 '''
 
 def run_aucell():
@@ -150,6 +159,13 @@ Special - mean: 0.5946666666666667, ci: (0.5827601074933282, 0.6065732258400052)
 Completeness - mean: 0.60093050891257, ci: (0.5916599459964447, 0.6102010718286954)
 Homogeneity - mean: 0.6342885403046792, ci: (0.6296686799647475, 0.6389084006446109)
 Adjusted - mean: 0.6045281693242305, ci: (0.5974978431803457, 0.6115584954681152)
+Results for aucell:
+Silhouette - mean: 0.5813433527946472, ci: (0.5586026801822613, 0.6040840254070331)
+Calinski - mean: 985.4724865675855, ci: (945.7024049948561, 1025.242568140315)
+Special - mean: 0.6157142857142858, ci: (0.6029025957025977, 0.6285259757259738)
+Completeness - mean: 0.6249309793986906, ci: (0.616305298690219, 0.6335566601071622)
+Homogeneity - mean: 0.6483159001639436, ci: (0.6441170250837653, 0.6525147752441218)
+Adjusted - mean: 0.6243653270044098, ci: (0.618072118848946, 0.6306585351598737)
 '''
 
 def run_pathsingle():
@@ -167,8 +183,8 @@ def run_pathsingle():
     #output_activity = selector.fit_transform(output_activity)
 
     #Scale the data.
-    scaler = MinMaxScaler()
-    output_activity = scaler.fit_transform(output_activity)
+    #scaler = MinMaxScaler()
+    #output_activity = scaler.fit_transform(output_activity)
     PCA = PCA(n_components=50, svd_solver='arpack')
     output_activity = PCA.fit_transform(output_activity)
     return output_activity
@@ -179,17 +195,26 @@ Special accuracy: 0.6214285714285714
 completeness score: 0.6103618744991666
 homogeneity_score: 0.6504527943574239
 adjusted_mutual_info_score: 0.6176909258981184
-Results for pathsingle:
+
+Results for pathsingle (30):
 Silhouette - mean: 0.5358855452382626, ci: (0.5232767136639006, 0.5484943768126246)
 Calinski - mean: 1090.5438033592732, ci: (1054.1400981262054, 1126.947508592341)
 Special - mean: 0.5937619047619047, ci: (0.5835908538349613, 0.6039329556888481)
 Completeness - mean: 0.6089631563405739, ci: (0.6041706907373023, 0.6137556219438454)
 Homogeneity - mean: 0.6464026295938959, ci: (0.6402176559580726, 0.6525876032297193)
 Adjusted - mean: 0.6148974658974095, ci: (0.6098015038476241, 0.6199934279471948)
+
+Results for pathsingle(3):
+Silhouette - mean: 0.5524241390388723, ci: (0.4743155988937349, 0.6305326791840098)
+Calinski - mean: 1092.3081737565697, ci: (981.9185129995334, 1202.6978345136058)
+Special - mean: 0.6166666666666667, ci: (0.5846621027736685, 0.6486712305596649)
+Completeness - mean: 0.6161244893437341, ci: (0.5843852721222746, 0.6478637065651935)
+Homogeneity - mean: 0.6511741955793519, ci: (0.6345995677264896, 0.6677488234322141)
+Adjusted - mean: 0.621126407094348, ci: (0.6040929717958675, 0.6381598423928284)
 '''
 
 # Define list of method functions.
-methods = [run_gsea, run_progeny, run_aucell, run_pathsingle]
+methods = [run_pathsingle] #run_gsea, run_progeny, run_aucell, 
 
 # Loop through method functions.
 for method_func in methods:
