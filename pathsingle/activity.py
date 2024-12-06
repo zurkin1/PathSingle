@@ -112,7 +112,7 @@ def calc_activity(adata):
             interaction_dicts.append(interaction_dict)
             print(f"Processed sample {sample_idx+1}/{gene_expression_tensor.shape[0]}", end='\r')
 
-    mean_activity_matrix = np.zeros((gene_expression_tensor.shape[1], len(pathway_interactions))) # (samples, pathways)
+    mean_activity_matrix = np.zeros((gene_expression_tensor.shape[0], len(pathway_interactions))) # (samples, pathways)
 
     for idx, (pathway_name, activities) in enumerate(pathway_activities.items()):
         if activities:
