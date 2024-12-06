@@ -115,7 +115,7 @@ def calc_activity(adata):
         futures = [executor.submit(process_sample, arg) for arg in sample_args]
         
         # Collect results as they complete
-        for future in tqdm(as_completed(futures), total=len(futures)):
+        for future in as_completed(futures):
             idx, sample_pathway_activities, interaction_dict = future.result()
             
             # Store pathway activities
