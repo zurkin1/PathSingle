@@ -176,16 +176,15 @@ def run_pathsingle2():
     activity_df = magic_op.fit_transform(activity_df)
     activity_df = activity_df.astype(np.float16)
     activity_df.to_csv('./data/activity_df.csv', index=True)
-    # Run PathSingle.
     activity = sc.read('./data/activity_df.csv', delimiter=',', cache=False)
     calc_activity(activity)
 
     output_activity = pd.read_csv('./data/output_interaction_activity.csv', index_col=0)
 
     #Scale the data.
-    scaler = Normalizer()
+    scaler = StandardScaler()
     output_activity = scaler.fit_transform(output_activity)
-    PCA = PCA(n_components=30, svd_solver='arpack')
+    PCA = PCA(n_components=50, svd_solver='arpack')
     output_activity = PCA.fit_transform(output_activity)
     return output_activity
 
