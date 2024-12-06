@@ -51,7 +51,7 @@ adata = sc.pp.subsample(adata, fraction=0.1, copy=True) #28697 cells × 15077 ge
 print(adata)
 true_labels = adata.obs.state.map({'cycling':0, 'effector':1, 'other':2, 'progenitor':3, 'terminal exhausted':4})
 # Remove unexpressed genes.
-sc.pp.filter_genes(adata, min_cells=1)  # Keep genes expressed in at least 1 cell.
+#sc.pp.filter_genes(adata, min_cells=1)  # Keep genes expressed in at least 1 cell.
 #sc.pp.normalize_total(adata)  # Library size normalization (works on adata.X).
 #sc.pp.sqrt(adata)             # Square root transformation (works on adata.X).
 #adata.raw = adata.copy()      # Copy adata.X plus other objects to adata.raw.
