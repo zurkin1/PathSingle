@@ -35,21 +35,22 @@ warnings.filterwarnings("ignore", message="Tight layout not applied.*", category
 
 # We first download the 68K PBMC data and follow the standard `scanpy` workflow for normalisation of read counts and subsetting on the highly variable genes. For the
 # T-cells data uncomment the following block.
+'''
 adata = sc.datasets.pbmc68k_reduced()
 adata.obs['labels'] = adata.obs.bulk_labels.map({'CD14+ Monocyte':0, 'Dendritic':1, 'CD56+ NK':2, 'CD4+/CD25 T Reg':3, 'CD19+ B':4, 'CD8+ Cytotoxic T':5, 'CD4+/CD45RO+ Memory':6, 'CD8+/CD45RA+ Naive Cytotoxic':7, 'CD4+/CD45RA+/CD25- Naive T':8, 'CD34+':9})
 true_labels = adata.obs.labels
 print(adata)
 '''
+
 num_splits = 5
 split_files = [f'./data/sc_training_split_{i+1}.h5ad' for i in range(num_splits)]
 splits = [sc.read_h5ad(file) for file in split_files]
 
 # Concatenate the splits back into a single AnnData object.
 adata = splits[0].concatenate(*splits[1:], batch_key='batch', batch_categories=[f'batch_{i+1}' for i in range(num_splits)])
-#adata = sc.pp.subsample(adata, fraction=0.3, copy=True) #28697 cells × 15077 genes.
+adata = sc.pp.subsample(adata, fraction=0.3, copy=True) #28697 cells × 15077 genes.
 print(adata)
 true_labels = adata.obs.state.map({'cycling':0, 'effector':1, 'other':2, 'progenitor':3, 'terminal exhausted':4})
-'''
 
 # Run Magic.
 print(adata.raw.to_adata().X.toarray()[:5,:5])
@@ -163,7 +164,7 @@ def run_pathsingle():
     return output_activity
 
 # Define list of method functions.
-methods = [run_aucell] #run_gsea, run_progeny, run_aucell, 
+methods = [run_pathsingle] #run_gsea, run_progeny, run_aucell, 
 
 # Loop through method functions.
 for method_func in methods:
