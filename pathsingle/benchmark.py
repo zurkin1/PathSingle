@@ -48,10 +48,10 @@ splits = [sc.read_h5ad(file) for file in split_files]
 # Concatenate the splits back into a single AnnData object.
 adata = splits[0].concatenate(*splits[1:], batch_key='batch', batch_categories=[f'batch_{i+1}' for i in range(num_splits)])
 adata = sc.pp.subsample(adata, fraction=0.1, copy=True) #28697 cells × 15077 genes.
-print(adata.X.shape)
+print(adata)
 true_labels = adata.obs.state.map({'cycling':0, 'effector':1, 'other':2, 'progenitor':3, 'terminal exhausted':4})
 # Remove unexpressed genes.
-#sc.pp.filter_genes(adata, min_cells=1)  # Keep genes expressed in at least 1 cell.
+sc.pp.filter_genes(adata, min_cells=1)  # Keep genes expressed in at least 1 cell.
 #sc.pp.normalize_total(adata)  # Library size normalization (works on adata.X).
 #sc.pp.sqrt(adata)             # Square root transformation (works on adata.X).
 #adata.raw = adata.copy()      # Copy adata.X plus other objects to adata.raw.
@@ -62,7 +62,6 @@ true_labels = adata.obs.state.map({'cycling':0, 'effector':1, 'other':2, 'progen
 #print(adata.raw.to_adata().X[:5,:5])
 
 # Retrieving gene sets. Download and read the `gmt` file for the REACTOME pathways annotated in the C2 collection of MSigDB. 
-os.makedirs('./data', exist_ok=True)
 url = 'https://figshare.com/ndownloader/files/35233771'
 output_path = './data/c2.cp.reactome.v7.5.1.symbols.gmt'
 if not Path(output_path).is_file():
@@ -170,7 +169,7 @@ def run_pathsingle():
 def run_pathsingle2():
     from sklearn.decomposition import PCA
     
-    activity_df = pd.DataFrame(adata.X, index=adata.obs_names, columns=adata.var_names)
+    activity_df = pd.DataFrame(adata.X.toarray(), index=adata.obs_names, columns=adata.var_names)
     activity_df = scprep.normalize.library_size_normalize(activity_df)
     activity_df = scprep.transform.sqrt(activity_df)
     magic_op = magic.MAGIC()
