@@ -98,7 +98,7 @@ def run_method(method_name, method):
     for i in tqdm(range(30)):
         pathway_activity_df = method()
         #Perform KMeans clustering and plot UMAP.
-        kmeans = cluster_with_kmeans(method_name, pathway_activity_df, adata, n_clusters=10)
+        kmeans = cluster_with_kmeans(method_name, pathway_activity_df, adata, n_clusters=5) #Change to 10 for the PBMC benchmark.
         scores = calc_stats(pathway_activity_df, true_labels, kmeans.labels_, debug=True)
         print(i)
         for score, metric_list in zip(scores, metrics):
