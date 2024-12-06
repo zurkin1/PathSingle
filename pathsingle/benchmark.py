@@ -84,7 +84,7 @@ def run_method(method_name, method):
         pathway_activity_df = method()
         #Perform KMeans clustering and plot UMAP.
         kmeans = cluster_with_kmeans(method_name, pathway_activity_df, adata, n_clusters=10)
-        scores = calc_stats(pathway_activity_df, true_labels, kmeans.labels_)
+        scores = calc_stats(pathway_activity_df, true_labels, kmeans.labels_, debug=True)
         for score, metric_list in zip(scores, metrics):
             metric_list.append(score)
 
