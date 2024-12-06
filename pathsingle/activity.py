@@ -1,8 +1,5 @@
 import pandas as pd
 import numpy as np
-import torch
-from torch.utils.data import DataLoader
-from tqdm import tqdm
 import scanpy as sc
 from concurrent.futures import ProcessPoolExecutor
 
@@ -23,8 +20,7 @@ def gaussian_scaling(p, q, sigma=0.5):
 
 def process_pathway(args):
     """Calculate the activities of all pathways for a given sample."""
-    pathway, interactions, gene_expression_batch, sample_idx, gene_to_index = args
-    gene_expression_batch = torch.from_numpy(gene_expression_batch)
+    pathway, interactions, gene_expression, gene_to_index = args
     pathway_activity = 0
     interactions_counter = 0
     interaction_activities = {}
@@ -35,13 +31,13 @@ def process_pathway(args):
         # Calculate input activity.
         for gene in interaction[0]:
             if gene in gene_to_index:
-                interaction_activity += gene_expression_batch[sample_idx, gene_to_index[gene]]
+                interaction_activity += gene_expression[gene_to_index[gene]]
         
         # Calculate output activity.
         output_activity = 0
         for gene in interaction[2]:
             if gene in gene_to_index:
-                output_activity += gene_expression_batch[sample_idx, gene_to_index[gene]]
+                output_activity += gene_expression[gene_to_index[gene]]
         output_activity = max(1e-10, output_activity)
         
         # Calculate the interaction activity using modified cross entropy function.
@@ -56,10 +52,7 @@ def process_pathway(args):
         interactions_counter += 1
         
         # Add interaction activity to the dictionary. item() converts tensor to float.
-        if isinstance(interaction_activity, torch.Tensor):
-            interaction_activities[f'interaction_{pathway}_{interaction_idx}'] = interaction_activity.item()
-        else:
-            interaction_activities[f'interaction_{pathway}_{interaction_idx}'] = interaction_activity
+        interaction_activities[f'interaction_{pathway}_{interaction_idx}'] = interaction_activity
     
     return pathway, pathway_activity / interactions_counter, interaction_activities
 
@@ -70,16 +63,14 @@ def calc_activity(adata):
     #gene_expression_df.index = gene_expression_df.index.map(str.lower)
 
     #Convert the gene expression data to a PyTorch tensor. Transpose to match the desired orientation.
-    gene_expression_tensor = torch.tensor(adata.X.T, dtype=torch.float16) #gene_expression_df.values (genes, samples)
+    gene_expression_tensor = adata.X.T #gene_expression_df.values (genes, samples)
 
     #Create a mapping of gene names to their indices in the gene_expression_tensor.
     gene_names = adata.var_names.str.lower() #gene_expression_df.index
     gene_to_index = {gene: i for i, gene in enumerate(gene_names)}
 
-    #Load pathway relations.
+    #Load and parse pathway relations.
     pathway_relations = pd.read_csv('./data/pathway_relations.csv')
-
-    #Ensure 'source' column is properly cleaned and converted to lists of strings.
     pathway_relations['source'] = pathway_relations['source'].fillna('').astype(str).str.lower().str.split('*')
     pathway_relations['target'] = pathway_relations['target'].fillna('').astype(str).str.lower().str.split('*')
 
@@ -94,22 +85,6 @@ def calc_activity(adata):
             pathway_interactions[pathway] = []
         pathway_interactions[pathway].append((sources,inttype,targets)) # For example: (['baiap2', 'wasf2', 'wasf3', 'wasf1'], 'activation', 'activation', ['cyp2b6', 'cyp2j2']).
 
-    #Define a Dataset.
-    class GeneExpressionDataset(torch.utils.data.Dataset):
-        def __init__(self, gene_expression_tensor):
-            self.gene_expression_tensor = gene_expression_tensor
-
-        def __len__(self):
-            return self.gene_expression_tensor.shape[1]
-
-        def __getitem__(self, idx):
-            return self.gene_expression_tensor[:, idx]
-
-    #Create DataLoader.
-    batch_size = 5
-    gene_expression_dataset = GeneExpressionDataset(gene_expression_tensor)
-    gene_expression_loader = DataLoader(gene_expression_dataset, batch_size=batch_size, shuffle=False)
-
     #Initialize a dictionary to store pathway activities.
     pathway_activities = {pathway: [] for pathway in pathway_interactions.keys()}
 
@@ -118,26 +93,25 @@ def calc_activity(adata):
 
     #Process the data in batches using DataLoader.
     with ProcessPoolExecutor(max_workers=20) as executor:
-        for batch_idx, gene_expression_batch in enumerate(gene_expression_loader):
-            gene_expression_batch = gene_expression_batch.cpu().numpy()
-            for sample_idx in range(0,gene_expression_batch.shape[0]):
-                sample_name = adata.obs_names[batch_idx * batch_size + sample_idx]
-                interaction_dict = {'sample_name': sample_name}
-                
-                # Prepare arguments for parallel processing.
-                args = [(pathway, interactions, gene_expression_batch, sample_idx, gene_to_index) 
-                       for pathway, interactions in pathway_interactions.items()]
+        for sample_idx in range(gene_expression_tensor.shape[0]):
+            sample_name = adata.obs_names[sample_idx]
+            sample_data = gene_expression_tensor[sample_idx]
+            interaction_dict = {'sample_name': sample_name}
             
-                # Process pathways in parallel.
-                futures = [executor.submit(process_pathway, arg) for arg in args]
-                results = [f.result() for f in futures]
-                # Collect results.
-                for pathway, pathway_activity, interaction_acts in results:
-                    pathway_activities[pathway].append(pathway_activity)
-                    interaction_dict.update(interaction_acts)
-            
-                interaction_dicts.append(interaction_dict)
-            print(batch_idx, end='\r')
+            # Prepare arguments for parallel processing.
+            args = [(pathway, interactions, sample_data, gene_to_index) 
+                    for pathway, interactions in pathway_interactions.items()]
+        
+            # Process pathways in parallel.
+            futures = [executor.submit(process_pathway, arg) for arg in args]
+            results = [f.result() for f in futures]
+            # Collect results.
+            for pathway, pathway_activity, interaction_acts in results:
+                pathway_activities[pathway].append(pathway_activity)
+                interaction_dict.update(interaction_acts)
+        
+            interaction_dicts.append(interaction_dict)
+            print(f"Processed sample {sample_idx+1}/{gene_expression_tensor.shape[0]}", end='\r')
 
     mean_activity_matrix = np.zeros((gene_expression_tensor.shape[1], len(pathway_interactions))) # (samples, pathways)
 
