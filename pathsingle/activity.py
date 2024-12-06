@@ -4,8 +4,7 @@ import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 import scanpy as sc
-from torch.multiprocessing import Pool
-import os
+from concurrent.futures import ThreadPoolExecutor
 
 
 #Function to determine if an interaction type is inhibitory.
@@ -24,9 +23,7 @@ def gaussian_scaling(p, q, sigma=0.5):
 
 def process_pathway(args):
     """Calculate the activities of all pathways for a given sample."""
-    pathway, interactions, sample_data, gene_to_index = args
-    # Create tensor inside worker process.
-    sample_data = torch.tensor(sample_data, dtype=torch.float16)
+    pathway, interactions, gene_expression_batch, sample_idx, gene_to_index = args
     pathway_activity = 0
     interactions_counter = 0
     interaction_activities = {}
@@ -37,13 +34,13 @@ def process_pathway(args):
         # Calculate input activity.
         for gene in interaction[0]:
             if gene in gene_to_index:
-                interaction_activity += sample_data[gene_to_index[gene]]
+                interaction_activity += gene_expression_batch[sample_idx, gene_to_index[gene]]
         
         # Calculate output activity.
         output_activity = 0
         for gene in interaction[2]:
             if gene in gene_to_index:
-                output_activity += sample_data[gene_to_index[gene]]
+                output_activity += gene_expression_batch[sample_idx, gene_to_index[gene]]
         output_activity = max(1e-10, output_activity)
         
         # Calculate the interaction activity using modified cross entropy function.
@@ -119,23 +116,20 @@ def calc_activity(adata):
     interaction_dicts = []
 
     #Process the data in batches using DataLoader.
-    num_cores = os.cpu_count()
-    with Pool(processes=num_cores) as pool:
+    with ThreadPoolExecutor(max_workers=4) as executor:
         for batch_idx, gene_expression_batch in enumerate(gene_expression_loader):
-            # Convert tensor to numpy array before sharing due to multiprocessing restrictions.
-            batch_numpy = gene_expression_batch.cpu().numpy()
-            
-            for sample_idx in range(0, batch_numpy.shape[0]):
+            gene_expression_batch = gene_expression_batch.to('cpu')
+            for sample_idx in range(0,gene_expression_batch.shape[0]):
                 sample_name = adata.obs_names[batch_idx * batch_size + sample_idx]
-                sample_data = batch_numpy[sample_idx]
                 interaction_dict = {'sample_name': sample_name}
                 
                 # Prepare arguments for parallel processing.
-                args = [(pathway, interactions, sample_data, gene_to_index) 
+                args = [(pathway, interactions, gene_expression_batch, sample_idx, gene_to_index) 
                        for pathway, interactions in pathway_interactions.items()]
             
                 # Process pathways in parallel.
-                results = pool.map(process_pathway, args)
+                futures = [executor.submit(process_pathway, arg) for arg in args]
+                results = [f.result() for f in futures]
                 # Collect results.
                 for pathway, pathway_activity, interaction_acts in results:
                     pathway_activities[pathway].append(pathway_activity)
