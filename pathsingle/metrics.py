@@ -14,8 +14,11 @@ import umap.umap_ as umap
 import scanpy as sc
 
 
-#General metric functions used in the benchmarks.
+sc.settings.set_figure_params(dpi=200, frameon=False)
+sc.set_figure_params(dpi=200)
+sc.set_figure_params(figsize=(4, 4))
 
+#General metric functions used in the benchmarks.
 #Dunn index calculation function.
 def dunn_index(X, labels):
     #Compute pairwise distances.
