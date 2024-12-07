@@ -119,8 +119,7 @@ if __name__ == '__main__':
     #sc.pp.sqrt(adata)             # Square root transformation (works on adata.X).
     #adata.raw = adata.copy()      # Copy adata.X plus other objects to adata.raw.
     adata.X = scprep.normalize.library_size_normalize(adata.X) #For each cell (row), divide each expression value by the sum of the row and multiply by the scaling factor (default 1e4).
-    #adata.X = scprep.transform.sqrt(adata.X) #For each value x in the expression matrix take √x. Stabilizes variance and reduces outliers.
-    adata.X = scprep.transform.log(adata.X)  #For each value x in the expression matrix take log2(x+1). Stabilizes variance and reduces outliers.
+    adata.X = scprep.transform.sqrt(adata.X) #For each value x in the expression matrix take √x. Stabilizes variance and reduces outliers.
 
     # MAGIC imputation.
     print(adata.X.toarray()[:5,:5]) #adata.raw.to_adata().X.toarray()

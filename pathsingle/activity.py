@@ -51,14 +51,14 @@ def process_pathway(args):
         for gene in interaction[0]:
             if gene in gene_to_index:
                 input_activity += gene_expression[gene_to_index[gene]]
-        
+
         # Calculate output activity.
         output_activity = 0
         for gene in interaction[2]:
             if gene in gene_to_index:
                 output_activity += gene_expression[gene_to_index[gene]]
         output_activity = max(1e-10, output_activity)
-        
+
         # Calculate the interaction activity using modified cross entropy function.
         #interaction_activity = -interaction_activity * (1 - np.log(output_activity))
         # Calculate interaction activity.
@@ -66,7 +66,7 @@ def process_pathway(args):
             interaction_activity = gaussian_scaling(input_activity, output_activity)
         else:
             interaction_activity = consistency_scaling(input_activity, output_activity)
-
+            
         pathway_activity += interaction_activity
         interactions_counter += 1
         
