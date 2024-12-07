@@ -101,6 +101,8 @@ def calc_activity(adata):
 
     # Initialize a list to store dictionaries of interaction activities per sample.
     interaction_dicts = []
+    n_samples = gene_expression_tensor.shape[0]
+    ordered_results = [None] * n_samples  # Pre-allocate list for ordered results.
 
     # Process samples in parallel.
     with ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
@@ -114,18 +116,18 @@ def calc_activity(adata):
         # Submit all jobs
         futures = [executor.submit(process_sample, arg) for arg in sample_args]
         
-        # Collect results as they complete
+        # Collect results maintaining order.
         for future in as_completed(futures):
             idx, sample_pathway_activities, interaction_dict = future.result()
-            
-            # Store pathway activities
-            for pathway, activity in sample_pathway_activities.items():
-                pathway_activities[pathway].append(activity)
-            
-            # Store interaction activities
-            interaction_dicts.append(interaction_dict)
-            
+            ordered_results[idx] = (sample_pathway_activities, interaction_dict)
             print(f"Processed sample {idx+1}/{gene_expression_tensor.shape[0]}", end='\r')
+
+    # Process results in correct order.
+    for idx, (sample_pathway_activities, interaction_dict) in enumerate(ordered_results):
+        # Store pathway activities.
+        for pathway, activity in sample_pathway_activities.items():
+            pathway_activities[pathway].append(activity)
+        interaction_dicts.append(interaction_dict)
 
     mean_activity_matrix = np.zeros((gene_expression_tensor.shape[0], len(pathway_interactions))) # (samples, pathways)
 
