@@ -9,7 +9,7 @@ import warnings
 import scanpy.external as sce
 from metrics import *
 from activity import *
-from sklearn.preprocessing import Normalizer      # Unit norm. StandardScaler  # Normal distribution. MinMaxScaler    # [0,1] range.
+from sklearn.preprocessing import Normalizer # Unit norm. StandardScaler # Normal distribution. MinMaxScaler # [0,1] range.
 from scipy import stats
 from itertools import chain, repeat
 import urllib.request
@@ -17,6 +17,7 @@ import anndata as ad
 from pathlib import Path
 import scprep
 import magic
+
 
 os.environ["LOKY_MAX_CPU_COUNT"] = '4'
 sc.settings.set_figure_params(dpi=200, frameon=False)
@@ -51,14 +52,12 @@ adata.X = scprep.normalize.library_size_normalize(adata.X)
 adata.X = scprep.transform.sqrt(adata.X)
 
 # MAGIC imputation.
+print(adata.X.toarray()[:5,:5]) #adata.raw.to_adata().X.toarray()
 magic_op = magic.MAGIC()
 adata.X = magic_op.fit_transform(adata.X)
 adata.X = adata.X.astype(np.float16)
-
-# Run Magic.
-#print(adata.raw.to_adata().X.toarray()[:5,:5])
 #sce.pp.magic(adata, name_list='all_genes')
-#print(adata.raw.to_adata().X[:5,:5])
+print(adata.X[:5,:5]) #adata.raw.to_adata().X
 
 # Retrieving gene sets. Download and read the `gmt` file for the REACTOME pathways annotated in the C2 collection of MSigDB. 
 url = 'https://figshare.com/ndownloader/files/35233771'
@@ -135,20 +134,15 @@ def run_gsea():
 progeny = decoupler.get_progeny(organism='human', top=2000)
 
 def run_progeny():
-    # Print gene name info.
-    print("Data genes:", len(adata.var_names))
-    print("Sample genes:", adata.var_names[:5])
-    
     # Convert gene names to consistent format.
     adata.var_names = adata.var_names.str.upper()
-    
+
     # Print overlap with PROGENy.
     progeny_genes = set(progeny['target'].unique())
     data_genes = set(adata.var_names)
     overlap = progeny_genes.intersection(data_genes)
-    
-    print("PROGENy genes:", len(progeny_genes))
-    print("Overlap genes:", len(overlap))
+    print("PROGENy genes:", len(progeny_genes), "Overlap genes:", len(overlap))
+
     decoupler.run_mlm(mat=adata, net=progeny, source='source', target='target', weight='weight', verbose=False, use_raw=False)
     acts = decoupler.get_acts(adata, obsm_key='mlm_estimate')
     #Convert the pathway activity matrix to a DataFrame.
@@ -165,9 +159,11 @@ def run_pathsingle():
     calc_activity(activity)
     output_activity = pd.read_csv('./data/output_interaction_activity.csv', index_col=0)
 
-    scaler = Normalizer()
-    output_activity = scaler.fit_transform(output_activity)
-    PCA = PCA(n_components=40, svd_solver='arpack')
+    #Scale the data.
+    #scaler = Normalizer() #For each cell (row), devide each activity by L2 norm of the row (square root of the sum of squares). 
+                          #Each row will have length 1. print(np.sqrt(np.sum(X_normalized**2, axis=1)))  # [1. 1.]
+    #output_activity = scaler.fit_transform(output_activity)
+    PCA = PCA(n_components=30, svd_solver='arpack')
     output_activity = PCA.fit_transform(output_activity)
     return output_activity
 
