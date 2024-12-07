@@ -14,6 +14,7 @@ from scipy import stats
 from itertools import chain, repeat
 import urllib.request
 import anndata as ad
+from pathlib import Path
 
 
 os.environ["LOKY_MAX_CPU_COUNT"] = '4'
@@ -41,8 +42,7 @@ adata = ad.concat(splits, join='outer', merge='same', label='batch', keys=[f'bat
 adata = sc.pp.subsample(adata, fraction=0.1, copy=True) #28697 cells × 15077 genes.
 print(adata)
 true_labels = adata.obs.state.map({'cycling':0, 'effector':1, 'other':2, 'progenitor':3, 'terminal exhausted':4})
-
-sc.pp.filter_genes(adata, min_cells=1)  # Remove unexpressed genes. Keep genes expressed in at least 1 cell.
+sc.pp.filter_genes(adata, min_cells=1)  # Remove unexpresed genes. Keep genes expressed in at least 1 cell.
 sc.pp.normalize_total(adata)  # Library size normalization (works on adata.X).
 sc.pp.sqrt(adata)             # Square root transformation (works on adata.X).
 adata.raw = adata.copy()      # Copy adata.X plus other objects to adata.raw.
@@ -157,7 +157,6 @@ def run_pathsingle():
     calc_activity(activity)
     output_activity = pd.read_csv('./data/output_interaction_activity.csv', index_col=0)
 
-    #Scale the data.
     scaler = Normalizer()
     output_activity = scaler.fit_transform(output_activity)
     PCA = PCA(n_components=30, svd_solver='arpack')
