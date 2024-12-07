@@ -42,7 +42,7 @@ adata = ad.concat(splits, join='outer', merge='same', label='batch', keys=[f'bat
 adata = sc.pp.subsample(adata, fraction=0.1, copy=True) #28697 cells × 15077 genes.
 print(adata)
 true_labels = adata.obs.state.map({'cycling':0, 'effector':1, 'other':2, 'progenitor':3, 'terminal exhausted':4})
-sc.pp.filter_genes(adata, min_cells=1)  # Remove unexpresed genes. Keep genes expressed in at least 1 cell.
+sc.pp.filter_genes(adata, min_cells=1)  # Remove unexpressed genes. Keep genes expressed in at least 1 cell.
 sc.pp.normalize_total(adata)  # Library size normalization (works on adata.X).
 sc.pp.sqrt(adata)             # Square root transformation (works on adata.X).
 adata.raw = adata.copy()      # Copy adata.X plus other objects to adata.raw.
@@ -141,9 +141,10 @@ def run_progeny():
     
     print("PROGENy genes:", len(progeny_genes))
     print("Overlap genes:", len(overlap))
-    decoupler.run_mlm(mat=adata, net=progeny, source='source', target='target', weight='weight', verbose=False, use_raw=False, min_n=3)
+    decoupler.run_mlm(mat=adata, net=progeny, source='source', target='target', weight='weight', verbose=False, use_raw=False)
+    acts = decoupler.get_acts(adata, obsm_key='mlm_estimate')
     #Convert the pathway activity matrix to a DataFrame.
-    return pd.DataFrame(adata.obsm['mlm_estimate'], index=adata.obs_names, columns=adata.uns['mlm_sources'])
+    return pd.DataFrame(acts.obsm['mlm_estimate'], index=adata.obs_names, columns=acts.var_names)
 
 def run_aucell():
     decoupler.run_aucell(adata, reactome, source="geneset", target="genesymbol", use_raw=False, verbose=False)
@@ -168,6 +169,6 @@ methods = [run_progeny] #run_gsea, run_progeny, run_aucell,
 
 # Loop through method functions.
 for method_func in methods:
-    method_name = method_func.__name__.replace('run_', '')  # Remove 'run_' prefix
+    method_name = method_func.__name__.replace('run_', '')  # Remove 'run_' prefix.
     print(f"\nRunning {method_name.upper()}...")
     run_method(method_name, method_func)
