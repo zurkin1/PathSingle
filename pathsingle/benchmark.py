@@ -15,7 +15,8 @@ from itertools import chain, repeat
 import urllib.request
 import anndata as ad
 from pathlib import Path
-
+import scprep
+import magic
 
 os.environ["LOKY_MAX_CPU_COUNT"] = '4'
 sc.settings.set_figure_params(dpi=200, frameon=False)
@@ -43,13 +44,20 @@ adata = sc.pp.subsample(adata, fraction=0.1, copy=True) #28697 cells × 15077 ge
 print(adata)
 true_labels = adata.obs.state.map({'cycling':0, 'effector':1, 'other':2, 'progenitor':3, 'terminal exhausted':4})
 sc.pp.filter_genes(adata, min_cells=1)  # Remove unexpressed genes. Keep genes expressed in at least 1 cell.
-sc.pp.normalize_total(adata)  # Library size normalization (works on adata.X).
-sc.pp.sqrt(adata)             # Square root transformation (works on adata.X).
-adata.raw = adata.copy()      # Copy adata.X plus other objects to adata.raw.
+#sc.pp.normalize_total(adata)  # Library size normalization (works on adata.X).
+#sc.pp.sqrt(adata)             # Square root transformation (works on adata.X).
+#adata.raw = adata.copy()      # Copy adata.X plus other objects to adata.raw.
+adata.X = scprep.normalize.library_size_normalize(adata.X)
+adata.X = scprep.transform.sqrt(adata.X)
+
+# MAGIC imputation.
+magic_op = magic.MAGIC()
+adata.X = magic_op.fit_transform(adata.X)
+adata.X = adata.X.astype(np.float16)
 
 # Run Magic.
 #print(adata.raw.to_adata().X.toarray()[:5,:5])
-sce.pp.magic(adata, name_list='all_genes')
+#sce.pp.magic(adata, name_list='all_genes')
 #print(adata.raw.to_adata().X[:5,:5])
 
 # Retrieving gene sets. Download and read the `gmt` file for the REACTOME pathways annotated in the C2 collection of MSigDB. 
@@ -153,19 +161,18 @@ def run_aucell():
 def run_pathsingle():
     from sklearn.decomposition import PCA
     
-    activity_df = pd.DataFrame(adata.X, index=adata.obs_names, columns=adata.var_names)
-    activity = sc.AnnData(activity_df)
+    activity = sc.AnnData(adata.X, obs=adata.obs, var=adata.var)
     calc_activity(activity)
     output_activity = pd.read_csv('./data/output_interaction_activity.csv', index_col=0)
 
     scaler = Normalizer()
     output_activity = scaler.fit_transform(output_activity)
-    PCA = PCA(n_components=30, svd_solver='arpack')
+    PCA = PCA(n_components=40, svd_solver='arpack')
     output_activity = PCA.fit_transform(output_activity)
     return output_activity
 
 # Define list of method functions.
-methods = [run_progeny] #run_gsea, run_progeny, run_aucell, 
+methods = [run_pathsingle] #run_gsea, run_progeny, run_aucell, 
 
 # Loop through method functions.
 for method_func in methods:
