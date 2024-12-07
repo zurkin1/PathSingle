@@ -165,7 +165,7 @@ def run_pathsingle():
     return output_activity
 
 # Define list of method functions.
-methods = [run_pathsingle] #run_gsea, run_progeny, run_aucell, 
+methods = [run_progeny] #run_gsea, run_progeny, run_aucell, 
 
 # Loop through method functions.
 for method_func in methods:
