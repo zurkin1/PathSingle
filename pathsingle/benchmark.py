@@ -160,9 +160,9 @@ def run_pathsingle():
     output_activity = pd.read_csv('./data/output_interaction_activity.csv', index_col=0)
 
     #Scale the data.
-    #scaler = Normalizer() #For each cell (row), devide each activity by L2 norm of the row (square root of the sum of squares). 
+    scaler = Normalizer(norm='l1') #For each cell (row), devide each activity by L2 norm of the row (square root of the sum of squares). 
                           #Each row will have length 1. print(np.sqrt(np.sum(X_normalized**2, axis=1)))  # [1. 1.]
-    #output_activity = scaler.fit_transform(output_activity)
+    output_activity = scaler.fit_transform(output_activity)
     PCA = PCA(n_components=30, svd_solver='arpack')
     output_activity = PCA.fit_transform(output_activity)
     return output_activity
