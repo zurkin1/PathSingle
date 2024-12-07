@@ -4,21 +4,12 @@ import pandas as pd
 import scanpy as sc
 import decoupler
 from tqdm.notebook import tqdm
-import session_info
 import os
 import warnings
 import scanpy.external as sce
 from metrics import *
-import scprep
-from sklearn.cluster import KMeans
-import umap.umap_ as umap
-import matplotlib.pyplot as plt
-import magic
 from activity import *
-from pathlib import Path
-from sklearn.preprocessing import StandardScaler  # Normal distribution.
-from sklearn.preprocessing import MinMaxScaler    # [0,1] range.
-from sklearn.preprocessing import Normalizer      # Unit norm.
+from sklearn.preprocessing import Normalizer      # Unit norm. StandardScaler  # Normal distribution. MinMaxScaler    # [0,1] range.
 from scipy import stats
 from itertools import chain, repeat
 import urllib.request
@@ -149,10 +140,7 @@ def run_pathsingle():
     from sklearn.decomposition import PCA
     
     activity_df = pd.DataFrame(adata.X, index=adata.obs_names, columns=adata.var_names)
-    #magic_op = magic.MAGIC()
-    #activity_df = magic_op.fit_transform(activity_df)
     activity = sc.AnnData(activity_df)
-
     calc_activity(activity)
     output_activity = pd.read_csv('./data/output_interaction_activity.csv', index_col=0)
 
@@ -160,28 +148,6 @@ def run_pathsingle():
     scaler = Normalizer()
     output_activity = scaler.fit_transform(output_activity)
     PCA = PCA(n_components=30, svd_solver='arpack')
-    output_activity = PCA.fit_transform(output_activity)
-    return output_activity
-
-def run_pathsingle2():
-    from sklearn.decomposition import PCA
-    
-    activity_df = pd.DataFrame(adata.X.toarray(), index=adata.obs_names, columns=adata.var_names)
-    activity_df = scprep.normalize.library_size_normalize(activity_df)
-    activity_df = scprep.transform.sqrt(activity_df)
-    magic_op = magic.MAGIC()
-    activity_df = magic_op.fit_transform(activity_df)
-    activity_df = activity_df.astype(np.float16)
-    activity_df.to_csv('./data/activity_df.csv', index=True)
-    activity = sc.read('./data/activity_df.csv', delimiter=',', cache=False)
-    calc_activity(activity)
-
-    output_activity = pd.read_csv('./data/output_interaction_activity.csv', index_col=0)
-
-    #Scale the data.
-    scaler = StandardScaler()
-    output_activity = scaler.fit_transform(output_activity)
-    PCA = PCA(n_components=50, svd_solver='arpack')
     output_activity = PCA.fit_transform(output_activity)
     return output_activity
 
