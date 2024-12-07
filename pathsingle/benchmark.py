@@ -8,7 +8,7 @@ import os
 import scanpy.external as sce
 from metrics import *
 from activity import *
-from sklearn.preprocessing import Normalizer # Unit norm. StandardScaler # Normal distribution. MinMaxScaler # [0,1] range.
+from sklearn.preprocessing import normalize # Unit norm. StandardScaler # Normal distribution. MinMaxScaler # [0,1] range.
 from scipy import stats
 from itertools import chain, repeat
 import urllib.request
@@ -88,10 +88,9 @@ def run_pathsingle(adata, reactome):
     calc_activity(activity)
     output_activity = pd.read_csv('./data/output_activity.csv', index_col=0)
 
-    #Scale the data.
-    scaler = Normalizer() #For each cell (row), devide each activity by L2 norm of the row (square root of the sum of squares). 
-                          #Each row will have length 1. print(np.sqrt(np.sum(X_normalized**2, axis=1)))  # [1. 1.]
-    output_activity = scaler.fit_transform(output_activity)
+    #Scale the data. For each cell (row), devide each activity by L2 norm of the row (square root of the sum of squares). 
+    #Each row will have length 1. print(np.sqrt(np.sum(X_normalized**2, axis=1)))  # [1. 1.]
+    output_activity = normalize(output_activity)
     PCA = PCA(n_components=30, svd_solver='arpack')
     output_activity = PCA.fit_transform(output_activity)
     return output_activity
@@ -121,7 +120,7 @@ if __name__ == '__main__':
     #adata.raw = adata.copy()      # Copy adata.X plus other objects to adata.raw.
     adata.X = scprep.normalize.library_size_normalize(adata.X) #For each cell (row), divide each expression value by the sum of the row and multiply by the scaling factor (default 1e4).
     #adata.X = scprep.transform.sqrt(adata.X) #For each value x in the expression matrix take √x. Stabilizes variance and reduces outliers.
-    adata.X = scprep.transform.log(adata.X)  # For each value x in the expression matrix take log2(x+1). Stabilizes variance and reduces outliers.
+    adata.X = scprep.transform.log(adata.X)  #For each value x in the expression matrix take log2(x+1). Stabilizes variance and reduces outliers.
 
     # MAGIC imputation.
     print(adata.X.toarray()[:5,:5]) #adata.raw.to_adata().X.toarray()
