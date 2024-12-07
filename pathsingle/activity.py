@@ -37,6 +37,11 @@ def consistency_scaling(p, q):
     """Calculate the scaled activity of inputs (p) of an interaction by the outputs (q)."""
     return p * q - (1 - p) * (1 - q)
 
+def proximity_scaling(p, q):
+    """Calculate the scaled activity of inputs (p) of an interaction by the outputs (q)."""
+    proximity = 1 - abs(p -q)
+    return p * proximity
+
 def process_pathway(args):
     """Calculate the activities of one pathway for a given sample."""
     pathway, interactions, gene_expression, gene_to_index = args
@@ -65,7 +70,7 @@ def process_pathway(args):
         if is_inhibitory(interaction[1]):
             interaction_activity = gaussian_scaling(input_activity, output_activity)
         else:
-            interaction_activity = consistency_scaling(input_activity, output_activity)
+            interaction_activity = proximity_scaling(input_activity, output_activity)
             
         pathway_activity += interaction_activity
         interactions_counter += 1
