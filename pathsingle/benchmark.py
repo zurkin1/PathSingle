@@ -91,7 +91,7 @@ def run_pathsingle(adata, reactome):
     #Scale the data. For each cell (row), devide each activity by L2 norm of the row (square root of the sum of squares). 
     #Each row will have length 1. print(np.sqrt(np.sum(X_normalized**2, axis=1)))  # [1. 1.]
     output_activity = normalize(output_activity)
-    PCA = PCA(n_components=40, svd_solver='arpack')
+    PCA = PCA(n_components=30, svd_solver='arpack')
     output_activity = PCA.fit_transform(output_activity)
     return output_activity
 
@@ -115,8 +115,8 @@ if __name__ == '__main__':
 
     print(adata)
     #sc.pp.filter_genes(adata, min_cells=1)  # Remove unexpressed genes. Keep genes expressed in at least 1 cell.
-    sc.pp.normalize_total(adata)  # Library size normalization (works on adata.X).
-    sc.pp.sqrt(adata)             # Square root transformation (works on adata.X).
+    #sc.pp.normalize_total(adata)  # Library size normalization (works on adata.X).
+    #sc.pp.sqrt(adata)             # Square root transformation (works on adata.X).
     #adata.raw = adata.copy()      # Copy adata.X plus other objects to adata.raw.
     #adata.X = scprep.normalize.library_size_normalize(adata.X) #For each cell (row), divide each expression value by the sum of the row and multiply by the scaling factor (default 1e4).
     #adata.X = scprep.transform.sqrt(adata.X) #For each value x in the expression matrix take √x. Stabilizes variance and reduces outliers.
