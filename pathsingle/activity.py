@@ -51,11 +51,11 @@ def process_pathway(args):
     
     #Calculate activities for each interaction. interactions is a list of tuples: (['baiap2', 'wasf2', 'wasf3', 'wasf1'], 'activation', 'activation', ['cyp2b6', 'cyp2j2']).
     for interaction_idx, interaction in enumerate(interactions):
-        input_activity = 0
+        interaction_activity = 0
         # Calculate input activity.
         for gene in interaction[0]:
             if gene in gene_to_index:
-                input_activity += gene_expression[gene_to_index[gene]]
+                interaction_activity += gene_expression[gene_to_index[gene]]
 
         # Calculate output activity.
         output_activity = 0
@@ -63,15 +63,11 @@ def process_pathway(args):
             if gene in gene_to_index:
                 output_activity += gene_expression[gene_to_index[gene]]
         output_activity = max(1e-10, output_activity)
-        interaction_activity = proximity_scaling(input_activity, output_activity)
-        # Calculate the interaction activity using modified cross entropy function.
-        #interaction_activity = -interaction_activity * (1 - np.log(output_activity))
-        # Calculate interaction activity.
+        
+        interaction_activity = gaussian_scaling(interaction_activity, output_activity)
+        #Once we finish calculating the interaction activity, we check if it is ihibitory.
         if is_inhibitory(interaction[1]):
-            #interaction_activity = gaussian_scaling(input_activity, output_activity)
             interaction_activity = -interaction_activity
-        #else:
-        #    interaction_activity = proximity_scaling(input_activity, output_activity)
             
         pathway_activity += interaction_activity
         interactions_counter += 1
