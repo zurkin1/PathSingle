@@ -121,7 +121,9 @@ if __name__ == '__main__':
     #adata.raw = adata.copy()      # Copy adata.X plus other objects to adata.raw.
     #adata.X = scprep.normalize.library_size_normalize(adata.X) #For each cell (row), divide each expression value by the sum of the row and multiply by the scaling factor (default 1e4).
     #adata.X = scprep.transform.sqrt(adata.X) #For each value x in the expression matrix take √x. Stabilizes variance and reduces outliers.
-
+    # Handle NaNs if present.
+    adata.X = np.nan_to_num(adata.X, nan=0.0, posinf=0.0, neginf=0.0)
+    
     # MAGIC imputation.
     #print(adata.X.toarray()[:5,:5]) #adata.raw.to_adata().X.toarray()
     magic_op = magic.MAGIC()
