@@ -91,34 +91,33 @@ def run_pathsingle(adata, reactome):
     #Scale the data. For each cell (row), devide each activity by L2 norm of the row (square root of the sum of squares). 
     #Each row will have length 1. print(np.sqrt(np.sum(X_normalized**2, axis=1)))  # [1. 1.]
     output_activity = normalize(output_activity)
-    PCA = PCA(n_components=30, svd_solver='arpack')
+    PCA = PCA(n_components=40, svd_solver='arpack')
     output_activity = PCA.fit_transform(output_activity)
     return output_activity
 
 
 if __name__ == '__main__':
-    # We first download the 68K PBMC data and follow the standard `scanpy` workflow for normalisation of read counts and subsetting on the highly variable genes. For the
-    # T-cells data uncomment the following block.
-
+    #68K PBMC data.
     adata = sc.datasets.pbmc68k_reduced()
     adata.obs['labels'] = adata.obs.bulk_labels.map({'CD14+ Monocyte':0, 'Dendritic':1, 'CD56+ NK':2, 'CD4+/CD25 T Reg':3, 'CD19+ B':4, 'CD8+ Cytotoxic T':5, 'CD4+/CD45RO+ Memory':6, 'CD8+/CD45RA+ Naive Cytotoxic':7, 'CD4+/CD45RA+/CD25- Naive T':8, 'CD34+':9})
     true_labels = adata.obs.labels
-    print(adata)
     
     '''
+    #T-cells data.
     num_splits = 5
     split_files = [f'./data/sc_training_split_{i+1}.h5ad' for i in range(num_splits)]
     splits = [sc.read_h5ad(file) for file in split_files]
     # Concatenate the splits back into a single AnnData object.
     adata = ad.concat(splits, join='outer', merge='same', label='batch', keys=[f'batch_{i+1}' for i in range(num_splits)])
     adata = sc.pp.subsample(adata, fraction=0.1, copy=True) #28697 cells × 15077 genes.
-    print(adata)
     true_labels = adata.obs.state.map({'cycling':0, 'effector':1, 'other':2, 'progenitor':3, 'terminal exhausted':4})
     '''
+
+    print(adata)
     sc.pp.filter_genes(adata, min_cells=1)  # Remove unexpressed genes. Keep genes expressed in at least 1 cell.
     sc.pp.normalize_total(adata)  # Library size normalization (works on adata.X).
     sc.pp.sqrt(adata)             # Square root transformation (works on adata.X).
-    #adata.raw = adata.copy()      # Copy adata.X plus other objects to adata.raw.
+    adata.raw = adata.copy()      # Copy adata.X plus other objects to adata.raw.
     #adata.X = scprep.normalize.library_size_normalize(adata.X) #For each cell (row), divide each expression value by the sum of the row and multiply by the scaling factor (default 1e4).
     #adata.X = scprep.transform.sqrt(adata.X) #For each value x in the expression matrix take √x. Stabilizes variance and reduces outliers.
     # Handle NaNs if present.
