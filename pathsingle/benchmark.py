@@ -123,12 +123,12 @@ if __name__ == '__main__':
     #adata.X = scprep.transform.sqrt(adata.X) #For each value x in the expression matrix take √x. Stabilizes variance and reduces outliers.
 
     # MAGIC imputation.
-    print(adata.X.toarray()[:5,:5]) #adata.raw.to_adata().X.toarray()
+    #print(adata.X.toarray()[:5,:5]) #adata.raw.to_adata().X.toarray()
     magic_op = magic.MAGIC()
     adata.X = magic_op.fit_transform(adata.X)
     adata.X = adata.X.astype(np.float16)
     #sce.pp.magic(adata, name_list='all_genes')
-    print(adata.X[:5,:5]) #adata.raw.to_adata().X
+    #print(adata.X[:5,:5]) #adata.raw.to_adata().X
 
     # Retrieving gene sets. Download and read the `gmt` file for the REACTOME pathways annotated in the C2 collection of MSigDB. 
     url = 'https://figshare.com/ndownloader/files/35233771'
