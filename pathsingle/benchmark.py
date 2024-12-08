@@ -27,7 +27,7 @@ def run_method(method_name, method, adata, reactome):
     for i in tqdm(range(30)):
         pathway_activity_df = method(adata, reactome)
         #Perform KMeans clustering and plot UMAP.
-        kmeans = cluster_with_kmeans(method_name, pathway_activity_df, adata, n_clusters=5) #Change to 10 for the PBMC benchmark.
+        kmeans = cluster_with_kmeans(method_name, pathway_activity_df, adata, n_clusters=10) #Change to 5 for the T-cells state benchmark.
         scores = calc_stats(pathway_activity_df, true_labels, kmeans.labels_, debug=True)
         print(i)
         for score, metric_list in zip(scores, metrics):
@@ -99,13 +99,13 @@ def run_pathsingle(adata, reactome):
 if __name__ == '__main__':
     # We first download the 68K PBMC data and follow the standard `scanpy` workflow for normalisation of read counts and subsetting on the highly variable genes. For the
     # T-cells data uncomment the following block.
-    '''
+
     adata = sc.datasets.pbmc68k_reduced()
     adata.obs['labels'] = adata.obs.bulk_labels.map({'CD14+ Monocyte':0, 'Dendritic':1, 'CD56+ NK':2, 'CD4+/CD25 T Reg':3, 'CD19+ B':4, 'CD8+ Cytotoxic T':5, 'CD4+/CD45RO+ Memory':6, 'CD8+/CD45RA+ Naive Cytotoxic':7, 'CD4+/CD45RA+/CD25- Naive T':8, 'CD34+':9})
     true_labels = adata.obs.labels
     print(adata)
+    
     '''
-
     num_splits = 5
     split_files = [f'./data/sc_training_split_{i+1}.h5ad' for i in range(num_splits)]
     splits = [sc.read_h5ad(file) for file in split_files]
@@ -114,6 +114,7 @@ if __name__ == '__main__':
     adata = sc.pp.subsample(adata, fraction=0.1, copy=True) #28697 cells × 15077 genes.
     print(adata)
     true_labels = adata.obs.state.map({'cycling':0, 'effector':1, 'other':2, 'progenitor':3, 'terminal exhausted':4})
+    '''
     sc.pp.filter_genes(adata, min_cells=1)  # Remove unexpressed genes. Keep genes expressed in at least 1 cell.
     #sc.pp.normalize_total(adata)  # Library size normalization (works on adata.X).
     #sc.pp.sqrt(adata)             # Square root transformation (works on adata.X).

@@ -39,7 +39,7 @@ def consistency_scaling(p, q):
 
 def proximity_scaling(p, q):
     """Calculate the scaled activity of inputs (p) of an interaction by the outputs (q)."""
-    proximity = 1 - abs(p -q)
+    proximity = 1 - abs(p -q) #How close p and q are.
     return p * proximity
 
 def process_pathway(args):
