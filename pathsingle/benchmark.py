@@ -90,7 +90,7 @@ def run_pathsingle(adata, reactome):
 
     #Scale the data. For each cell (row), devide each activity by L2 norm of the row (square root of the sum of squares). 
     #Each row will have length 1. print(np.sqrt(np.sum(X_normalized**2, axis=1)))  # [1. 1.]
-    output_activity = normalize(output_activity)
+    #output_activity = normalize(output_activity)
     PCA = PCA(n_components=30, svd_solver='arpack')
     output_activity = PCA.fit_transform(output_activity)
     return output_activity
