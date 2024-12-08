@@ -114,7 +114,7 @@ if __name__ == '__main__':
     '''
 
     print(adata)
-    sc.pp.filter_genes(adata, min_cells=1)  # Remove unexpressed genes. Keep genes expressed in at least 1 cell.
+    #sc.pp.filter_genes(adata, min_cells=1)  # Remove unexpressed genes. Keep genes expressed in at least 1 cell.
     #sc.pp.normalize_total(adata)  # Library size normalization (works on adata.X).
     #sc.pp.sqrt(adata)             # Square root transformation (works on adata.X).
     #adata.raw = adata.copy()      # Copy adata.X plus other objects to adata.raw.
