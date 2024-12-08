@@ -63,14 +63,15 @@ def process_pathway(args):
             if gene in gene_to_index:
                 output_activity += gene_expression[gene_to_index[gene]]
         output_activity = max(1e-10, output_activity)
-
+        interaction_activity = proximity_scaling(input_activity, output_activity)
         # Calculate the interaction activity using modified cross entropy function.
         #interaction_activity = -interaction_activity * (1 - np.log(output_activity))
         # Calculate interaction activity.
         if is_inhibitory(interaction[1]):
-            interaction_activity = gaussian_scaling(input_activity, output_activity)
-        else:
-            interaction_activity = proximity_scaling(input_activity, output_activity)
+            #interaction_activity = gaussian_scaling(input_activity, output_activity)
+            interaction_activity = -interaction_activity
+        #else:
+        #    interaction_activity = proximity_scaling(input_activity, output_activity)
             
         pathway_activity += interaction_activity
         interactions_counter += 1
