@@ -115,7 +115,7 @@ if __name__ == '__main__':
 
     print(adata)
     sc.pp.filter_genes(adata, min_cells=1)  # Remove unexpressed genes. Keep genes expressed in at least 1 cell.
-    #sc.pp.normalize_total(adata)  # Library size normalization (works on adata.X).
+    sc.pp.normalize_total(adata)  # Library size normalization (works on adata.X).
     #sc.pp.sqrt(adata)             # Square root transformation (works on adata.X).
     #adata.raw = adata.copy()      # Copy adata.X plus other objects to adata.raw.
     #adata.X = scprep.normalize.library_size_normalize(adata.X) #For each cell (row), divide each expression value by the sum of the row and multiply by the scaling factor (default 1e4).
@@ -123,10 +123,10 @@ if __name__ == '__main__':
     
     # MAGIC imputation.
     #print(adata.X.toarray()[:5,:5]) #adata.raw.to_adata().X.toarray()
-    #magic_op = magic.MAGIC()
-    #adata.X = magic_op.fit_transform(adata.X)
-    #adata.X = adata.X.astype(np.float16)
-    sce.pp.magic(adata, name_list='all_genes')
+    magic_op = magic.MAGIC()
+    adata.X = magic_op.fit_transform(adata.X)
+    adata.X = adata.X.astype(np.float16)
+    #sce.pp.magic(adata, name_list='all_genes')
     #print(adata.X[:5,:5]) #adata.raw.to_adata().X
 
     # Retrieving gene sets. Download and read the `gmt` file for the REACTOME pathways annotated in the C2 collection of MSigDB. 
