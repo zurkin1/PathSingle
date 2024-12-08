@@ -123,9 +123,9 @@ if __name__ == '__main__':
     
     # MAGIC imputation.
     #print(adata.X.toarray()[:5,:5]) #adata.raw.to_adata().X.toarray()
-    magic_op = magic.MAGIC()
-    adata.X = magic_op.fit_transform(adata.X)
-    #sce.pp.magic(adata, name_list='all_genes')
+    #magic_op = magic.MAGIC()
+    #adata.X = magic_op.fit_transform(adata.X)
+    sce.pp.magic(adata, name_list='all_genes')
     #print(adata.X[:5,:5]) #adata.raw.to_adata().X
 
     # Retrieving gene sets. Download and read the `gmt` file for the REACTOME pathways annotated in the C2 collection of MSigDB. 
