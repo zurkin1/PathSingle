@@ -86,7 +86,7 @@ def run_pathsingle(adata, reactome):
     
     activity = sc.AnnData(adata.X, obs=adata.obs, var=adata.var)
     calc_activity(activity)
-    output_activity = pd.read_csv('./data/output_activity.csv', index_col=0)
+    output_activity = pd.read_csv('./data/output_interaction_activity.csv', index_col=0)
 
     #Scale the data. For each cell (row), devide each activity by L2 norm of the row (square root of the sum of squares). 
     #Each row will have length 1. print(np.sqrt(np.sum(X_normalized**2, axis=1)))  # [1. 1.]
