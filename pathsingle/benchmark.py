@@ -8,7 +8,7 @@ import os
 import scanpy.external as sce
 from metrics import *
 from activity import *
-from sklearn.preprocessing import normalize, StandardScaler # Unit norm. StandardScaler # Normal distribution. MinMaxScaler # [0,1] range.
+from sklearn.preprocessing import normalize # Unit norm. StandardScaler # Normal distribution. MinMaxScaler # [0,1] range.
 from scipy import stats
 from itertools import chain, repeat
 import urllib.request
@@ -90,8 +90,7 @@ def run_pathsingle(adata, reactome):
 
     #Scale the data. For each cell (row), devide each activity by L2 norm of the row (square root of the sum of squares). 
     #Each row will have length 1. print(np.sqrt(np.sum(X_normalized**2, axis=1)))  # [1. 1.]
-    scaler = StandardScaler()
-    output_activity = scaler.fit_transform(output_activity)
+    output_activity = normalize(output_activity)
     PCA = PCA(n_components=50, svd_solver='arpack')
     output_activity = PCA.fit_transform(output_activity)
     return output_activity
