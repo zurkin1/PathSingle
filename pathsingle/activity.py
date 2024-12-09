@@ -1,8 +1,8 @@
 import pandas as pd
 import numpy as np
-import scanpy as sc
 from concurrent.futures import ProcessPoolExecutor, as_completed
 import os
+from metrics import choose_scaling_method
 
 
 #Function to determine if an interaction type is inhibitory.
@@ -12,39 +12,21 @@ def is_inhibitory(interaction_type):
 
 def process_sample(args):
     """Process all pathways for a single sample"""
-    sample_idx, sample_data, sample_name, pathway_interactions, gene_to_index = args
+    sample_idx, sample_data, sample_name, pathway_interactions, gene_to_index, scaling_func = args
     pathway_activities = {}
     interaction_dict = {'sample_name': sample_name}
     
     # Process each pathway sequentially.
     for pathway, interactions in pathway_interactions.items():
-        pathway_activity, interaction_acts = process_pathway((pathway, interactions, sample_data, gene_to_index))
+        pathway_activity, interaction_acts = process_pathway((pathway, interactions, sample_data, gene_to_index, scaling_func))
         pathway_activities[pathway] = pathway_activity
         interaction_dict.update(interaction_acts)
     
     return sample_idx, pathway_activities, interaction_dict
 
-def gaussian_scaling(p, q, sigma=0.5):
-    """Calculate the scaled activity of inputs (p) of an interaction by the outputs (q).
-    1. Distance term: (p - q)**2 : Measures squared difference between p and q. Always positive. Larger when p and q are far apart.
-    2. Scaling factor: exp(-(p-q)²/(2σ²)) : Returns 1.0 when p=q. Decreases exponentially as |p-q| increases. σ controls how quickly scaling drops off.
-    3. Final value: p * scaling : When p=q: returns p (scaling=1). When p≠q: reduces p based on distance. Never increases above p.
-    """
-    scaling = np.exp(-(p - q)**2 / (2*sigma**2))
-    return p * scaling
-
-def consistency_scaling(p, q):
-    """Calculate the scaled activity of inputs (p) of an interaction by the outputs (q)."""
-    return p * q - (1 - p) * (1 - q)
-
-def proximity_scaling(p, q):
-    """Calculate the scaled activity of inputs (p) of an interaction by the outputs (q)."""
-    proximity = 1 - abs(p -q) #How close p and q are.
-    return p * proximity
-
 def process_pathway(args):
     """Calculate the activities of one pathway for a given sample."""
-    pathway, interactions, gene_expression, gene_to_index = args
+    pathway, interactions, gene_expression, gene_to_index, scaling_func = args
     pathway_activity = 0
     interactions_counter = 0
     interaction_activities = {}
@@ -64,8 +46,7 @@ def process_pathway(args):
                 output_activity += gene_expression[gene_to_index[gene]]
         output_activity = max(1e-10, output_activity)
         
-        interaction_activity = gaussian_scaling(interaction_activity, output_activity)
-        #Once we finish calculating the interaction activity, we check if it is ihibitory.
+        interaction_activity = scaling_func(interaction_activity, output_activity)
         if is_inhibitory(interaction[1]):
             interaction_activity = -interaction_activity
             
@@ -77,7 +58,7 @@ def process_pathway(args):
     
     return pathway_activity / max(1,interactions_counter), interaction_activities
 
-def calc_activity(adata):
+def calc_activity(adata, sparsity=20):
     """Calculate the activity of pathways based on gene expression data."""
     #Load gene expression data.
     gene_expression_tensor = adata.X #gene_expression_df.values (samples, genes)
@@ -109,6 +90,7 @@ def calc_activity(adata):
     interaction_dicts = []
     n_samples = gene_expression_tensor.shape[0]
     ordered_results = [None] * n_samples  # Pre-allocate list for ordered results.
+    scaling_func = choose_scaling_method(sparsity)
 
     # Process samples in parallel.
     with ProcessPoolExecutor(max_workers=os.cpu_count()) as executor:
@@ -117,7 +99,8 @@ def calc_activity(adata):
                        gene_expression_tensor[idx], 
                        adata.obs_names[idx],
                        pathway_interactions,
-                       gene_to_index) for idx in range(gene_expression_tensor.shape[0])]
+                       gene_to_index,
+                       scaling_func) for idx in range(gene_expression_tensor.shape[0])]
         
         # Submit all jobs
         futures = [executor.submit(process_sample, arg) for arg in sample_args]
