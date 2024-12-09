@@ -12,6 +12,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.feature_selection import VarianceThreshold
 import umap.umap_ as umap
 import scanpy as sc
+import scipy
 
 
 sc.settings.set_figure_params(dpi=200, frameon=False)
@@ -245,3 +246,38 @@ def cluster_with_kmeans(method_name, results_matrix, adata, n_clusters=10, draw_
         sc.pl.embedding(adata, basis=f'umap_{method_name}', color=[f'kmeans_{method_name}'], title=f'KMeans Clustering on {method_name} Values')
         sc.pl.embedding(adata, basis=f'umap_{method_name}', color=["labels"], title="UMAP of True Labels")
     return kmeans
+
+def gaussian_scaling(p, q, sigma=0.5):
+    """Calculate the scaled activity of inputs (p) of an interaction by the outputs (q).
+    1. Distance term: (p - q)**2 : Measures squared difference between p and q. Always positive. Larger when p and q are far apart.
+    2. Scaling factor: exp(-(p-q)²/(2σ²)) : Returns 1.0 when p=q. Decreases exponentially as |p-q| increases. σ controls how quickly scaling drops off.
+    3. Final value: p * scaling : When p=q: returns p (scaling=1). When p≠q: reduces p based on distance. Never increases above p.
+    """
+    scaling = np.exp(-(p - q)**2 / (2*sigma**2))
+    return p * scaling
+
+def consistency_scaling(p, q):
+    """Calculate the scaled activity of inputs (p) of an interaction by the outputs (q)."""
+    return p * q - (1 - p) * (1 - q)
+
+def proximity_scaling(p, q):
+    """Calculate the scaled activity of inputs (p) of an interaction by the outputs (q)."""
+    proximity = 1 - abs(p -q) #How close p and q are.
+    return p * proximity
+
+def calculate_sparsity(adata):
+    """Calculate data sparsity percentage."""
+    if scipy.sparse.issparse(adata.X):
+        sparsity2 = (1.0 - (adata.X.nnz / (adata.X.shape[0] * adata.X.shape[1]))) * 100
+    else:
+        sparsity2 = np.sum(adata.X == 0) / adata.X.size * 100
+
+    print(f'nnz-based sparsity: {sparsity2:.2f}%.')    
+    return sparsity2
+
+def choose_scaling_method(sparsity):
+    """Choose scaling method based on data sparsity.
+    adata.X.nnz gives number of non-zero elements.
+    adata.X.shape[0] * adata.X.shape[1] gives total matrix size.
+    """
+    return proximity_scaling if sparsity >= 40 else gaussian_scaling
