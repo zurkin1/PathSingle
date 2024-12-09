@@ -25,9 +25,9 @@ calc_activity(anndata)
 ## Usage
 For detailed usage instructions, please refer to the scripts and notebooks in the `pathsingle` folder.
 
-[PBMC benchmark](pathsingle/benchmark.py)
+[Single Cells Benchmark Readme](pathsingle/benchmark.md)
 
-[T-cells classification benchmark](pathsingle/bench_challenge.ipynb)
+[Feature Reduction Notebook](pathsingle/feature_reduction.ipynb)
 
 The [pathway_db](pathsingle/pathway_db) subfolder contains scripts for building and customizing the pathways database.
 - [kegg](pathsingle/pathway_db/kegg): Scripts for downloading pathways from KEGG PATHWAY database and building the existing PathSingle database pathway_relations.csv.
