@@ -2,14 +2,11 @@ numpy
 scipy
 pandas
 scikit-learn
-ipywidgets
 decoupler
 scanpy
 tqdm
 omnipath
 umap-learn
 magic-impute
-torch
 matplotlib
-scprep
 seaborn

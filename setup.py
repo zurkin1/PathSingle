@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pathsingle',
-    version='0.1.4',
+    version='0.2.0',
     description='PathSingle is a Python package for pathway analysis of single-cell RNA-seq data.',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
@@ -18,13 +18,11 @@ setup(
         'scipy',
         'pandas',
         'scikit-learn',
-        'ipywidgets',
         'scanpy',
         'tqdm',
         'omnipath',
         'umap-learn',
         'magic-impute',
-        'torch',
         'matplotlib',
         'scprep',
         'seaborn'
