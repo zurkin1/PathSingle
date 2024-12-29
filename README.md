@@ -48,5 +48,10 @@ For questions, issues, or feature requests, please open an issue on our GitHub r
 
 For additional support, contact: zurkin at yahoo dot com.
 
+## Citation
+If you use PathSingle in your research, please cite our paper:
+Livne, D., Efroni, S. Pathway metrics accurately stratify T cells to their cells states. BioData Mining 17, 60 (2024). https://doi.org/10.1186/s13040-024-00416-7
+
+
 ## Acknowledgments
 We thank the scientific community for their valuable feedback and contributions to this project.
