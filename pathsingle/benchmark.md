@@ -55,6 +55,10 @@ Following is a brief overview of the metrics we use to evaluate clustering resul
 - 30,000 T cells from a mouse tumor were collected after undergoing one of 73 different CRISPR-mediated single gene knockouts. 
 - The challenge aimed to predict the proportions of cell states from five distinct categories: Progenitor, Effector, Terminal exhausted, Cycling, and Other.
 - The organizers focused on evaluating seven target genes: AQR, BACH2, BHLHE40, ETS1, FOSB, MAFK, and STAT3.
+- Data download: The challenge data is available on AWS cloud servers. You need to register for the challenge to access the original data:
+    - https://www.topcoder.com/challenges/25f60820-2e69-444b-bc03-490686af2c87?tab=details
+    - Download `sc_training.h5ad` from the forum link:
+    - https://discussions.topcoder.com/discussion/25381/challenge-specifications-and-data-for-cancer-immunotherapy-data-science-grand-
 
 ### Running The Benchmark
 - Select the dataset for running from the two options, PBMC or T-cells, by commenting out the relevant code in benchmark.py.
