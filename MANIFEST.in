@@ -1,7 +1,0 @@
-include README.md
-include LICENSE
-include requirements.txt
-include pathsingle/*.*
-include pathsingle/data/adata_pbmc.h5ad
-include pathsingle/data/c2.cp.reactome.v7.5.1.symbols.gmt
-include pathsingle/data/pathway_relations.csv
