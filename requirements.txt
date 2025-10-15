@@ -1,0 +1,12 @@
+numpy
+scipy
+pandas
+scikit-learn
+decoupler
+scanpy
+tqdm
+omnipath
+umap-learn
+magic-impute
+matplotlib
+seaborn
